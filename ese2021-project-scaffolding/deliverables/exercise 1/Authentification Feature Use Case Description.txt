@@ -1,0 +1,21 @@
+# Authentification Feature Use Case Description
+
+## Login
+This use case contains two sub-use cases. The member enters his data, while the database checks the inputs. If both are correct,
+the login is successful. This means the database must update the status of the user to online/active.
+
+## Enter password
+One of the two sub-use cases of login. The member must enter his password, while the database checks whether the password is correct or not.
+
+## Enter username
+The other of the two sub-use cases of login. The member must enter his username, while the database checks whether this member exists.
+
+## Change password
+Once logged in, the member should be able to change his password. The database must be updated accordingly with the new password.
+
+## Logout
+The member must be able to log out. This can only be done if the user is logged in. Furthermore, the database must be updated with the status of the member.
+
+## Resetting password
+If the member has forgotten his password, he must be able to get a new one. An administrator (automated or manual) must be able to reset the password 
+and contact the member. The database must be updated with the resetted password.
