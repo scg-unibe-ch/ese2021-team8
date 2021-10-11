@@ -45,7 +45,7 @@ export class UserService {
         } else {
             return User.findOne({
                 where: {
-                    userName: loginRequestee.email
+                    email: loginRequestee.userName
                 }
             });
         }
