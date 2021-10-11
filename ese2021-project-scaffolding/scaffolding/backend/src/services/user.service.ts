@@ -13,11 +13,7 @@ export class UserService {
 
     public login(loginRequestee: LoginRequest): Promise<User | LoginResponse> {
         const secret = process.env.JWT_SECRET;
-        return User.findOne({
-            where: {
-                userName: loginRequestee.userName
-            }
-        })
+        return this.findUser(loginRequestee)
         .then(user => {
             if (bcrypt.compareSync(loginRequestee.password, user.password)) {// compares the hash with the password from the login request
                 const token: string = jwt.sign({ userName: user.userName, userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
@@ -31,5 +27,27 @@ export class UserService {
 
     public getAll(): Promise<User[]> {
         return User.findAll();
+    }
+
+    /**
+     * Searches the database for a user with the fitting username or email.
+     * Returns the user if found, or null if not.
+     * @param loginRequestee the request from the frontend
+     */
+    public findUser(loginRequestee: LoginRequest) {
+        const user = User.findOne({
+            where: {
+                userName: loginRequestee.userName
+            }
+        });
+        if (user !== null) {
+            return user;
+        } else {
+            return User.findOne({
+                where: {
+                    email: loginRequestee.userName
+                }
+            });
+        }
     }
 }
