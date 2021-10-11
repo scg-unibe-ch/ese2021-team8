@@ -6,6 +6,26 @@
   <mat-form-field>
     <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
   </mat-form-field>
+
+  <div *ngIf="!passwordHasLength">
+    Password must have at least 8 characters!
+  </div>
+  <div *ngIf="!passwordHasUpper">
+    Password must have at least one capital letter!
+  </div>
+  <div *ngIf="!passwordHasLower">
+    Password must have at least one small Letter!
+  </div>
+
+  <div *ngIf="!passwordHasSpezial">
+    Password must have at least one of the following spezial characters! (/+"*ç%&/()=£!?@)
+  </div>
+
+  <div *ngIf="!passwordHasNumber">
+    Password must have at least one number!
+  </div>
+
+
   <button mat-flat-button color="primary" (click)="registerUser()">Register</button>
 </mat-card>
 
