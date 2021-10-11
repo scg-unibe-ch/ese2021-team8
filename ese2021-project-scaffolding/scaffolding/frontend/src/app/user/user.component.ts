@@ -54,7 +54,7 @@ export class UserComponent {
                           && this.passwordHasNumber
                           && this.passwordHasSpezial ;
 
-    if(!passwordOkey
+    if(!passwordOkey)
     {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
