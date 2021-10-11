@@ -42,6 +42,7 @@ export class UserComponent {
   }
 
   registerUser(): void {
+
     this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
     this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
     this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
@@ -133,8 +134,9 @@ export class UserComponent {
   checkPasswordSpezial(password: string): boolean{
     let hasSpezial = false;
     for(let i=0; i<password.length; i++) {
+      // Test this spezial Chars /+"*ç%&/()=£!?@;  @A
       let passwordCharOne = password.charAt(i);
-      if (passwordCharOne == '+' || '*' || 'ç' || '%' || '&' || '/' || '(' || ')' || '=' || '£' || '!' || '?') {
+      if (passwordCharOne == '+' || '*' || 'ç' || '%' || '&' || '/' || '(' || ')' || '=' || '£' || '!' || '?'||'@') {
         return true;
 
         break;
@@ -152,7 +154,6 @@ export class UserComponent {
       let passwordCharOne = password.charAt(i);
       if (passwordCharOne == '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' ) {
         return true;
-
         break;
       }
 
