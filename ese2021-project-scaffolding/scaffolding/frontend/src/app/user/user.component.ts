@@ -13,12 +13,14 @@ export class UserComponent {
 
   loggedIn: boolean | undefined;
 
+  /*passwordTooShort: boolean | undefined;*/
+
   user: User | undefined;
 
   userToRegister: User = new User(0, '', '');
 
   userToLogin: User = new User(0, '', '');
-
+  passwordTooShort: boolean = true;
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
@@ -36,12 +38,16 @@ export class UserComponent {
   }
 
   registerUser(): void {
+    this.passwordTooShort = this.checkPasswordLength(this.userToRegister.password);
+    if(!this.passwordTooShort)
+    {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
       password: this.userToRegister.password
     }).subscribe(() => {
       this.userToRegister.username = this.userToRegister.password = '';
     });
+    }
   }
 
   loginUser(): void {
@@ -81,5 +87,10 @@ export class UserComponent {
     }, () => {
       this.endpointMsgAdmin = "Unauthorized";
     });
+  }
+
+  checkPasswordLength(password: string): boolean{
+    let tooShort = password.length < 8;
+    return tooShort;
   }
 }
