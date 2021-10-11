@@ -20,11 +20,11 @@ export class UserComponent {
   userToRegister: User = new User(0, '', '');
 
   userToLogin: User = new User(0, '', '');
-  passwordTooShort: boolean = true;
-  passwordHasUpper: boolean = true;
-  passwordHasLower: boolean = true;
-  passwordHasNumber: boolean = true;
-  passwordHasSpezial: boolean = true;
+  passwordTooShort: boolean = false;
+  passwordHasUpper: boolean = false;
+  passwordHasLower: boolean = false;
+  passwordHasNumber: boolean = false;
+  passwordHasSpezial: boolean = false;
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
@@ -43,7 +43,18 @@ export class UserComponent {
 
   registerUser(): void {
     this.passwordTooShort = this.checkPasswordLength(this.userToRegister.password);
-    if(!this.passwordTooShort)
+    this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
+    this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
+    this.passwordHasNumber = this.checkPasswordNumber(this.userToRegister.password);
+    this.passwordHasSpezial = this.checkPasswordSpezial(this.userToRegister.password);
+
+    let passwordOkey = this.passwordTooShort
+                          && this.passwordHasLower
+                          && this.passwordHasUpper
+                          && this.passwordHasNumber
+                          && this.passwordHasSpezial ;
+
+    if(!passwordOkey
     {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
@@ -96,6 +107,22 @@ export class UserComponent {
   checkPasswordLength(password: string): boolean{
     let tooShort = password.length < 8;
     return tooShort;
+  }
+  checkPasswordUpper(password: string): boolean{
+    let hasUpper = false;
+    return hasUpper;
+  }
+  checkPasswordLower(password: string): boolean{
+    let hasLower = false;
+    return hasLower;
+  }
+  checkPasswordSpezial(password: string): boolean{
+    let hasSpezial = false;
+    return hasSpezial;
+  }
+  checkPasswordNumber(password: string): boolean{
+    let hasNumber = false;
+    return hasNumber;
   }
 
 
