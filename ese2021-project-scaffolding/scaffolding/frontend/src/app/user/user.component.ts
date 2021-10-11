@@ -21,6 +21,10 @@ export class UserComponent {
 
   userToLogin: User = new User(0, '', '');
   passwordTooShort: boolean = true;
+  passwordHasUpper: boolean = true;
+  passwordHasLower: boolean = true;
+  passwordHasNumber: boolean = true;
+  passwordHasSpezial: boolean = true;
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
@@ -93,4 +97,6 @@ export class UserComponent {
     let tooShort = password.length < 8;
     return tooShort;
   }
+
+
 }
