@@ -13,12 +13,18 @@ export class UserComponent {
 
   loggedIn: boolean | undefined;
 
+  /*passwordTooShort: boolean | undefined;*/
+
   user: User | undefined;
 
   userToRegister: User = new User(0, '', '');
 
   userToLogin: User = new User(0, '', '');
-
+  passwordHasLength: boolean = false;
+  passwordHasUpper: boolean = false;
+  passwordHasLower: boolean = false;
+  passwordHasNumber: boolean = false;
+  passwordHasSpezial: boolean = false;
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
@@ -36,12 +42,27 @@ export class UserComponent {
   }
 
   registerUser(): void {
+
+    this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
+    this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
+    this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
+    this.passwordHasNumber = this.checkPasswordNumber(this.userToRegister.password);
+    this.passwordHasSpezial = this.checkPasswordSpezial(this.userToRegister.password);
+
+    let passwordOkay = this.passwordHasLength
+                          && this.passwordHasLower
+                          && this.passwordHasUpper
+                          && this.passwordHasNumber
+                          && this.passwordHasSpezial ;
+
+    if(passwordOkay) {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
       password: this.userToRegister.password
     }).subscribe(() => {
       this.userToRegister.username = this.userToRegister.password = '';
     });
+    }
   }
 
   loginUser(): void {
@@ -82,4 +103,63 @@ export class UserComponent {
       this.endpointMsgAdmin = "Unauthorized";
     });
   }
+
+  checkPasswordLength(password: string): boolean{
+    let hasLength = password.length >= 8;
+    return hasLength;
+  }
+
+  checkPasswordUpper(password: string): boolean{
+    let hasUpper = false;
+    for(let i=0; i<password.length; i++){
+      if(password.charAt(i) == password.charAt(i).toUpperCase()){
+        hasUpper = true;
+        break;
+      }
+    }
+    return hasUpper;
+  }
+
+  checkPasswordLower(password: string): boolean{
+    let hasLower = false;
+    for(let i=0; i<password.length; i++) {
+      if (password.charAt(i) == password.charAt(i).toLowerCase()) {
+        hasLower = true;
+        break;
+      }
+    }
+    return hasLower;
+  }
+
+  checkPasswordSpezial(password: string): boolean{
+    let hasSpezial = false;
+    for(let i=0; i<password.length; i++) {
+      // Test this spezial Chars /+"*ç%&/()=£!?@;  @A
+      let passwordCharOne = password.charAt(i);
+      if (passwordCharOne == '+' || '*' || 'ç' || '%' || '&' || '/' || '(' || ')' || '=' || '£' || '!' || '?'||'@') {
+        return true;
+
+        break;
+      }
+
+    }
+    return hasSpezial;
+  }
+
+
+  checkPasswordNumber(password: string): boolean{
+    let hasNumber = false;
+
+    for(let i=0; i<password.length; i++) {
+      let passwordCharOne = password.charAt(i);
+      if (passwordCharOne == '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' ) {
+        return true;
+        break;
+      }
+
+    }
+    return hasNumber;
+  }
+
+
 }
