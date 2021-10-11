@@ -10,11 +10,8 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent {
-
+  // Initialize the variables
   loggedIn: boolean | undefined;
-
-  /*passwordTooShort: boolean | undefined;*/
-
   user: User | undefined;
 
   userToRegister: User = new User(0, '', '');
@@ -40,7 +37,15 @@ export class UserComponent {
     this.loggedIn = userService.getLoggedIn();
     this.user = userService.getUser();
   }
-
+  /**
+   * This Methode is responiable for the register from a user. It handle the Name and
+   * the password to the bakend.
+   * This Methode check the following constraints: has a Upper/ Lower7 Number and a Special char
+   * parameter passwordOkey
+   * @author Assistenz, Ramona, A
+   *
+   */
+  // Edit A + R
   registerUser(): void {
 
     this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
@@ -103,12 +108,12 @@ export class UserComponent {
       this.endpointMsgAdmin = "Unauthorized";
     });
   }
-
+  //Autor @Ramona
   checkPasswordLength(password: string): boolean{
     let hasLength = password.length >= 8;
     return hasLength;
   }
-
+  //Autor @Ramona
   checkPasswordUpper(password: string): boolean{
     let hasUpper = false;
     for(let i=0; i<password.length; i++){
@@ -119,7 +124,7 @@ export class UserComponent {
     }
     return hasUpper;
   }
-
+  //Autor @Ramona
   checkPasswordLower(password: string): boolean{
     let hasLower = false;
     for(let i=0; i<password.length; i++) {
@@ -130,7 +135,7 @@ export class UserComponent {
     }
     return hasLower;
   }
-
+ // Autor @A
   checkPasswordSpezial(password: string): boolean{
     let hasSpezial = false;
     for(let i=0; i<password.length; i++) {
@@ -146,7 +151,7 @@ export class UserComponent {
     return hasSpezial;
   }
 
-
+  // Autor @A
   checkPasswordNumber(password: string): boolean{
     let hasNumber = false;
 
