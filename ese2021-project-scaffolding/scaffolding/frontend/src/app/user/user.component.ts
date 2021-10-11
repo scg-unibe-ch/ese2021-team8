@@ -17,6 +17,7 @@ export class UserComponent {
   userToRegister: User = new User(0, '', '');
 
   userToLogin: User = new User(0, '', '');
+
   passwordHasLength: boolean = false;
   passwordHasUpper: boolean = false;
   passwordHasLower: boolean = false;
