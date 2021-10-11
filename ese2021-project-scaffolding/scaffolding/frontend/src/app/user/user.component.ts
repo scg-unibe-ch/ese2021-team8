@@ -20,7 +20,7 @@ export class UserComponent {
   userToRegister: User = new User(0, '', '');
 
   userToLogin: User = new User(0, '', '');
-  passwordTooShort: boolean = false;
+  passwordHasLength: boolean = false;
   passwordHasUpper: boolean = false;
   passwordHasLower: boolean = false;
   passwordHasNumber: boolean = false;
@@ -42,20 +42,19 @@ export class UserComponent {
   }
 
   registerUser(): void {
-    this.passwordTooShort = this.checkPasswordLength(this.userToRegister.password);
+    this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
     this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
     this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
     this.passwordHasNumber = this.checkPasswordNumber(this.userToRegister.password);
     this.passwordHasSpezial = this.checkPasswordSpezial(this.userToRegister.password);
 
-    let passwordOkey = this.passwordTooShort
+    let passwordOkay = this.passwordHasLength
                           && this.passwordHasLower
                           && this.passwordHasUpper
                           && this.passwordHasNumber
                           && this.passwordHasSpezial ;
 
-    if(!passwordOkey)
-    {
+    if(passwordOkay) {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
       password: this.userToRegister.password
@@ -105,21 +104,37 @@ export class UserComponent {
   }
 
   checkPasswordLength(password: string): boolean{
-    let tooShort = password.length < 8;
-    return tooShort;
+    let hasLength = password.length >= 8;
+    return hasLength;
   }
+
   checkPasswordUpper(password: string): boolean{
     let hasUpper = false;
+    for(let i=0; i<password.length; i++){
+      if(password.charAt(i) == password.charAt(i).toUpperCase()){
+        hasUpper = true;
+        break;
+      }
+    }
     return hasUpper;
   }
+
   checkPasswordLower(password: string): boolean{
     let hasLower = false;
+    for(let i=0; i<password.length; i++) {
+      if (password.charAt(i) == password.charAt(i).toLowerCase()) {
+        hasLower = true;
+        break;
+      }
+    }
     return hasLower;
   }
+
   checkPasswordSpezial(password: string): boolean{
     let hasSpezial = false;
     return hasSpezial;
   }
+
   checkPasswordNumber(password: string): boolean{
     let hasNumber = false;
     return hasNumber;

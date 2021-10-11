@@ -6,7 +6,7 @@
   <mat-form-field>
     <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
   </mat-form-field>
-  <div *ngIf="!passwordTooShort">
+  <div *ngIf="!passwordHasLength">
     Password must have at least 8 characters!
   </div>
   <div *ngIf="!passwordHasUpper">
