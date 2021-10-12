@@ -22,7 +22,7 @@ export class UserComponent {
   passwordHasUpper: boolean = false;
   passwordHasLower: boolean = false;
   passwordHasNumber: boolean = false;
-  passwordHasSpezial: boolean = false;
+  passwordHasSpecial: boolean = false;
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
 
@@ -53,13 +53,13 @@ export class UserComponent {
     this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
     this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
     this.passwordHasNumber = this.checkPasswordNumber(this.userToRegister.password);
-    this.passwordHasSpezial = this.checkPasswordSpezial(this.userToRegister.password);
+    this.passwordHasSpecial = this.checkPasswordSpecial(this.userToRegister.password);
 
     let passwordOkay = this.passwordHasLength
                           && this.passwordHasLower
                           && this.passwordHasUpper
                           && this.passwordHasNumber
-                          && this.passwordHasSpezial ;
+                          && this.passwordHasSpecial ;
 
     if(passwordOkay) {
     this.httpClient.post(environment.endpointURL + "user/register", {
@@ -118,7 +118,7 @@ export class UserComponent {
   checkPasswordUpper(password: string): boolean{
     let hasUpper = false;
     for(let i=0; i<password.length; i++){
-      if(password.charAt(i) == password.charAt(i).toUpperCase()){
+      if(password.charAt(i) == password.charAt(i).toUpperCase() && password.charAt(i)!= password.charAt(i).toLowerCase()){
         hasUpper = true;
         break;
       }
@@ -129,7 +129,7 @@ export class UserComponent {
   checkPasswordLower(password: string): boolean{
     let hasLower = false;
     for(let i=0; i<password.length; i++) {
-      if (password.charAt(i) == password.charAt(i).toLowerCase()) {
+      if (password.charAt(i) == password.charAt(i).toLowerCase() && password.charAt(i) != password.charAt(i).toUpperCase()) {
         hasLower = true;
         break;
       }
@@ -137,10 +137,10 @@ export class UserComponent {
     return hasLower;
   }
  // Autor @A
-  checkPasswordSpezial(password: string): boolean{
+  checkPasswordSpecial(password: string): boolean{
     let hasSpezial = false;
     for(let i=0; i<password.length; i++) {
-      // Test this spezial Chars /+"*ç%&/()=£!?@;  @A
+      // Test this special Chars /+"*ç%&/()=£!?@;  @A
       let passwordCharOne = password.charAt(i);
       if (passwordCharOne == '+' || '*' || 'ç' || '%' || '&' || '/' || '(' || ')' || '=' || '£' || '!' || '?'||'@') {
         return true;
