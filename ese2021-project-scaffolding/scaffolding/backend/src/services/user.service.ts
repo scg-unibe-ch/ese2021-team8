@@ -24,15 +24,17 @@ export class UserService {
     public login(loginRequestee: LoginRequest): Promise<User | LoginResponse> {
         const secret = process.env.JWT_SECRET;
         return this.findUser(loginRequestee)
-        .then(user => {
-            if (bcrypt.compareSync(loginRequestee.password, user.password)) {// compares the hash with the password from the login request
-                const token: string = jwt.sign({ userName: user.userName, userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
-                return Promise.resolve({ user, token });
-            } else {
-                return Promise.reject({ message: 'not authorized' });
-            }
-        })
-        .catch(err => Promise.reject({ message: err }));
+            .then(user => {
+                if (bcrypt.compareSync(loginRequestee.password, user.password)) {
+                    // compares the hash with the password from the login request
+                    const token: string = jwt.sign({ userName: user.userName,
+                        userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
+                    return Promise.resolve({ user, token });
+                } else {
+                    return Promise.reject({ message: 'not authorized' });
+                }
+            })
+            .catch(err => Promise.reject({ message: err }));
     }
 
     public getAll(): Promise<User[]> {
@@ -45,30 +47,60 @@ export class UserService {
      * @return true, if the username or email already exists in the database.
      * False, if not.
      */
-    private doesUserExist(user: UserAttributes) {
-        const name = User.findOne({where: {userName: user.userName}});
-        const mail = User.findOne({where: {email: user.email}});
+    private doesUserExist(user: UserAttributes): boolean {
+        const name = this.doesNameExist(user);
+        const mail = this.doesMailExist(user);
         return (name || mail) !== null;
+    }
+    private doesNameExist(name: UserAttributes): Promise<User | null> {
+        const nameCheck = User.findOne({where: {userName: name.userName}});
+        return nameCheck
+            .then( user => {
+                if (user.userName !== null) {
+                    return nameCheck;
+                } else {
+                    return null;
+                }});
+    }
+    private doesMailExist(name: UserAttributes): Promise<User | null> {
+        const nameCheck = User.findOne({where: {userName: name.email}});
+        return nameCheck
+            .then( user => {
+                if (user.email !== null) {
+                    return nameCheck;
+                } else {
+                    return null;
+                }});
     }
     /**
      * Searches the database for a user with the fitting username or email.
      * Returns the user if found, or null if not.
      * @param loginRequestee: the request from the frontend
      */
-    private findUser(loginRequestee: LoginRequest) {
-        const user = User.findOne({
+    private findUser(loginRequestee: LoginRequest): Promise<User | null> {
+        const userName = this.findUsername(loginRequestee);
+        const userMail = this.findEmail(loginRequestee);
+        return userName
+            .then(user => {
+                if (user.userName !== null) {
+                    return userName;
+                } else {
+                    return userMail;
+                }
+            });
+    }
+    private findUsername(loginRequestee: LoginRequest): Promise<User | null> {
+        return User.findOne({
             where: {
                 userName: loginRequestee.userName
             }
         });
-        if (user !== null) {
-            return user;
-        } else {
-            return User.findOne({
-                where: {
-                    email: loginRequestee.userName
-                }
-            });
-        }
+    }
+    private findEmail(loginRequestee: LoginRequest): Promise<User | null> {
+        return User.findOne({
+            where: {
+                email: loginRequestee.userName
+            }
+        });
     }
 }
