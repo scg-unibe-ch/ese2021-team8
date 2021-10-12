@@ -90,7 +90,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userName\":\"Nora\",\r\n    \"password\":\"notSecure12\"\r\n}",
+					"raw": "{\r\n    \"userName\":\"Nora\",\r\n    \"password\":\"notSecure12!\",\r\n \"firstName\":\"Nora\",\r\n \"lastName\":\"Ickx\",\r\n \"email\":\"nora@gmx.ch\",\r\n \"address\":\"Bahnhofplatz\",\r\n \"birthday\":\"13.3.92\",\r\n \"phoneNumber\":\"044\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
