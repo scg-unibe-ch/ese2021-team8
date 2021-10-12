@@ -14,9 +14,9 @@ export class UserComponent {
   loggedIn: boolean | undefined;
   user: User | undefined;
 
-  userToRegister: User = new User(0, '', '');
+  userToRegister: User = new User(0, '', '','','','','','',0);
 
-  userToLogin: User = new User(0, '', '');
+  userToLogin: User = new User(0, '', '','','','','','',0);
 
   passwordHasLength: boolean = false;
   passwordHasUpper: boolean = false;
@@ -64,7 +64,13 @@ export class UserComponent {
     if(passwordOkay) {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
-      password: this.userToRegister.password
+      password: this.userToRegister.password,
+      firstName: this.userToRegister.firstName,
+      lastName: this.userToRegister.lastName,
+      email: this.userToRegister.email,
+      address: this.userToRegister.address,
+      birthday: this.userToRegister.birthday,
+      phoneNumber: this.userToRegister.phoneNumber
     }).subscribe(() => {
       this.userToRegister.username = this.userToRegister.password = '';
     });
@@ -82,7 +88,8 @@ export class UserComponent {
       localStorage.setItem('userToken', res.token);
 
       this.userService.setLoggedIn(true);
-      this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password));
+      this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
+                          res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
     });
   }
 

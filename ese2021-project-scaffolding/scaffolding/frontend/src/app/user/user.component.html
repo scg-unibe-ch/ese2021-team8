@@ -1,6 +1,29 @@
 <mat-card>
   <h3>Register</h3>
   <mat-form-field>
+    <input matInput type="text" placeholder="First Name" name="firstName" [(ngModel)]="userToRegister.firstName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Last Name" name="lastName" [(ngModel)]="userToRegister.lastName">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Email" name="email" [(ngModel)]="userToRegister.email">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Address" name="address" [(ngModel)]="userToRegister.address">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Birthday" name="birthday" [(ngModel)]="userToRegister.birthday">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="userToRegister.phoneNumber">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
     <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToRegister.username">
   </mat-form-field>
   <mat-form-field>
