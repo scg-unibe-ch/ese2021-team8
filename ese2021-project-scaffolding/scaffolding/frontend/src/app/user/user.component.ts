@@ -111,41 +111,35 @@ export class UserComponent {
   }
   //Autor @Ramona
   checkPasswordLength(password: string): boolean{
-    let hasLength = password.length >= 8;
-    return hasLength;
+    return password.length >= 8;
   }
   //Autor @Ramona
   checkPasswordUpper(password: string): boolean{
-    let hasUpper = false;
     for(let i=0; i<password.length; i++){
       if(password.charAt(i) == password.charAt(i).toUpperCase() && password.charAt(i)!= password.charAt(i).toLowerCase()){
-        hasUpper = true;
-        break;
+        return true;
       }
     }
-    return hasUpper;
+    return false;
   }
   //Autor @Ramona
   checkPasswordLower(password: string): boolean{
-    let hasLower = false;
     for(let i=0; i<password.length; i++) {
       if (password.charAt(i) == password.charAt(i).toLowerCase() && password.charAt(i) != password.charAt(i).toUpperCase()) {
-        hasLower = true;
-        break;
+        return true;
       }
     }
-    return hasLower;
+    return false;
   }
  // Autor @A
   checkPasswordSpecial(password: string): boolean{
     let hasSpezial = false;
+    let specialChars = ['+' ,'*', 'ç' , '%' , '&' , '/' , '(' , ')' , '=' , '£' , '!' , '?','@']
     for(let i=0; i<password.length; i++) {
       // Test this special Chars /+"*ç%&/()=£!?@;  @A
       let passwordCharOne = password.charAt(i);
-      if (passwordCharOne == '+' || '*' || 'ç' || '%' || '&' || '/' || '(' || ')' || '=' || '£' || '!' || '?'||'@') {
+      if (specialChars.includes(passwordCharOne)){
         return true;
-
-        break;
       }
 
     }
@@ -155,12 +149,11 @@ export class UserComponent {
   // Autor @A
   checkPasswordNumber(password: string): boolean{
     let hasNumber = false;
-
+    let numbers = ['1','2','3','4','5','6','7','8','9','0']
     for(let i=0; i<password.length; i++) {
       let passwordCharOne = password.charAt(i);
-      if (passwordCharOne == '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' ) {
+      if (numbers.includes(passwordCharOne)) {
         return true;
-        break;
       }
 
     }
