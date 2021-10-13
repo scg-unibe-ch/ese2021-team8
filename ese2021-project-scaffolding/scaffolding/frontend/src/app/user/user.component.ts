@@ -76,7 +76,8 @@ export class UserComponent {
       phoneNumber: this.userToRegister.phoneNumber
     }).subscribe((res: any) => {
       this.userToRegister.username = this.userToRegister.password = '';
-      this.registerErrorMsg = res.message;
+    }, (res: any) => {
+      this.registerErrorMsg = 'username/email already in use';
     });
     }
   }
@@ -91,13 +92,14 @@ export class UserComponent {
       localStorage.setItem('userName', res.user.userName);
       localStorage.setItem('userToken', res.token);
 
-      this.loginErrorMsg = res.message;
-
       this.userService.setLoggedIn(true);
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
-    });
+      }, (res: any) => {
+      this.loginErrorMsg = 'wrong username/password';
+    })
   }
+
 
   logoutUser(): void {
     localStorage.removeItem('userName');
