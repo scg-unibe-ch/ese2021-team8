@@ -25,6 +25,9 @@ export class UserComponent {
   passwordHasSpecial: boolean = false;
   endpointMsgUser: string = '';
   endpointMsgAdmin: string = '';
+  loginErrorMsg: string = '';
+  registerErrorMsg: string = '';
+
 
   constructor(
     public httpClient: HttpClient,
@@ -71,8 +74,9 @@ export class UserComponent {
       address: this.userToRegister.address,
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
-    }).subscribe(() => {
+    }).subscribe((res: any) => {
       this.userToRegister.username = this.userToRegister.password = '';
+      this.registerErrorMsg = res.message;
     });
     }
   }
@@ -86,6 +90,8 @@ export class UserComponent {
 
       localStorage.setItem('userName', res.user.userName);
       localStorage.setItem('userToken', res.token);
+
+      this.loginErrorMsg = res.message;
 
       this.userService.setLoggedIn(true);
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
