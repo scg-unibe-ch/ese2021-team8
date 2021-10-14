@@ -2,6 +2,7 @@ import { UserAttributes, User } from '../models/user.model';
 import { LoginResponse, LoginRequest } from '../models/login.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import {where} from 'sequelize';
 
 export class UserService {
     /**
@@ -23,7 +24,8 @@ export class UserService {
 
     public login(loginRequestee: LoginRequest): Promise<User | LoginResponse> {
         const secret = process.env.JWT_SECRET;
-        return this.findUser(loginRequestee)
+        const quester = this.findUser(loginRequestee);
+        return quester
             .then(user => {
                 if (bcrypt.compareSync(loginRequestee.password, user.password)) {
                     // compares the hash with the password from the login request
@@ -47,47 +49,26 @@ export class UserService {
      * @return true, if the username or email already exists in the database.
      * False, if not.
      */
-    private doesUserExist(user: UserAttributes): boolean {
-        const name = this.doesNameExist(user);
-        const mail = this.doesMailExist(user);
-        return (name || mail) !== null;
+    private async doesUserExist(user: UserAttributes): Promise<boolean> {
+        const name = await this.doesNameExist(user);
+        const mail = await this.doesMailExist(user);
+        return (name.userName === user.userName || mail.email === user.email);
     }
     private doesNameExist(name: UserAttributes): Promise<User | null> {
-        const nameCheck = User.findOne({where: {userName: name.userName}});
-        return nameCheck
-            .then( user => {
-                if (user.userName !== null) {
-                    return nameCheck;
-                } else {
-                    return null;
-                }});
+        return User.findOne({where: {userName: name.userName}});
     }
     private doesMailExist(name: UserAttributes): Promise<User | null> {
-        const nameCheck = User.findOne({where: {userName: name.email}});
-        return nameCheck
-            .then( user => {
-                if (user.email !== null) {
-                    return nameCheck;
-                } else {
-                    return null;
-                }});
+        return User.findOne({where: {userName: name.email}});
     }
     /**
      * Searches the database for a user with the fitting username or email.
      * Returns the user if found, or null if not.
      * @param loginRequestee: the request from the frontend
      */
-    private findUser(loginRequestee: LoginRequest): Promise<User | null> {
-        const userName = this.findUsername(loginRequestee);
-        const userMail = this.findEmail(loginRequestee);
-        return userName
-            .then(user => {
-                if (user.userName !== null) {
-                    return userName;
-                } else {
-                    return userMail;
-                }
-            });
+    private async findUser(loginRequestee: LoginRequest): Promise<User | null> {
+        const userName = await this.findUsername(loginRequestee);
+        const userMail = await this.findEmail(loginRequestee);
+        return Promise.all([userName, userMail]).then((user) => {if (user[0] !== null) { return userName; } else { return userMail; }});
     }
     private findUsername(loginRequestee: LoginRequest): Promise<User | null> {
         return User.findOne({
