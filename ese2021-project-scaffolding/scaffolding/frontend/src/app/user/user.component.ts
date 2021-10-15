@@ -42,8 +42,8 @@ export class UserComponent {
     this.user = userService.getUser();
   }
   /**
-   * This Methode is responiable for the register from a user. It handle the Name and
-   * the password to the bakend.
+   * This Methode is responsible for the register from a user. It handle the Name and
+   * the password to the backend.
    * This Methode check the following constraints: has a Upper/ Lower7 Number and a Special char
    * parameter passwordOkey
    * @author Assistenz, Ramona, A
@@ -75,7 +75,9 @@ export class UserComponent {
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
     }).subscribe((res: any) => {
-      this.userToRegister.username = this.userToRegister.password = '';
+      this.userToRegister.username = this.userToRegister.password = this.userToRegister.firstName
+        = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday = '',
+      this.userToRegister.phoneNumber = 0;
     }, (res: any) => {
       this.registerErrorMsg = 'username/email already in use';
     });
