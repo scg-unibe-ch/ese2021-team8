@@ -79,7 +79,7 @@ export class UserComponent {
         = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday = '',
       this.userToRegister.phoneNumber = 0;
     }, (res: any) => {
-      this.registerErrorMsg = 'username/email already in use';
+      this.registerErrorMsg = res.error.message;
     });
     }
   }
@@ -90,6 +90,7 @@ export class UserComponent {
       password: this.userToLogin.password
     }).subscribe((res: any) => {
       this.userToLogin.username = this.userToLogin.password = '';
+      this.loginErrorMsg = '';
 
       localStorage.setItem('userName', res.user.userName);
       localStorage.setItem('userToken', res.token);
@@ -98,10 +99,9 @@ export class UserComponent {
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
       }, (res: any) => {
-      this.loginErrorMsg = 'wrong username/password';
+      this.loginErrorMsg = res.error.message;
     })
   }
-
 
   logoutUser(): void {
     localStorage.removeItem('userName');
