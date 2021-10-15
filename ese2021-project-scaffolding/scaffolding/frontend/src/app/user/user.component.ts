@@ -42,8 +42,8 @@ export class UserComponent {
     this.user = userService.getUser();
   }
   /**
-   * This Methode is responiable for the register from a user. It handle the Name and
-   * the password to the bakend.
+   * This Methode is responsible for the register from a user. It handle the Name and
+   * the password to the backend.
    * This Methode check the following constraints: has a Upper/ Lower7 Number and a Special char
    * parameter passwordOkey
    * @author Assistenz, Ramona, A
@@ -75,10 +75,11 @@ export class UserComponent {
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
     }).subscribe((res: any) => {
-      this.userToRegister.username = this.userToRegister.password = '';
-      this.registerErrorMsg = '';
+      this.userToRegister.username = this.userToRegister.password = this.userToRegister.firstName
+        = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday = '',
+      this.userToRegister.phoneNumber = 0;
     }, (res: any) => {
-      this.registerErrorMsg = res.error.message;
+      this.registerErrorMsg = 'username/email already in use';
     });
     }
   }
@@ -89,7 +90,6 @@ export class UserComponent {
       password: this.userToLogin.password
     }).subscribe((res: any) => {
       this.userToLogin.username = this.userToLogin.password = '';
-      this.loginErrorMsg = '';
 
       localStorage.setItem('userName', res.user.userName);
       localStorage.setItem('userToken', res.token);
@@ -98,12 +98,8 @@ export class UserComponent {
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
       }, (res: any) => {
-      this.loginErrorMsg = res.error.message;
+      this.loginErrorMsg = 'wrong username/password';
     })
-  }
-
-  parse(message: string): string {
-    return message;
   }
 
 
