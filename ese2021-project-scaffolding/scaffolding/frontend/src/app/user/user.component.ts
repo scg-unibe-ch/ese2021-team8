@@ -78,6 +78,7 @@ export class UserComponent {
       this.userToRegister.username = this.userToRegister.password = this.userToRegister.firstName
         = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday = '',
       this.userToRegister.phoneNumber = 0;
+      this.registerErrorMsg = '';
     }, (res: any) => {
       this.registerErrorMsg = res.error.message;
     });
