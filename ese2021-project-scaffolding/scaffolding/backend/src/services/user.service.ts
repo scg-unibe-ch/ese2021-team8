@@ -39,10 +39,10 @@ export class UserService {
                         userId: user.userId, admin: user.admin }, secret, { expiresIn: '2h' });
                     return Promise.resolve({ user, token });
                 } else {
-                    return Promise.reject({ message: 'not authorized' });
+                    return Promise.reject({ message: 'Password incorrect' });
                 }
             })
-            .catch(err => Promise.reject({ message: err }));
+            .catch(err => Promise.reject(err));
     }
 
     public getAll(): Promise<User[]> {
@@ -76,7 +76,8 @@ export class UserService {
         const userName = await this.findUsername(loginRequestee);
         const userMail = await this.findEmail(loginRequestee);
         return Promise.all([userName, userMail]).then((user) => {
-            if (user[0] !== null) { return userName; } else { return userMail; }});
+            if (user[0] !== null) { return userName; } else if (user[0] == null && user[1] == null) {
+                return Promise.reject({ message: 'Username/Email invalid'} ); } else { return userMail; }});
     }
     private findUsername(loginRequestee: LoginRequest): Promise<User | null> {
         return User.findOne({
