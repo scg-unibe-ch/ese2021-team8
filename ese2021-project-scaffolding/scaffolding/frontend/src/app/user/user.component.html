@@ -1,12 +1,56 @@
 <mat-card>
   <h3>Register</h3>
   <mat-form-field>
+    <input matInput type="text" placeholder="First Name" name="firstName" [(ngModel)]="userToRegister.firstName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Last Name" name="lastName" [(ngModel)]="userToRegister.lastName">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Email" name="email" [(ngModel)]="userToRegister.email">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Address" name="address" [(ngModel)]="userToRegister.address">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="text" placeholder="Birthday" name="birthday" [(ngModel)]="userToRegister.birthday">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="userToRegister.phoneNumber">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
     <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToRegister.username">
   </mat-form-field>
   <mat-form-field>
     <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password">
   </mat-form-field>
+
+  <div *ngIf="!passwordHasLength">
+    Password must have at least 8 characters!
+  </div>
+  <div *ngIf="!passwordHasUpper">
+    Password must have at least one capital letter!
+  </div>
+  <div *ngIf="!passwordHasLower">
+    Password must have at least one small Letter!
+  </div>
+
+  <div *ngIf="!passwordHasSpecial">
+    Password must have at least one of the following special characters: / + * ç % & ( ) = £ ! ? @
+  </div>
+
+  <div *ngIf="!passwordHasNumber">
+    Password must have at least one number!
+  </div>
+
+
   <button mat-flat-button color="primary" (click)="registerUser()">Register</button>
+  {{ registerErrorMsg }}
 </mat-card>
 
 <mat-card>
@@ -20,6 +64,7 @@
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToLogin.password">
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="loginUser()">Login</button>
+    {{ loginErrorMsg }}
   </div>
 
   <div *ngIf="loggedIn">
