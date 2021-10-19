@@ -1,4 +1,5 @@
 import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
+import {TodoList} from './todolist.model';
 
 export interface CategoryAttributes {
     categoryId: number;
@@ -28,5 +29,12 @@ export class Category extends Model<CategoryAttributes, CategoryCreationAttribut
                 tableName: 'categories'
             }
             );
+    }
+    // Posts belong to a category, tbd: if Todolist is not post, change it
+    public static createAssociations() {
+        Category.hasMany(TodoList, {
+            as: 'elements',
+            foreignKey: 'categoryId'
+        });
     }
 }
