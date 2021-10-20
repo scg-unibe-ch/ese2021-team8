@@ -32,7 +32,8 @@
 </tr>
 <tr>
 <td>
-    <li></li>
+    <li>Display posts</li>
+    <li>Sort posts</li>
 </td>
 <td>
     <li>User</li>
@@ -50,7 +51,8 @@
 </tr>
 <tr>
 <td>
-    <li></li>
+    <li>Identify creator</li>
+    <li>Display content</li>
 </td>
 <td>
     <li>User</li>
