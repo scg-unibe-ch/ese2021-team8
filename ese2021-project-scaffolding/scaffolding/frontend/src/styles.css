@@ -1,13 +1,26 @@
 body {
   margin: 30px !important;
+  background-color: #fed200;
+  color:black;
 }
-
-.mat-card {
+.mat-toolbar {
+  background-color: black;
+  color: #fed200;
+}
+mat-ink-bar{
+  background-color:black !important;
+}
+.mat-card{
   margin: 20px 0;
-  background-color: #EEE;
+  background-color: #ddd !important;
 }
 
-button, input, textarea{
+button{
+  background-color: #fed200 !important;
+  color:black !important;
+}
+
+input, textarea{
   margin-left: 15px !important;
   margin-right: 15px !important;
 }
