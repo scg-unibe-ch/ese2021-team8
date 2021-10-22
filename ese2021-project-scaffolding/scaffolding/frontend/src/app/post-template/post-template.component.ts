@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Post} from "../models/post.model";
+import {Category} from "../models/category.model";
+import {environment} from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {UserService} from "../services/user.service";
 
 @Component({
   selector: 'app-post-template',
@@ -6,11 +11,22 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post-template.component.css']
 })
 export class PostTemplateComponent implements OnInit {
-  displayPostTemplate: boolean | undefined;
 
-  constructor() { }
+  displayPostTemplate: boolean = false;
+
+  categories: string[] =[];
+
+  emptyCategory = new Category(0,'');
+
+  @Input()
+  newPost = new Post('','','',undefined,new Date());
+  constructor(
+    public httpClient: HttpClient,
+    public userService: UserService
+  ) { }
 
   ngOnInit(): void {
+   // this.readCategories();
   }
 
   clickCreatePost(): void {
@@ -18,6 +34,22 @@ export class PostTemplateComponent implements OnInit {
   }
 
   closePostTemplate() {
+    this.displayPostTemplate = false;
+  }
+
+  readCategories(): void{
+    this.httpClient.get(environment.endpointURL + "category").subscribe((categories:any) => {
+      categories.forEach((category: any) => {
+        this.categories.push(category.categoryName)
+      });
+    });
+  }
+
+  createPost(): void{
+    this.newPost.date = new Date();
+    this.newPost.creator = this.userService.getUser();
+    console.log(this.newPost);
+    this.newPost.title = this.newPost.content = '';
     this.displayPostTemplate = false;
   }
 }

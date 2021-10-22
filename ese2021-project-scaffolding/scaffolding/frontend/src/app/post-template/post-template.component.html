@@ -7,17 +7,22 @@
 
 <div *ngIf="displayPostTemplate">
   <mat-card>
-    <button class="close" (click)="closePostTemplate()">X</button>
+    <button mat-flat-button class="close" (click)="closePostTemplate()">X</button>
     <br>
-    <mat-form-field style="width: 60%">
-      <input type="text" placeholder="Title" style="width: 100%">
+    <mat-form-field appearance="fill" style="width: 60%;">
+      <input matInput type="text" placeholder="Title" name="title" [(ngModel)]="newPost.title">
     </mat-form-field>
-    <mat-form-field style="width: 40%">
-      <input type="text" placeholder="Category" style="width: 100%">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Category</mat-label>
+      <mat-select >
+        <mat-option *ngFor="let category of categories">{{category}}</mat-option>
+      </mat-select>
     </mat-form-field>
     <br>
-    <mat-form-field style="width: 100%">
-      <textarea placeholder="Post Text" style="width: 100%"></textarea>
+    <mat-form-field appearance="outline" style="width: 100%; height: 40%">
+      <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content"[(ngModel)]="newPost.content"></textarea>
     </mat-form-field>
+    <br>
+    <button mat-raised-button (click)="createPost()">Publish Post</button>
   </mat-card>
 </div>
