@@ -1,0 +1,23 @@
+
+<mat-card class="postCard" *ngIf="!displayPostTemplate">
+  <div class="postButton">
+    <button mat-raised-button (click)="clickCreatePost()">Create New Post</button>
+  </div>
+</mat-card>
+
+<div *ngIf="displayPostTemplate">
+  <mat-card>
+    <button class="close" (click)="closePostTemplate()">X</button>
+    <br>
+    <mat-form-field style="width: 60%">
+      <input type="text" placeholder="Title" style="width: 100%">
+    </mat-form-field>
+    <mat-form-field style="width: 40%">
+      <input type="text" placeholder="Category" style="width: 100%">
+    </mat-form-field>
+    <br>
+    <mat-form-field style="width: 100%">
+      <textarea placeholder="Post Text" style="width: 100%"></textarea>
+    </mat-form-field>
+  </mat-card>
+</div>

@@ -1,0 +1,17 @@
+.postButton{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button{
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.close{
+  padding: 2px;
+  right: 1%;
+  top:2%;
+  position: absolute;
+}
