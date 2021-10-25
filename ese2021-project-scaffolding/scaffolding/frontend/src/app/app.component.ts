@@ -88,4 +88,8 @@ export class AppComponent implements OnInit {
     this.userService.setLoggedIn(!!userToken);
 
   }
+
+  EasterEgg() {
+    window.open('https://www.bscyb.ch/kids-club');
+  }
 }
