@@ -3,7 +3,7 @@ import {User} from "./user.model";
 
 export class Post{
   constructor(
-  //  public postId: number,
+    public postId: number,
     public title: string,
     public category: Category | undefined,
     public content: string,
