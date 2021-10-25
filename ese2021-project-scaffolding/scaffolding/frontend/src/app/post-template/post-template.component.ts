@@ -26,7 +26,7 @@ export class PostTemplateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   // this.readCategories();
+    this.readCategories();
   }
 
   clickCreatePost(): void {
@@ -52,4 +52,14 @@ export class PostTemplateComponent implements OnInit {
     this.newPost.title = this.newPost.content = '';
     this.displayPostTemplate = false;
   }
+
+  /*
+  createCategory(){
+    this.httpClient.post(environment.endpointURL + "category", {
+      categoryName: this.emptyCategory.categoryName
+    }).subscribe( (res: any) => {
+      this.emptyCategory.categoryName = ''; }
+    );
+  }*/
+
 }

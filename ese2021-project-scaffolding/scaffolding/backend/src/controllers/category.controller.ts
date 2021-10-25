@@ -59,3 +59,5 @@ categoryController.get('/',
     }
 );
 
+export const CategoryController: Router = categoryController;
+
