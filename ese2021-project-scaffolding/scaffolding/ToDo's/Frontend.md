@@ -7,3 +7,7 @@
 - von user erstellte posts auf profile page anzeigen
 - erstellte posts bearbeiten können
 - erstellte posts löschen können
+- Design: Logo einfügen 
+- Design: Impressum einfügen
+- Authenti zu Profile Page 
+- Profile Page zu Shop 
