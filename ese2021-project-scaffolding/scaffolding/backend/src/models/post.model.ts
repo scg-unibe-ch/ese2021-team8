@@ -1,13 +1,11 @@
 import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
-import { User } from './user.model';
-import { Category } from './category.model';
 
 export interface PostAttributes {
     postId: number;
     title: string;
-    category: Category;
+    categoryId: number;
     content: string;
-    creator: User;
+    creatorId: number;
     date: Date;
 }
 
@@ -16,9 +14,9 @@ export interface PostCreationAttributes extends Optional<PostAttributes, 'postId
 export class Post extends Model<PostAttributes, PostCreationAttributes> implements PostAttributes {
     postId!: number;
     title!: string;
-    category: Category;
+    categoryId: number;
     content!: string;
-    creator: User;
+    creatorId: number;
     date!: Date;
 
     public static initialize(sequelize: Sequelize) {
@@ -32,15 +30,15 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            category: {
-                type: DataTypes.STRING,
+            categoryId: {
+                type: DataTypes.INTEGER,
             },
             content: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            creator: {
-                type: DataTypes.STRING,
+            creatorId: {
+                type: DataTypes.INTEGER,
             },
             date: {
                 type: DataTypes.DATEONLY,
