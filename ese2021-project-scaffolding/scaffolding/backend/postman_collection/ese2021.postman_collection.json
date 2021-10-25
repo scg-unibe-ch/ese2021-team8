@@ -294,6 +294,67 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "image to todoitem",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "backend/src/public/images/tech_overview.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/todoitem/1/image",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todoitem",
+						"1",
+						"image"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "backend/src/public/images/tech_overview.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/todoitem/uploadImage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todoitem",
+						"uploadImage"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

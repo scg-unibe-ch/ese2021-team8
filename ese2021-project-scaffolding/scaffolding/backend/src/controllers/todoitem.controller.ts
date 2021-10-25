@@ -3,6 +3,7 @@ import {Router, Request, Response} from 'express';
 import {TodoItem} from '../models/todoitem.model';
 import {ItemService} from '../services/item.service';
 import {MulterRequest} from '../models/multerRequest.model';
+import {upload} from '../middlewares/fileFilter';
 
 
 
@@ -20,6 +21,14 @@ todoItemController.post('/', (req: Request, res: Response) => {
 todoItemController.post('/:id/image', (req: MulterRequest, res: Response) => {
     itemService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
+
+// upload image
+todoItemController.post('/uploadImage', upload.single('image'), (req, res) => {
+    res.send(req.file);
+    }, (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+});
+
 
 // get the filename of an image
 todoItemController.get('/:id/image', (req: Request, res: Response) => {
