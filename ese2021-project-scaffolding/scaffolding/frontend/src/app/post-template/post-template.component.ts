@@ -14,12 +14,12 @@ export class PostTemplateComponent implements OnInit {
 
   displayPostTemplate: boolean = false;
 
-  categories: string[] =[];
+  categories: Category[] =[];
 
   emptyCategory = new Category(0,'');
 
   @Input()
-  newPost = new Post('','','',undefined,new Date());
+  newPost = new Post('',undefined,'',undefined,new Date());
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
@@ -40,7 +40,7 @@ export class PostTemplateComponent implements OnInit {
   readCategories(): void{
     this.httpClient.get(environment.endpointURL + "category").subscribe((categories:any) => {
       categories.forEach((category: any) => {
-        this.categories.push(category.categoryName)
+        this.categories.push(category);
       });
     });
   }

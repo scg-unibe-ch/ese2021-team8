@@ -5,7 +5,7 @@ export class Post{
   constructor(
   //  public postId: number,
     public title: string,
-    public category: string | undefined,
+    public category: Category | undefined,
     public content: string,
     public creator: User | undefined, //allow undefined for now
     public date: Date
