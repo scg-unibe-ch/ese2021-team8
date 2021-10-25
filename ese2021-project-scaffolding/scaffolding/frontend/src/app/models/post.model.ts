@@ -5,9 +5,9 @@ export class Post{
   constructor(
     public postId: number,
     public title: string,
-    public category: Category | undefined,
+    public categoryId: number,
     public content: string,
-    public creator: User | undefined, //allow undefined for now
+    public creatorId: number,
     public date: Date
   ) {
   }

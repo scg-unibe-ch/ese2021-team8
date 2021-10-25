@@ -10,17 +10,17 @@
     <button mat-flat-button class="close" (click)="closePostTemplate()">X</button>
     <br>
     <mat-form-field appearance="fill" style="width: 60%;">
-      <input matInput type="text" placeholder="Title" name="title" [(ngModel)]="newPost.title">
+      <input matInput type="text" placeholder="Title" name="title" [(ngModel)]="postTitle">
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Select Category</mat-label>
-      <mat-select required [(ngModel)]="newPost.category">
+      <mat-select required [(ngModel)]="postCategory">
         <mat-option *ngFor="let category of categories" [value]="category"  > {{category.categoryName}} </mat-option>
       </mat-select>
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" style="width: 100%; height: 40%">
-      <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content"[(ngModel)]="newPost.content"></textarea>
+      <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content"[(ngModel)]="postContent"></textarea>
     </mat-form-field>
     <br>
     <button mat-raised-button (click)="createPost()">Publish Post</button>

@@ -18,8 +18,11 @@ export class PostTemplateComponent implements OnInit {
 
   emptyCategory = new Category(0,'');
 
-  @Input()
-  newPost = new Post('',undefined,'',undefined,new Date());
+  //@Input()
+  postTitle : string = '';
+  postCategory: Category = this.emptyCategory;
+  postContent: string = '';
+
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
@@ -46,11 +49,14 @@ export class PostTemplateComponent implements OnInit {
   }
 
   createPost(): void{
-    this.newPost.date = new Date();
-    this.newPost.creator = this.userService.getUser();
-    console.log(this.newPost);
-    this.newPost.title = this.newPost.content = '';
-    this.displayPostTemplate = false;
+    //console.log(new Post(0, this.postTitle, this.postCategory.categoryId, this.postContent, this.userService.getUser()?.userId , new Date()));
+    this.httpClient.post(environment.endpointURL + "post/", {
+      title: this.postTitle,
+      content: this.postContent,
+      creator: this.userService.getUser()?.userId,
+      category: this.postCategory.categoryId,
+      date: new Date()
+    }).subscribe();
   }
 
   /*

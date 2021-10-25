@@ -13,7 +13,7 @@ export class UserService {
 
   private loggedIn: boolean | undefined;
 
-  private user: User | undefined;
+  private user: User = new User(1,'','','','','','','',0);
 
 
   /*******************************************************************************************************************
@@ -37,7 +37,7 @@ export class UserService {
     return this.loggedIn;
   }
 
-  getUser(): User | undefined {
+  getUser(): User {
     return this.user;
   }
 
