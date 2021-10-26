@@ -1,4 +1,6 @@
 import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
+import {Category} from './category.model';
+import { User } from './user.model';
 
 export interface PostAttributes {
     postId: number;
@@ -32,6 +34,10 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
             },
             categoryId: {
                 type: DataTypes.INTEGER,
+                references: {
+                    model: Category,
+                    key: 'categoryId'
+                }
             },
             content: {
                 type: DataTypes.STRING,
@@ -39,6 +45,10 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
             },
             creatorId: {
                 type: DataTypes.INTEGER,
+                references: {
+                    model: User,
+                    key: 'userId'
+                }
             },
             date: {
                 type: DataTypes.DATE,

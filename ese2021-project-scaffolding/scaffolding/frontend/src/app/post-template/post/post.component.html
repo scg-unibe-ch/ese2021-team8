@@ -1,4 +1,5 @@
-<mat-card>
+<mat-card *ngIf="post != undefined">
   <mat-card-title>{{post.title}}</mat-card-title>
+  <!--TODO: add category badge-->
   <mat-card-content>{{post.content}}</mat-card-content>
 </mat-card>

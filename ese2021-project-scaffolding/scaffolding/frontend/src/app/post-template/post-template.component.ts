@@ -54,8 +54,8 @@ export class PostTemplateComponent implements OnInit {
     this.httpClient.post(environment.endpointURL + "post", {
       title: this.postTitle,
       content: this.postContent,
-      creatorId: 1,
-      categoryId: 1,
+      creatorId: this.userService.getUser().userId,
+      categoryId: this.postCategory.categoryId,
       date: new Date()
     }).subscribe((post : any)=>{
       this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date));
