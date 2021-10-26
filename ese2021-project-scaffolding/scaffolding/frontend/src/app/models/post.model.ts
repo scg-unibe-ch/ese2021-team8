@@ -8,7 +8,8 @@ export class Post{
     public categoryId: number,
     public content: string,
     public creatorId: number,
-    public date: Date
+    public date: Date,
+    public votes: number
   ) {
   }
 }

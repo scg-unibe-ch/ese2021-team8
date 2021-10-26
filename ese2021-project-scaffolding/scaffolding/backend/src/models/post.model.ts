@@ -9,6 +9,7 @@ export interface PostAttributes {
     content: string;
     creatorId: number;
     date: Date;
+    votes: number;
 }
 
 export interface PostCreationAttributes extends Optional<PostAttributes, 'postId'> {}
@@ -20,6 +21,7 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
     content!: string;
     creatorId!: number;
     date!: Date;
+    votes!: number;
 
     public static initialize(sequelize: Sequelize) {
         Post.init({
@@ -52,6 +54,10 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
             },
             date: {
                 type: DataTypes.DATE,
+                allowNull: false
+            },
+            votes: {
+                type: DataTypes.INTEGER,
                 allowNull: false
             }
 

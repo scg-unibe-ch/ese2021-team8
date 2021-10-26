@@ -26,7 +26,9 @@
     <button mat-raised-button (click)="createPost()">Publish Post</button>
   </mat-card>
 </div>
-    <app-post *ngFor="let post of posts"
-    [post]="post"
+    <app-post
+      *ngFor="let post of posts"
+      [post]="post"
+      (update)="updatePostVotes($event)"
     ></app-post>
 
