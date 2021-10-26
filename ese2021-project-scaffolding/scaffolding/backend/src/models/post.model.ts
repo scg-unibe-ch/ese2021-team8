@@ -14,9 +14,9 @@ export interface PostCreationAttributes extends Optional<PostAttributes, 'postId
 export class Post extends Model<PostAttributes, PostCreationAttributes> implements PostAttributes {
     postId!: number;
     title!: string;
-    categoryId: number;
+    categoryId!: number;
     content!: string;
-    creatorId: number;
+    creatorId!: number;
     date!: Date;
 
     public static initialize(sequelize: Sequelize) {
@@ -41,14 +41,13 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
                 type: DataTypes.INTEGER,
             },
             date: {
-                type: DataTypes.DATEONLY,
+                type: DataTypes.DATE,
                 allowNull: false
             }
 
         },
         {
-            sequelize,
-            tableName: 'posts'
+            tableName: 'posts', sequelize
         }
         );
     }
