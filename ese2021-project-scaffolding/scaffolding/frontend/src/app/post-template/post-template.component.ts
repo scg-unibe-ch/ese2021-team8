@@ -18,7 +18,7 @@ export class PostTemplateComponent implements OnInit {
 
   emptyCategory = new Category(0,'');
 
-  //@Input()
+  posts: Post[] = [];
   postTitle : string = '';
   postCategory: Category = this.emptyCategory;
   postContent: string = '';
@@ -30,6 +30,7 @@ export class PostTemplateComponent implements OnInit {
 
   ngOnInit(): void {
     this.readCategories();
+    this.getPosts();
   }
 
   clickCreatePost(): void {
@@ -50,13 +51,23 @@ export class PostTemplateComponent implements OnInit {
 
   createPost(): void{
     //console.log(new Post(0, this.postTitle, this.postCategory.categoryId, this.postContent, this.userService.getUser()?.userId , new Date()));
-    this.httpClient.post(environment.endpointURL + "post/", {
+    this.httpClient.post(environment.endpointURL + "post", {
       title: this.postTitle,
       content: this.postContent,
-      creator: this.userService.getUser()?.userId,
-      category: this.postCategory.categoryId,
+      creatorId: 1,
+      categoryId: 1,
       date: new Date()
-    }).subscribe();
+    }).subscribe((post : any)=>{
+      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date));
+      console.log(this.posts);
+    });
+  }
+
+  getPosts(): void{
+    this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
+      posts.forEach((post:any)=>{
+      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date));})
+    });
   }
 
   /*

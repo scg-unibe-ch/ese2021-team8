@@ -20,6 +20,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import {PostTemplateComponent} from "./post-template/post-template.component";
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
+import { PostComponent } from './post-template/post/post.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MatOptionModule} from "@angular/material/core";
     TodoListComponent,
     TodoItemComponent,
     UserComponent,
-    PostTemplateComponent
+    PostTemplateComponent,
+    PostComponent
   ],
   imports: [
     BrowserModule,
