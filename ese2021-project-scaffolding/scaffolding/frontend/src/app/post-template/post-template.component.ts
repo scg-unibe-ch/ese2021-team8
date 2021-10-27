@@ -59,7 +59,7 @@ export class PostTemplateComponent implements OnInit {
       date: new Date(),
       votes: 0
     }).subscribe((post : any)=>{
-      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes));
+      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, ''));
       console.log(this.posts);
     });
   }
@@ -67,7 +67,7 @@ export class PostTemplateComponent implements OnInit {
   getPosts(): void{
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
       posts.forEach((post:any)=>{
-      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes));})
+      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, ''));})
       this.postTitle = this.postContent = '';
       this.displayPostTemplate = false;
     });

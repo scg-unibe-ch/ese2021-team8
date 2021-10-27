@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d777af06-c630-4138-8628-5dc5880c6ae6",
+		"_postman_id": "48e72ec6-72b4-40bf-8c58-f3056793f06a",
 		"name": "ese2020",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -357,6 +357,5 @@
 			},
 			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

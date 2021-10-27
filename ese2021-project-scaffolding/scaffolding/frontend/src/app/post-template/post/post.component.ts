@@ -14,7 +14,7 @@ export class PostComponent implements OnInit {
   update = new EventEmitter<Post>();
 
   @Input()
-  post: Post = new Post(0,'',0,'',0,new Date(),0);
+  post: Post = new Post(0,'',0,'',0,new Date(),0, '');
 
   constructor() { }
   ngOnInit(): void {

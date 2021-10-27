@@ -2,9 +2,14 @@ import express from 'express';
 import { Router, Request, Response } from 'express';
 import { Post } from '../models/post.model';
 import {verifyToken} from '../middlewares/checkAuth';
+import {MulterRequest} from '../models/multerRequest.model';
+import {upload} from '../middlewares/fileFilter';
+import {ItemService} from '../services/item.service';
 
 const postController: Router = express.Router();
+const itemService = new ItemService();
 
+// CREATE Post
 postController.post('/', verifyToken, (req: Request, res: Response) => {
     Post.create(req.body).then(created => {
         res.status(201).send(created);
@@ -12,6 +17,7 @@ postController.post('/', verifyToken, (req: Request, res: Response) => {
         .catch(err => res.status(500).send(err));
 });
 
+// UPDATE Post
 postController.put('/:id', verifyToken, (req: Request, res: Response) => {
     Post.findByPk(req.params.id)
         .then(found => {
@@ -26,6 +32,7 @@ postController.put('/:id', verifyToken, (req: Request, res: Response) => {
         .catch(err => res.status(500).send(err));
 });
 
+// DELETE Post
 postController.delete('/:id', (req: Request, res: Response) => {
     Post.findByPk(req.params.id)
         .then(found => {
@@ -40,11 +47,31 @@ postController.delete('/:id', (req: Request, res: Response) => {
         .catch(err => res.status(500).send(err));
 });
 
+// READ Posts
 postController.get('/',
     (req: Request, res: Response) => {
         Post.findAll().then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );
+
+// add image to a post
+postController.post('/:id/image', (req: MulterRequest, res: Response) => {
+    itemService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
+});
+
+// upload image
+postController.post('/uploadImage', upload.single('image'), (req, res) => {
+    res.send(req.file);
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message });
+});
+
+
+// get the filename of an image
+postController.get('/:id/image', (req: Request, res: Response) => {
+    itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
+        .catch(err => res.status(500).send(err));
+});
 
 /**
  * Gets all the posts created from a certain creator. Should be used to view posts in profile page.
@@ -60,7 +87,7 @@ postController.get('/:creatorId', verifyToken,
  */
 postController.get('/:categoryId',
     (req: Request, res: Response) => {
-        Post.findAll({where: {creatorId: req.params.categoryId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
+        Post.findAll({where: {categoryId: req.params.categoryId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );
 

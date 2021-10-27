@@ -9,7 +9,8 @@ export class Post{
     public content: string,
     public creatorId: number,
     public date: Date,
-    public votes: number
+    public votes: number,
+    public image: string
   ) {
   }
 }

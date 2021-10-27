@@ -62,10 +62,6 @@ export class TodoItem extends Model<TodoItemAttributes, TodoItemCreationAttribut
             onDelete: 'cascade',
             foreignKey: 'todoListId'
         });
-        TodoItem.hasMany(ItemImage, {
-            as: 'images',
-            foreignKey: 'todoItemId'
-        });
     }
 
 }

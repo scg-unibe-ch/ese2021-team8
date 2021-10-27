@@ -36,6 +36,7 @@ export class Server {
         Post.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
+        Post.createAssociations();
         ItemImage.createAssociations();
 
 

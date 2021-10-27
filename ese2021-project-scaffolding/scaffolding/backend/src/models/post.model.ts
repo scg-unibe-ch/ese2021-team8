@@ -1,6 +1,7 @@
 import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
 import {Category} from './category.model';
 import { User } from './user.model';
+import {ItemImage} from './itemImage.model';
 
 export interface PostAttributes {
     postId: number;
@@ -10,6 +11,7 @@ export interface PostAttributes {
     creatorId: number;
     date: Date;
     votes: number;
+    itemImage: boolean;
 }
 
 export interface PostCreationAttributes extends Optional<PostAttributes, 'postId'> {}
@@ -22,6 +24,7 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
     creatorId!: number;
     date!: Date;
     votes!: number;
+    itemImage!: boolean;
 
     public static initialize(sequelize: Sequelize) {
         Post.init({
@@ -59,6 +62,10 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
             votes: {
                 type: DataTypes.INTEGER,
                 allowNull: false
+            },
+            itemImage: {
+                type: DataTypes.BOOLEAN,
+                allowNull: true
             }
 
         },
@@ -66,6 +73,13 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
             tableName: 'posts', sequelize
         }
         );
+    }
+
+    public static createAssociations() {
+        Post.hasMany(ItemImage, {
+            as: 'images',
+            foreignKey: 'postId'
+        });
     }
 }
 
