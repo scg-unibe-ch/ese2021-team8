@@ -46,4 +46,22 @@ postController.get('/',
     }
 );
 
+/**
+ * Gets all the posts created from a certain creator. Should be used to view posts in profile page.
+ */
+postController.get('/:creatorId', verifyToken,
+    (req: Request, res: Response) => {
+        Post.findAll({where: {creatorId: req.params.creatorId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
+    }
+);
+
+/**
+ * Gets all the posts from a certain category. No access limitation. Can be used for a basic sort function.
+ */
+postController.get('/:categoryId',
+    (req: Request, res: Response) => {
+        Post.findAll({where: {creatorId: req.params.categoryId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
+    }
+);
+
 export const PostController: Router = postController;
