@@ -10,7 +10,7 @@
     <button mat-flat-button class="close" (click)="closePostTemplate()">X</button>
     <br>
     <mat-form-field appearance="fill" style="width: 60%;">
-      <input matInput type="text" placeholder="Title" name="title" [(ngModel)]="postTitle">
+      <input matInput type="text" placeholder="Title*" name="title" [(ngModel)]="postTitle">
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Select Category</mat-label>
@@ -23,7 +23,16 @@
       <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content"[(ngModel)]="postContent"></textarea>
     </mat-form-field>
     <br>
+       <br>
+    <input
+      style="display: none"
+      type="file" (change)="selectFile({event : $event})"
+      #fileInput>
+    <button class="upload" (click)="fileInput.click()">Select File for upload</button>
+    <!--<button (click)="fileUpload()">Upload!</button> !This we don't need!-->
+    <br>
     <button mat-raised-button (click)="createPost()">Publish Post</button>
+
   </mat-card>
 </div>
     <app-post
