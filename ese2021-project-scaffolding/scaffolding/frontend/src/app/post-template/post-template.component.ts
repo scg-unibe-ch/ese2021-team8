@@ -4,6 +4,7 @@ import {Category} from "../models/category.model";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
+import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-post-template',
@@ -13,6 +14,7 @@ import {UserService} from "../services/user.service";
 export class PostTemplateComponent implements OnInit {
 
   displayPostTemplate: boolean = false;
+
 
   categories: Category[] =[];
 
@@ -109,15 +111,15 @@ export class PostTemplateComponent implements OnInit {
   }
 
   updatePostVotes(post: Post): void {
-    this.isThePostWithPictures = true;
+
     this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
       votes: post.votes
     }).subscribe();
   }
 
-  onFileChanged(event:any) {
+  onFileChanged(fileInput: any) {
     this.isThePostWithPictures = true;
-    this.selectedFile = event.target.files[0];
+    this.myfilename = fileInput
 
   }
 

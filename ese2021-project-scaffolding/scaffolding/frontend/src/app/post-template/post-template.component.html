@@ -23,14 +23,27 @@
       <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content"[(ngModel)]="postContent"></textarea>
     </mat-form-field>
     <br>
-       <br>
-    <input
-      style="display: none"
-      type="file" (change)="onFileChanged($event)"
-      #fileInput>
-    <button class="upload" (click)="fileInput.click()">Select File for upload</button>
-    <!-- <button (click)="fileUpload()">Upload!</button> -->
+
+
+
     <br>
+    <mat-toolbar>
+
+      <!-- Readonly Input to show File names -->
+      <input matInput [(ngModel)]="myfilename" readonly name="memberContactNo" />
+
+      <!-- Browse Button -->
+      <button mat-flat-button color="primary">
+        <input type="file" #UploadFileInput id="fileUpload" (change)="onFileChanged($event)" name="fileUpload"
+                     multiple="multiple" accept="image/*" />
+      </button>
+      <!-- Fetch selected filed on change -->
+
+    </mat-toolbar>
+
+
+    <br>
+
     <button mat-raised-button (click)="createPost()">Publish Post</button>
     <mat-form-field *ngIf="isThePostWithPictures">
       Dieser Post beinhaltet ein Bild
@@ -43,3 +56,14 @@
       (update)="updatePostVotes($event)"
     ></app-post>
 
+<!--
+<br>
+<input
+  style="display: none"
+  type="file" (change)="onFileChanged($event)"
+  #fileInput>
+<button class="upload" (click)="fileInput.click()">Select File for upload</button>
+ <button (click)="fileUpload()">Upload!</button> //dont needed
+<br>
+
+-->

@@ -49,7 +49,7 @@ export class PostComponent implements OnInit {
   }
 
   getCategoryName(): string{
-     this.httpClient.get(environment.endpointURL + "category/get/" + this.post.categoryId).subscribe(
+    this.httpClient.get(environment.endpointURL + "category/get/" + this.post.categoryId).subscribe(
       ((category:any) =>{
         return category.categoryName;
       })
