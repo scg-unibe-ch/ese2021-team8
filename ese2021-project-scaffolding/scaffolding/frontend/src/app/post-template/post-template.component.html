@@ -26,13 +26,15 @@
        <br>
     <input
       style="display: none"
-      type="file" (change)="selectFile({event : $event})"
+      type="file" (change)="onFileChanged($event)"
       #fileInput>
     <button class="upload" (click)="fileInput.click()">Select File for upload</button>
-    <!--<button (click)="fileUpload()">Upload!</button> !This we don't need!-->
+    <!-- <button (click)="fileUpload()">Upload!</button> -->
     <br>
     <button mat-raised-button (click)="createPost()">Publish Post</button>
-
+    <mat-form-field *ngIf="isThePostWithPictures">
+      Dieser Post beinhaltet ein Bild
+    </mat-form-field>
   </mat-card>
 </div>
     <app-post
