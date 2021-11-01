@@ -93,4 +93,21 @@ export class UserService {
             }
         });
     }
+
+    /**
+     * Searches and returns an User according to the id entered.
+     * ToDo: Declare privacy level.
+     * @param id the id of the user to find
+     */
+    public findUserWithId(id: number): Promise<User> {
+        return User.findByPk(id)
+            .then(result => {
+                if (result) {
+                    return Promise.resolve(result);
+                } else {
+                    return Promise.reject('This User does not exist!');
+                }
+            })
+            .catch(() => Promise.reject('could not fetch User!'));
+    }
 }
