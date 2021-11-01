@@ -2,12 +2,16 @@ import express from 'express';
 import { Router, Request, Response } from 'express';
 import { Post } from '../models/post.model';
 import {verifyToken} from '../middlewares/checkAuth';
+import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {upload} from '../middlewares/fileFilter';
 import {ItemService} from '../services/item.service';
+import {CategoryService} from '../services/category.service';
+
 
 const postController: Router = express.Router();
 const itemService = new ItemService();
+const categoryService = new CategoryService();
 
 // CREATE Post
 postController.post('/', verifyToken, (req: Request, res: Response) => {
@@ -32,11 +36,29 @@ postController.put('/:id', verifyToken, (req: Request, res: Response) => {
         .catch(err => res.status(500).send(err));
 });
 
-// DELETE Post
-postController.delete('/:id', (req: Request, res: Response) => {
+/**
+ * Deletes a post. Needs the id of the post which should be destroyed.
+ * This is the delete-method used by the administrator. No limit to the post they can destroy.
+ */
+postController.delete('/:id/:admin', checkAdmin, (req: Request, res: Response) => {
     Post.findByPk(req.params.id)
         .then(found => {
             if (found != null) {
+                found.destroy()
+                    .then(item => res.status(200).send({ deleted: item }))
+                    .catch(err => res.status(500).send(err));
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(err => res.status(500).send(err));
+});
+
+// DELETE Post
+postController.delete('/:id/:userId', (req: Request, res: Response) => {
+    Post.findByPk(req.params.id)
+        .then(found => {
+            if (found != null && (found.creatorId === Number(req.params.userId))) {
                 found.destroy()
                     .then(item => res.status(200).send({ deleted: item }))
                     .catch(err => res.status(500).send(err));
