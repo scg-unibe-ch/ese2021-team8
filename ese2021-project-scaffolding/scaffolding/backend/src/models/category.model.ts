@@ -30,11 +30,4 @@ export class Category extends Model<CategoryAttributes, CategoryCreationAttribut
             }
             );
     }
-    // Posts belong to a category, tbd: if Todolist is not post, change it
-    public static createAssociations() {
-        Category.hasMany(TodoList, {
-            as: 'elements',
-            foreignKey: 'categoryId'
-        });
-    }
 }
