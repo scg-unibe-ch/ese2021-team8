@@ -4,6 +4,8 @@
 1. As a moderator, I want to remove inappropriate posts/ban misbehaving users so that the platform stays a friendly and controlled place.
 2. As a user, I want to reset my password in case I have forgotten it, so that I am able to get access to my user profile again.
 3. As a system administrator, I want to grant a user the role of a moderator, so that he can help maintaining the platform a friendly place.
+4. As a user, I want post Stories, that I'm intrested in 
+5. As a user, I want see other post
 
 ## Non-functional:
 1. As a user of the website, I want it’s usage to be so intuitive that I do not have to read a manual or forum posts.
