@@ -29,12 +29,13 @@
     ></app-todo-list>-->
   </mat-tab>
 
-  <mat-tab label="Authentication">
+  <mat-tab *ngIf="!loggedIn" label="Authentication">
+    <app-user></app-user>
+  </mat-tab>
+  <mat-tab *ngIf="loggedIn" label="Profil Page">
     <app-user></app-user>
   </mat-tab>
 
-  <mat-tab *ngIf="loggedIn" label="Profile Page">
-    Profile Page
-  </mat-tab>
+
 
 </mat-tab-group>
