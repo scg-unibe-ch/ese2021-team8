@@ -1,5 +1,4 @@
-import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
-import {TodoList} from './todolist.model';
+import { Optional, Model, DataTypes, Sequelize } from 'sequelize';
 
 export interface CategoryAttributes {
     categoryId: number;

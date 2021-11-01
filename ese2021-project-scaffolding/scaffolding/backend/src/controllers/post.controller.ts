@@ -6,7 +6,6 @@ import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {upload} from '../middlewares/fileFilter';
 import {ItemService} from '../services/item.service';
-import {CategoryService} from '../services/category.service';
 import {ItemImage} from '../models/itemImage.model';
 
 
@@ -54,8 +53,10 @@ postController.delete('/:id/:admin', checkAdmin, (req: Request, res: Response) =
         .catch(err => res.status(500).send(err));
 });
 
-// DELETE Post
-postController.delete('/:id/:userId', (req: Request, res: Response) => {
+/**
+ * Deletes a post. Only the author of the post may delete it.
+ */
+postController.delete('/:id/:userId', verifyToken, (req: Request, res: Response) => {
     Post.findByPk(req.params.id)
         .then(found => {
             if (found != null && (found.creatorId === Number(req.params.userId))) {

@@ -1,4 +1,4 @@
-import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
+import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
 import {Category} from './category.model';
 import { User } from './user.model';
 import {ItemImage} from './itemImage.model';

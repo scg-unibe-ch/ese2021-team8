@@ -1,4 +1,4 @@
-import {Category, CategoryAttributes} from '../models/category.model';
+import {Category} from '../models/category.model';
 
 export class CategoryService {
     public getCategory(id: number): Promise<Category> {
