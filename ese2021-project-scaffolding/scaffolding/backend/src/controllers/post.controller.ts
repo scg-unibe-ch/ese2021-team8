@@ -6,6 +6,8 @@ import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {upload} from '../middlewares/fileFilter';
 import {ItemService} from '../services/item.service';
+import {CategoryService} from '../services/category.service';
+import {ItemImage} from '../models/itemImage.model';
 
 
 const postController: Router = express.Router();
@@ -74,7 +76,7 @@ postController.get('/',
     }
 );
 
-// add image to a post
+// upload image and add to a post
 postController.post('/:id/image', (req: MulterRequest, res: Response) => {
     itemService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
@@ -88,8 +90,14 @@ postController.post('/uploadImage', upload.single('image'), (req, res) => {
 
 
 // get the filename of an image
-postController.get('/:id/image', (req: Request, res: Response) => {
+postController.get('/:id/imageById', (req: Request, res: Response) => {
     itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
+        .catch(err => res.status(500).send(err));
+});
+
+// get filename of image by postId
+postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
+    ItemImage.findAll({where: {postId: req.params.postId}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 
