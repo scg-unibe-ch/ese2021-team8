@@ -71,14 +71,16 @@ export class PostTemplateComponent implements OnInit {
         date: new Date(),
         votes: 0
       }).subscribe((post: any) => {
-
-        console.log(this.posts);
       });
 
-      this.httpClient.post(environment.endpointURL + "post/" + this.posts[0].postId + "/image", {
-        file: this.selectedFile,
-      }).subscribe((post: any) => {
-        this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.image));
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("image", this.selectedFile);
+
+      this.httpClient.post(environment.endpointURL + "post/" + this.posts[0].postId + "/image", formData)
+        .subscribe((post: any) => {
+          this.posts.unshift(
+            new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '1'));
       });
     }
 
@@ -92,14 +94,11 @@ export class PostTemplateComponent implements OnInit {
         date: new Date(),
         votes: 0
       }).subscribe((post: any) => {
-        this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.image));
+        this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '0'));
         console.log(this.posts);
       });
-
-
     }
-
-  }
+}
 
   getPosts(): void{
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
