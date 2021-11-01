@@ -20,6 +20,7 @@ export class PostComponent implements OnInit {
 
   @Input()
   post: Post = new Post(0,'',0,'',0,new Date(),0, '');
+  categoryName: string = this.getCategoryName();
 
   constructor(
     public httpClient: HttpClient,
@@ -29,6 +30,7 @@ export class PostComponent implements OnInit {
     this.voted = this.whoLiked.includes(this.currentUser);
   }
   ngOnInit(): void {
+    this.categoryName=this.getCategoryName();
   }
 
   //TODO: add constraints so user can only upvote once
@@ -51,7 +53,7 @@ export class PostComponent implements OnInit {
   getCategoryName(): string{
      this.httpClient.get(environment.endpointURL + "category/get/" + this.post.categoryId).subscribe(
       ((category:any) =>{
-        return category.categoryName;
+        category.catgoryName;
       })
     );
     return "unknown category";
