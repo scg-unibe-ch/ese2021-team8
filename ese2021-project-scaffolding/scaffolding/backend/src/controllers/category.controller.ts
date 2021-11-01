@@ -59,5 +59,16 @@ categoryController.get('/',
     }
 );
 
+/**
+ * Returns a category according to the inputted id.
+ */
+categoryController.get('/:id',
+    (req: Request, res: Response) => {
+        Category.findOne({
+            where: {categoryId: req.params.id}
+        }).then(categories => res.send(categories)).catch(err => res.status(500).send(err));
+    }
+);
+
 export const CategoryController: Router = categoryController;
 

@@ -4,7 +4,6 @@ import {Category} from "../models/category.model";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
-import {TodoList} from "../models/todo-list.model";
 
 @Component({
   selector: 'app-post-template',
