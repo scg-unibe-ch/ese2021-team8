@@ -6,12 +6,10 @@ import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {upload} from '../middlewares/fileFilter';
 import {ItemService} from '../services/item.service';
-import {CategoryService} from '../services/category.service';
 
 
 const postController: Router = express.Router();
 const itemService = new ItemService();
-const categoryService = new CategoryService();
 
 // CREATE Post
 postController.post('/', verifyToken, (req: Request, res: Response) => {
@@ -98,7 +96,7 @@ postController.get('/:id/image', (req: Request, res: Response) => {
 /**
  * Gets all the posts created from a certain creator. Should be used to view posts in profile page.
  */
-postController.get('/:creatorId', verifyToken,
+postController.get('/user/:creatorId', verifyToken,
     (req: Request, res: Response) => {
         Post.findAll({where: {creatorId: req.params.creatorId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
