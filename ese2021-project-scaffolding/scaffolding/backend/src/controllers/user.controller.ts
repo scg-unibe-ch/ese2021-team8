@@ -24,4 +24,10 @@ userController.get('/', verifyToken, // you can add middleware on specific reque
     }
 );
 
+userController.get('/:id',
+    (req: Request, res: Response) => {
+    userService.findUserWithId(Number(req.params.id))
+        .then(result => res.send(result)).catch(err => res.status(500).send(err));
+});
+
 export const UserController: Router = userController;
