@@ -2,8 +2,10 @@ import express from 'express';
 import { Router, Request, Response } from 'express';
 import {Category} from '../models/category.model';
 import {checkAdmin} from '../middlewares/checkAdmin';
+import {CategoryService} from '../services/category.service';
 
 const categoryController: Router = express.Router();
+const categoryService = new CategoryService();
 
 /**
  * Adds a category to memory. Only Admins can access this method.
@@ -64,9 +66,8 @@ categoryController.get('/',
  */
 categoryController.get('/:id',
     (req: Request, res: Response) => {
-        Category.findOne({
-            where: {categoryId: req.params.id}
-        }).then(categories => res.send(categories)).catch(err => res.status(500).send(err));
+        categoryService.getCategory(Number(req.params.id))
+            .then(categories => res.send(categories)).catch(err => res.status(500).send(err));
     }
 );
 
