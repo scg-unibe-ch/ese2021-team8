@@ -1,0 +1,13 @@
+.edit{
+  padding: 2px;
+  right: 1%;
+  top:2%;
+  position: absolute;
+}
+
+.dropdown{
+  background-color: white !important;
+}
+.dropdown:hover{
+  background-color: #dddddd !important;
+}

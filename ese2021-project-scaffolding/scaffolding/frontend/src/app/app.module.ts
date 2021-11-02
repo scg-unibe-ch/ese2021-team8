@@ -22,6 +22,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import { PostComponent } from './post-template/post/post.component';
 import {MatChipsModule} from "@angular/material/chips";
+import {MatIconModule} from "@angular/material/icon";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import {MatChipsModule} from "@angular/material/chips";
     MatCheckboxModule,
     MatSelectModule,
     MatOptionModule,
-    MatChipsModule
+    MatChipsModule,
+    MatIconModule,
+    MatMenuModule
   ],
   providers: [
     {

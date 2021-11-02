@@ -13,12 +13,17 @@ import {Category} from "../../models/category.model";
 })
 export class PostComponent implements OnInit {
 
+  edit: boolean = false;
   voted: boolean = false;
   whoLiked: string[] = [];
   currentUser: string = "";
+  canEdit: boolean = false;
 
   @Output()
-  update = new EventEmitter<Post>();
+  updateVotes = new EventEmitter<Post>();
+
+  @Output()
+  updatePosts = new EventEmitter<Post>();
 
   @Input()
   post: Post = new Post(0,'',0,'',0,new Date(),0, '');
@@ -34,6 +39,7 @@ export class PostComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getCategoryName();
+    this.canEdit = this.userService.getUser().userId == this.post.creatorId
   }
 
   //TODO: add constraints so user can only upvote once
@@ -41,7 +47,7 @@ export class PostComponent implements OnInit {
     this.post.votes++;
     this.whoLiked.push(this.userService.getUser().username);
     this.voted = this.whoLiked.includes(this.currentUser);
-    this.update.emit(this.post);
+    this.updateVotes.emit(this.post);
   }
 
   downvote() {
@@ -50,7 +56,11 @@ export class PostComponent implements OnInit {
     this.post.votes--;
     this.whoLiked.push(this.userService.getUser().username);
     this.voted = this.whoLiked.includes(this.currentUser);
-    this.update.emit(this.post)
+    this.updateVotes.emit(this.post)
+  }
+
+  editPost():void{
+    this.edit = true;
   }
 
   getCategoryName(): void{
@@ -60,5 +70,11 @@ export class PostComponent implements OnInit {
       }, (error) => {
         this.categoryName = "undefined category";
       })
+  }
+
+  deletePost(): void{
+    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId + "/" + this.userService.getUser().userId).subscribe((res:any)=>{},
+      (error => "nope" ));
+    this.updatePosts.emit();
   }
 }

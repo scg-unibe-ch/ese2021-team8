@@ -1,4 +1,14 @@
 <mat-card *ngIf="post != undefined" >
+  <button mat-mini-fab *ngIf="canEdit" class="edit" [matMenuTriggerFor]="edit" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"> Edit
+  <mat-menu #edit="matMenu">
+    <button mat-menu-item class="dropdown">
+      <span>Edit Post</span>
+    </button>
+    <button mat-menu-item class="dropdown" (click)="deletePost()">
+      <span>Delete Post</span>
+    </button>
+  </mat-menu>
+  </button>
   <button class="likeButton" [disabled]="voted" (click)="upvote()"  > &#8679;</button>
   {{post.votes}}
   <button class="likeButton" [disabled]="voted" (click)="downvote()">&#8681;</button>
@@ -8,7 +18,5 @@
     <mat-chip-list>
       <mat-chip>{{categoryName}}</mat-chip>
     </mat-chip-list>
-
-
   <mat-card-content>{{post.content}}</mat-card-content>
 </mat-card>

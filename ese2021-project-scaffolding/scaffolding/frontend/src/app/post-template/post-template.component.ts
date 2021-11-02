@@ -41,6 +41,7 @@ export class PostTemplateComponent implements OnInit {
 
   clickCreatePost(): void {
     this.displayPostTemplate = true;
+    console.log(this.posts);
   }
 
   closePostTemplate() {
@@ -101,6 +102,7 @@ export class PostTemplateComponent implements OnInit {
 }
 
   getPosts(): void{
+    this.posts = [];
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
       posts.forEach((post:any)=>{
       this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.image));})
@@ -110,7 +112,6 @@ export class PostTemplateComponent implements OnInit {
   }
 
   updatePostVotes(post: Post): void {
-
     this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
       votes: post.votes
     }).subscribe();
