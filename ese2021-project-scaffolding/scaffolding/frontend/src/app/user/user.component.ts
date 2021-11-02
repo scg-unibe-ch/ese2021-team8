@@ -41,11 +41,12 @@ export class UserComponent {
     this.loggedIn = userService.getLoggedIn();
     this.user = userService.getUser();
     let id = localStorage.getItem('userId');
-    if(id){
+    /*if(id){
       this.httpClient.get(environment.endpointURL + "user/" + id).subscribe( (res: any) => {
       this.userService.setUser(res);
       });
-    }
+    }*/
+    console.log(this.user);
   }
 
   /**

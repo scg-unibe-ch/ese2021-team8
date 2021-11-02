@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
 import { Subject } from 'rxjs';
+import {environment} from "../../environments/environment";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,7 @@ export class UserService {
   private loggedIn: boolean | undefined;
 
   private user: User = new User(1,'','','','','','','',0);
+
 
 
   /*******************************************************************************************************************
@@ -59,12 +62,18 @@ export class UserService {
    * CONSTRUCTOR
    ******************************************************************************************************************/
 
-  constructor() {
+  constructor(public httpClient: HttpClient) {
     // Observer
     this.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user$.subscribe(res => this.user = res);
 
     // Default values
+    let id = localStorage.getItem('userId');
+    if(id) {
+      httpClient.get(environment.endpointURL + "user/" + id).subscribe((res: any) => {
+        this.setUser(res);
+      });
+    }
     this.setLoggedIn(false);
   }
 }
