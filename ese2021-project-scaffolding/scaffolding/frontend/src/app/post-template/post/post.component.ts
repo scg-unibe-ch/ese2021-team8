@@ -4,6 +4,7 @@ import {TodoList} from "../../models/todo-list.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {Category} from "../../models/category.model";
 
 @Component({
   selector: 'app-post',
@@ -15,12 +16,14 @@ export class PostComponent implements OnInit {
   voted: boolean = false;
   whoLiked: string[] = [];
   currentUser: string = "";
+
   @Output()
   update = new EventEmitter<Post>();
 
   @Input()
   post: Post = new Post(0,'',0,'',0,new Date(),0, '');
-  categoryName: string = this.getCategoryName();
+
+  categoryName: string = ""
 
   constructor(
     public httpClient: HttpClient,
@@ -30,15 +33,15 @@ export class PostComponent implements OnInit {
     this.voted = this.whoLiked.includes(this.currentUser);
   }
   ngOnInit(): void {
-    this.categoryName=this.getCategoryName();
+    this.getCategoryName();
   }
 
   //TODO: add constraints so user can only upvote once
    upvote() {
     this.post.votes++;
     this.whoLiked.push(this.userService.getUser().username);
-     this.voted = this.whoLiked.includes(this.currentUser);
-     this.update.emit(this.post);
+    this.voted = this.whoLiked.includes(this.currentUser);
+    this.update.emit(this.post);
   }
 
   downvote() {
@@ -50,12 +53,12 @@ export class PostComponent implements OnInit {
     this.update.emit(this.post)
   }
 
-  getCategoryName(): string{
-    this.httpClient.get(environment.endpointURL + "category/get/" + this.post.categoryId).subscribe(
-      ((category:any) =>{
-        category.catgoryName;
+  getCategoryName(): void{
+    this.httpClient.get(environment.endpointURL + "category/" + this.post.categoryId).subscribe(
+      (res:any) =>{
+        this.categoryName = res.categoryName;
+      }, (error) => {
+        this.categoryName = "undefined category";
       })
-    );
-    return "unknown category";
   }
 }

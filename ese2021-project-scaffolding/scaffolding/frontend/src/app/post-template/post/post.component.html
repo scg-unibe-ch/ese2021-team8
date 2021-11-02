@@ -1,11 +1,14 @@
-<mat-card *ngIf="post != undefined">
-  <button class="likeButton" [disabled]="voted" (click)="upvote()"> &#8679;</button>
+<mat-card *ngIf="post != undefined" >
+  <button class="likeButton" [disabled]="voted" (click)="upvote()"  > &#8679;</button>
   {{post.votes}}
   <button class="likeButton" [disabled]="voted" (click)="downvote()">&#8681;</button>
   <br>
   <br>
-  <mat-card-title>{{post.title}}</mat-card-title>
-  <!--TODO: add category badge-->
-  <mat-card-content>{{categoryName}}</mat-card-content>
+  <mat-card-title>{{post.title}}  </mat-card-title>
+    <mat-chip-list>
+      <mat-chip>{{categoryName}}</mat-chip>
+    </mat-chip-list>
+
+
   <mat-card-content>{{post.content}}</mat-card-content>
 </mat-card>
