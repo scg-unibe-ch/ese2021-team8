@@ -12,11 +12,14 @@ import { User } from './models/user.model';
 import { Category } from './models/category.model';
 
 
+
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
 import {ItemImage} from './models/itemImage.model';
 import {PostController} from './controllers/post.controller';
 import {Post} from './models/post.model';
+import {Like} from './models/like.model';
+import {LikeController} from './controllers/like.controller';
 
 
 export class Server {
@@ -34,10 +37,12 @@ export class Server {
         ItemImage.initialize(this.sequelize);
         Category.initialize(this.sequelize);
         Post.initialize(this.sequelize);
+        Like.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         Post.createAssociations();
         ItemImage.createAssociations();
+
 
 
 
@@ -76,6 +81,7 @@ export class Server {
             .use('/admin', AdminController)
             .use('/category', CategoryController)
             .use('/post' , PostController)
+            .use('/like', LikeController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running

@@ -1,10 +1,8 @@
 import {Component, Input, OnInit, EventEmitter, Output} from '@angular/core';
 import {Post} from "../../models/post.model";
-import {TodoList} from "../../models/todo-list.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {Category} from "../../models/category.model";
 
 @Component({
   selector: 'app-post',
@@ -15,7 +13,7 @@ export class PostComponent implements OnInit {
 
   edit: boolean = false;
   voted: boolean = false;
-  whoLiked: string[] = [];
+  whoLiked: number[] = [];
   currentUser: string = "";
   canEdit: boolean = false;
 
@@ -33,29 +31,36 @@ export class PostComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
-  ) {
-    this.currentUser = userService.getUser().username;
-    this.voted = this.whoLiked.includes(this.currentUser);
-  }
+  ) {}
   ngOnInit(): void {
     this.getCategoryName();
     this.canEdit = this.userService.getUser().userId == this.post.creatorId
+    this.httpClient.get(environment.endpointURL + "like/" + this.post.postId +"/" + this.userService.getUser().userId).subscribe((posts: any)=>
+    {   posts.forEach((id:any)=> {
+        this.whoLiked.push(id.userId);
+      });
+      this.voted = this.whoLiked.includes(this.userService.getUser().userId)
+    });
   }
 
-  //TODO: add constraints so user can only upvote once
    upvote() {
+     console.log(this.whoLiked.includes(2));
     this.post.votes++;
-    this.whoLiked.push(this.userService.getUser().username);
-    this.voted = this.whoLiked.includes(this.currentUser);
+    this.httpClient.post(environment.endpointURL + "like", {
+      postId: this.post.postId,
+      userId: this.userService.getUser().userId
+    }).subscribe()
+     this.voted = true;
     this.updateVotes.emit(this.post);
   }
 
   downvote() {
-    console.log(this.currentUser);
-    console.log(this.whoLiked);
     this.post.votes--;
-    this.whoLiked.push(this.userService.getUser().username);
-    this.voted = this.whoLiked.includes(this.currentUser);
+    this.httpClient.post(environment.endpointURL + "like", {
+      postId: this.post.postId,
+      creatorId: this.userService.getUser().userId
+    }).subscribe()
+    this.voted = true;
     this.updateVotes.emit(this.post)
   }
 
@@ -67,13 +72,13 @@ export class PostComponent implements OnInit {
     this.httpClient.get(environment.endpointURL + "category/" + this.post.categoryId).subscribe(
       (res:any) =>{
         this.categoryName = res.categoryName;
-      }, (error) => {
+      }, () => {
         this.categoryName = "undefined category";
       })
   }
 
   deletePost(): void{
-    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId + "/" + this.userService.getUser().userId).subscribe((res:any)=>{},
+    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId + "/" + this.userService.getUser().userId).subscribe(((res:any)=>{}),
       (error => "nope" ));
     this.updatePosts.emit();
   }
