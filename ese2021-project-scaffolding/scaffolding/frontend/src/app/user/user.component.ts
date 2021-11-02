@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -40,7 +40,14 @@ export class UserComponent {
     // Current value
     this.loggedIn = userService.getLoggedIn();
     this.user = userService.getUser();
+    let id = localStorage.getItem('userId');
+    if(id){
+      this.httpClient.get(environment.endpointURL + "user/" + id).subscribe( (res: any) => {
+      this.userService.setUser(res);
+      });
+    }
   }
+
   /**
    * This Methode is responsible for the register from a user. It handle the Name and
    * the password to the backend.
@@ -93,7 +100,7 @@ export class UserComponent {
       this.userToLogin.username = this.userToLogin.password = '';
       this.loginErrorMsg = '';
 
-      localStorage.setItem('userName', res.user.userName);
+      localStorage.setItem('userId', res.user.userId);
       localStorage.setItem('userToken', res.token);
 
       this.userService.setLoggedIn(true);
@@ -105,7 +112,7 @@ export class UserComponent {
   }
 
   logoutUser(): void {
-    localStorage.removeItem('userName');
+    localStorage.removeItem('userId');
     localStorage.removeItem('userToken');
 
     this.userService.setLoggedIn(false);
