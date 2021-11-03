@@ -10,7 +10,7 @@ export class Post{
     public creatorId: number,
     public date: Date,
     public votes: number,
-    public image: string
+    public image: boolean
   ) {
   }
 }

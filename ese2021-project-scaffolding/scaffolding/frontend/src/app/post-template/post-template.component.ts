@@ -26,8 +26,7 @@ export class PostTemplateComponent implements OnInit {
   postContent: string = '';
   postPicture: string = '';
   selectedFile = null;
-  isThePostWithPictures = false;
-  myfilename = 'Select File';
+  hasPicture = false;
 
   constructor(
     public httpClient: HttpClient,
@@ -60,13 +59,12 @@ export class PostTemplateComponent implements OnInit {
    * in Progress, to reroll use if (this.isThePostWithPictures)
    */
   createPost(): void {
-    if (this.isThePostWithPictures) {
-
+    if (this.hasPicture) {
 
       this.httpClient.post(environment.endpointURL + "post", {
         title: this.postTitle,
         content: this.postContent,
-        image: this.postPicture,
+        image: this.hasPicture,
         creatorId: this.userService.getUser().userId,
         categoryId: this.postCategory.categoryId,
         date: new Date(),
@@ -81,25 +79,25 @@ export class PostTemplateComponent implements OnInit {
       this.httpClient.post(environment.endpointURL + "post/" + this.posts[0].postId + "/image", formData)
         .subscribe((post: any) => {
           this.posts.unshift(
-            new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '1'));
-          this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '0'));
+            new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
           this.postTitle = this.postContent = "";
           this.postCategory = this.emptyCategory;
           this.displayPostTemplate = false;
       });
     }
 
-    if(!this.isThePostWithPictures){
+    if(!this.hasPicture){
       this.httpClient.post(environment.endpointURL + "post", {
         title: this.postTitle,
         content: this.postContent,
-        image: this.postPicture,
+        image: this.hasPicture,
         creatorId: this.userService.getUser().userId,
         categoryId: this.postCategory.categoryId,
         date: new Date(),
         votes: 0
       }).subscribe((post: any) => {
-        this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '0'));
+        this.posts.unshift(
+          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
         this.postTitle = this.postContent = "";
         this.postCategory = this.emptyCategory;
         this.displayPostTemplate = false;
@@ -111,7 +109,7 @@ export class PostTemplateComponent implements OnInit {
     this.posts = [];
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
       posts.forEach((post:any)=>{
-      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.image));})
+      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.isThePostWithPictures));})
       this.postTitle = this.postContent = '';
       this.displayPostTemplate = false;
     });
@@ -125,9 +123,9 @@ export class PostTemplateComponent implements OnInit {
     }).subscribe();
   }
 
-  onFileChanged(fileInput: any) {
-    this.isThePostWithPictures = true;
-    this.myfilename = fileInput
+  onFileChanged(event: any) {
+    this.hasPicture = true;
+    this.selectedFile = event.target.files[0];
 
   }
 
