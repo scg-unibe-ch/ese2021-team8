@@ -1,7 +1,7 @@
-<mat-card *ngIf="post != undefined" >
+<mat-card *ngIf="post != undefined && !editMode" >
   <button mat-mini-fab *ngIf="canEdit" class="edit" [matMenuTriggerFor]="edit" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"> Edit
   <mat-menu #edit="matMenu">
-    <button mat-menu-item class="dropdown">
+    <button mat-menu-item class="dropdown" (click)="editPost()">
       <span>Edit Post</span>
     </button>
     <button mat-menu-item class="dropdown" (click)="deletePost()">
@@ -11,7 +11,7 @@
   </button>
   <button *ngIf="!upvoted" class="unclicked" (click)="upvote()"  > &#8679;</button>
   <button *ngIf="upvoted" class="clicked" (click)="revertUpvote()"> &#8679;</button>
-  {{post.votes}}
+    {{post.votes}}
   <button *ngIf="!downvoted" class="unclicked" (click)="downvote()">&#8681;</button>
   <button *ngIf="downvoted" class="clicked" (click)="revertDownvote()">&#8681;</button>
   <br>
@@ -21,4 +21,21 @@
       <mat-chip>{{categoryName}}</mat-chip>
     </mat-chip-list>
   <mat-card-content>{{post.content}}</mat-card-content>
+</mat-card>
+<mat-card *ngIf="editMode">
+  <button mat-flat-button class="close" (click)="discardEdits()">Discard</button>
+  <br>
+  <mat-form-field appearance="fill" style="width: 60%;">
+    <input matInput type="text" placeholder= {{post.title}} name="title" [(ngModel)]="post.title">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>{{categoryName}}</mat-label>
+    <mat-select required [(ngModel)]="categoryName">
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="outline" style="width: 100%; height: 40%">
+    <textarea matInput placeholder={{post.content}} style="width: 100%" rows="10" name="content"[(ngModel)]="post.content"></textarea>
+  </mat-form-field>
+  <button mat-button (click)="updatePost()">Update Post</button>
 </mat-card>

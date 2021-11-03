@@ -117,9 +117,11 @@ export class PostTemplateComponent implements OnInit {
     });
   }
 
-  updatePostVotes(post: Post): void {
+  updatePost(post: Post): void {
     this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
-      votes: post.votes
+      votes: post.votes,
+      title: post.title,
+      content: post.content
     }).subscribe();
   }
 

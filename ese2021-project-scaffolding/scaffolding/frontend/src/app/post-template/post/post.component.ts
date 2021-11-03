@@ -3,6 +3,7 @@ import {Post} from "../../models/post.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {Category} from "../../models/category.model";
 
 @Component({
   selector: 'app-post',
@@ -11,7 +12,10 @@ import {environment} from "../../../environments/environment";
 })
 export class PostComponent implements OnInit {
 
-  edit: boolean = false;
+  @Input()
+  categories: Category[] =[];
+
+  editMode: boolean = false;
   upvoted: boolean | undefined;
   downvoted: boolean = false;
   upvotes: number[] = [];
@@ -21,10 +25,10 @@ export class PostComponent implements OnInit {
   test: number[] = [];
 
   @Output()
-  updateVotes = new EventEmitter<Post>();
+  sendUpdate = new EventEmitter<Post>();
 
   @Output()
-  updatePosts = new EventEmitter<Post>();
+  getNewPosts = new EventEmitter<Post>();
 
   @Input()
   post: Post = new Post(0,'',0,'',0,new Date(),0, '');
@@ -51,7 +55,7 @@ export class PostComponent implements OnInit {
     }).subscribe();
      this.getUpvotes();
      this.upvoted = this.upvotes.includes(this.userService.getUser().userId);
-     this.updateVotes.emit(this.post);
+     this.sendUpdate.emit(this.post);
   }
 
   downvote() {
@@ -62,11 +66,11 @@ export class PostComponent implements OnInit {
       downvoted: true,
     }).subscribe();
     this.getDownvotes();
-    this.updateVotes.emit(this.post)
+    this.sendUpdate.emit(this.post)
   }
 
   editPost():void{
-    this.edit = true;
+    this.editMode = true;
   }
 
   getCategoryName(): void{
@@ -81,7 +85,7 @@ export class PostComponent implements OnInit {
   deletePost(): void{
     this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId ).subscribe(((res:any)=>{}),
       (error => "nope" ));
-    this.updatePosts.emit();
+    this.getNewPosts.emit();
   }
 
   getUpvotes(): void{
@@ -109,7 +113,7 @@ export class PostComponent implements OnInit {
         this.upvoted = false;
       });
     this.post.votes--;
-    this.updateVotes.emit(this.post)
+    this.sendUpdate.emit(this.post)
   }
 
   revertDownvote() {
@@ -118,6 +122,15 @@ export class PostComponent implements OnInit {
         this.downvoted = false;
       });
     this.post.votes++;
-    this.updateVotes.emit(this.post)
+    this.sendUpdate.emit(this.post);
+  }
+
+  updatePost() {
+    this.sendUpdate.emit(this.post);
+    this.editMode = false;
+  }
+
+  discardEdits() {
+    this.editMode = false;
   }
 }
