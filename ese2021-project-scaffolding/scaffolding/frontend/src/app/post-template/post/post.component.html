@@ -10,13 +10,14 @@
     </button>
   </mat-menu>
   </button>
+  <div class="likeButtons">
   <button *ngIf="!upvoted" class="unclicked" (click)="upvote()"  > &#8679;</button>
   <button *ngIf="upvoted" class="clicked" (click)="revertUpvote()"> &#8679;</button>
     {{post.votes}}
   <button *ngIf="!downvoted" class="unclicked" (click)="downvote()">&#8681;</button>
   <button *ngIf="downvoted" class="clicked" (click)="revertDownvote()">&#8681;</button>
-  <br>
-  <br>
+  </div>
+<div class="postContent">
   <mat-card-title>{{post.title}}  </mat-card-title>
     <mat-chip-list>
       <mat-chip>{{categoryName}}</mat-chip>
@@ -32,9 +33,8 @@
     {{preview}}
       <button mat-icon-button (click)="collapse=!collapse; uncollapse=true"><mat-icon>expand_more</mat-icon></button>
   </mat-card-content>
-
   </div>
-
+</div>
 </mat-card>
 <mat-card *ngIf="editMode">
   <button mat-flat-button class="close" (click)="discardEdits()">Discard</button>

@@ -15,3 +15,12 @@
 .clicked{
   background-color: #8a7200 !important;
 }
+
+.postContent{
+  padding-left: 20%;
+}
+
+.likeButtons{
+  position: relative;
+  z-index: 1;
+}
