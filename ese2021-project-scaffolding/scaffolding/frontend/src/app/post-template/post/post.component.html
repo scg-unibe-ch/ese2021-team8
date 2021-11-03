@@ -9,9 +9,11 @@
     </button>
   </mat-menu>
   </button>
-  <button class="likeButton" [disabled]="voted" (click)="upvote()"  > &#8679;</button>
+  <button *ngIf="!upvoted" class="unclicked" (click)="upvote()"  > &#8679;</button>
+  <button *ngIf="upvoted" class="clicked" (click)="revertUpvote()"> &#8679;</button>
   {{post.votes}}
-  <button class="likeButton" [disabled]="voted" (click)="downvote()">&#8681;</button>
+  <button *ngIf="!downvoted" class="unclicked" (click)="downvote()">&#8681;</button>
+  <button *ngIf="downvoted" class="clicked" (click)="revertDownvote()">&#8681;</button>
   <br>
   <br>
   <mat-card-title>{{post.title}}  </mat-card-title>

@@ -1,17 +1,23 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
-import { Post } from './post.model';
+import {Model, DataTypes, Sequelize, Optional} from 'sequelize';
+import {Post, PostAttributes, PostCreationAttributes} from './post.model';
 import { User } from './user.model';
 
 export interface LikeAttributes {
     likeId: number;
     postId: number;
     userId: number;
+    upvoted: boolean;
+    downvoted: boolean;
 }
 
-export class Like extends Model<LikeAttributes> implements LikeAttributes {
+export interface LikeCreationAttributes extends Optional<LikeAttributes, 'likeId'> { }
+
+export class Like extends Model<LikeAttributes, LikeCreationAttributes> implements LikeAttributes {
     likeId!: number;
     postId!: number;
     userId!: number;
+    upvoted: boolean;
+    downvoted: boolean;
 
 
 public static initialize(sequelize: Sequelize) {
@@ -36,6 +42,14 @@ public static initialize(sequelize: Sequelize) {
                         model: User,
                         key: 'userId'
                     }
+                },
+                upvoted: {
+                    type: DataTypes.BOOLEAN,
+                    allowNull: true
+                },
+                downvoted: {
+                    type: DataTypes.BOOLEAN,
+                    allowNull: true
                 }
             },
             {

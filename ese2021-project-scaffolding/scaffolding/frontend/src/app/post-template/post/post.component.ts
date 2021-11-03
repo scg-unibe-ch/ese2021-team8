@@ -12,10 +12,13 @@ import {environment} from "../../../environments/environment";
 export class PostComponent implements OnInit {
 
   edit: boolean = false;
-  voted: boolean = false;
-  whoLiked: number[] = [];
+  upvoted: boolean | undefined;
+  downvoted: boolean = false;
+  upvotes: number[] = [];
+  downvotes: number[] = [];
   currentUser: string = "";
   canEdit: boolean = false;
+  test: number[] = [];
 
   @Output()
   updateVotes = new EventEmitter<Post>();
@@ -31,36 +34,34 @@ export class PostComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.getCategoryName();
     this.canEdit = this.userService.getUser().userId == this.post.creatorId
-    this.httpClient.get(environment.endpointURL + "like/" + this.post.postId +"/" + this.userService.getUser().userId).subscribe((posts: any)=>
-    {   posts.forEach((id:any)=> {
-        this.whoLiked.push(id.userId);
-      });
-      this.voted = this.whoLiked.includes(this.userService.getUser().userId)
-    });
+    this.getUpvotes();
+    this.getDownvotes();
   }
 
    upvote() {
-     console.log(this.whoLiked.includes(2));
     this.post.votes++;
     this.httpClient.post(environment.endpointURL + "like", {
       postId: this.post.postId,
-      userId: this.userService.getUser().userId
-    }).subscribe()
-     this.voted = true;
-    this.updateVotes.emit(this.post);
+      userId: this.userService.getUser().userId,
+      upvoted: true,
+    }).subscribe();
+     this.getUpvotes();
+     this.upvoted = this.upvotes.includes(this.userService.getUser().userId);
+     this.updateVotes.emit(this.post);
   }
 
   downvote() {
     this.post.votes--;
     this.httpClient.post(environment.endpointURL + "like", {
       postId: this.post.postId,
-      creatorId: this.userService.getUser().userId
-    }).subscribe()
-    this.voted = true;
+      userId: this.userService.getUser().userId,
+      downvoted: true,
+    }).subscribe();
+    this.getDownvotes();
     this.updateVotes.emit(this.post)
   }
 
@@ -78,8 +79,45 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(): void{
-    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId + "/" + this.userService.getUser().userId).subscribe(((res:any)=>{}),
+    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId ).subscribe(((res:any)=>{}),
       (error => "nope" ));
     this.updatePosts.emit();
+  }
+
+  getUpvotes(): void{
+    this.httpClient.get(environment.endpointURL + "like/upvotes/" + this.post.postId ).subscribe((posts: any)=>{
+      posts.forEach((id:any)=> {
+        this.upvotes.push(parseInt(id.userId));
+      });
+      this.upvoted = this.upvotes.includes(this.userService.getUser().userId);
+      },() => {this.upvotes = []});
+  }
+
+  getDownvotes(): void{
+    this.httpClient.get(environment.endpointURL + "like/downvotes/" + this.post.postId ).subscribe((posts: any)=> {
+      posts.forEach((id: any) => {
+        this.downvotes.push(parseInt(id.userId));
+      });
+      this.downvoted = this.downvotes.includes(this.userService.getUser().userId);
+     },() => {this.downvotes = []});
+
+  }
+
+  revertUpvote() {
+    this.httpClient.delete(environment.endpointURL + "like/upvotes/" + this.userService.getUser().userId + "/" + this.post.postId )
+      .subscribe(()=>{
+        this.upvoted = false;
+      });
+    this.post.votes--;
+    this.updateVotes.emit(this.post)
+  }
+
+  revertDownvote() {
+    this.httpClient.delete(environment.endpointURL + "like/downvotes/" + this.userService.getUser().userId + "/" + this.post.postId )
+      .subscribe(()=>{
+        this.downvoted = false;
+      });
+    this.post.votes++;
+    this.updateVotes.emit(this.post)
   }
 }
