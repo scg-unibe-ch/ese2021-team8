@@ -23,7 +23,9 @@ export class PostComponent implements OnInit {
   currentUser: string = "";
   canEdit: boolean = false;
   test: number[] = [];
-
+  preview: string = "";
+  collapse: boolean = false;
+  uncollapse: boolean = false;
   @Output()
   sendUpdate = new EventEmitter<Post>();
 
@@ -44,6 +46,9 @@ export class PostComponent implements OnInit {
     this.canEdit = this.userService.getUser().userId == this.post.creatorId
     this.getUpvotes();
     this.getDownvotes();
+    if(this.post.content.length > 305){
+      this.createCollapsable();
+    }
   }
 
    upvote() {
@@ -83,9 +88,11 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(): void{
-    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId ).subscribe(((res:any)=>{}),
-      (error => "nope" ));
-    this.getNewPosts.emit();
+    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId  + "/" +this.userService.getUser().userId)
+      .subscribe(((res:any)=>{
+        this.getNewPosts.emit();
+      }));
+
   }
 
   getUpvotes(): void{
@@ -132,5 +139,10 @@ export class PostComponent implements OnInit {
 
   discardEdits() {
     this.editMode = false;
+  }
+
+  private createCollapsable() {
+    this.collapse = true;
+    this.preview = this.post.content.substr(0,300 ) + "...";
   }
 }

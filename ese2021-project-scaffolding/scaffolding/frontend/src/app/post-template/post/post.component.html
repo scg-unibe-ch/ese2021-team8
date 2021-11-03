@@ -1,3 +1,4 @@
+
 <mat-card *ngIf="post != undefined && !editMode" >
   <button mat-mini-fab *ngIf="canEdit" class="edit" [matMenuTriggerFor]="edit" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"> Edit
   <mat-menu #edit="matMenu">
@@ -20,7 +21,20 @@
     <mat-chip-list>
       <mat-chip>{{categoryName}}</mat-chip>
     </mat-chip-list>
-  <mat-card-content>{{post.content}}</mat-card-content>
+  <mat-card-content *ngIf="!collapse">
+    {{post.content}}
+    <div *ngIf="uncollapse">
+      <button mat-icon-button  (click)="(collapse=!collapse) && (uncollapse = false)"><mat-icon>expand_less</mat-icon></button>
+    </div>
+  </mat-card-content>
+  <div *ngIf="collapse">
+  <mat-card-content >
+    {{preview}}
+      <button mat-icon-button (click)="collapse=!collapse; uncollapse=true"><mat-icon>expand_more</mat-icon></button>
+  </mat-card-content>
+
+  </div>
+
 </mat-card>
 <mat-card *ngIf="editMode">
   <button mat-flat-button class="close" (click)="discardEdits()">Discard</button>

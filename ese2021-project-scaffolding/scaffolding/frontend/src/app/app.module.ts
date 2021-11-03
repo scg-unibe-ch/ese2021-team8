@@ -25,6 +25,7 @@ import { PostComponent } from './post-template/post/post.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 const routes: Routes = [
   {path: 'home', component: PostTemplateComponent },
@@ -59,7 +60,8 @@ const routes: Routes = [
     MatChipsModule,
     MatIconModule,
     MatMenuModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    MatExpansionModule
   ],
   providers: [
     {
