@@ -10,4 +10,7 @@
 - Design: Logo einfügen 
 - Design: Impressum einfügen
 - Authenti zu Profile Page 
-- Profile Page zu Shop 
+- Profile Page zu Shop
+- bugfixes bei der Erstellung von Posts mit Bildern:
+  - Bild wird nicht dem neu erstellten Post angehängt sondern dem zuletzt erstellten post ('this.post[0]' liefert den falschen post)
+  - Seite muss zuerst aktualisiert werden bevor der Post korrekt angezeigt wird.
