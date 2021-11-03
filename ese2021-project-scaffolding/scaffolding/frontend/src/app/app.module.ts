@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {Router, RouterModule, Routes} from '@angular/router'
 
 import { AppComponent } from './app.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -24,6 +25,12 @@ import { PostComponent } from './post-template/post/post.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
+
+const routes: Routes = [
+  {path: 'home', component: PostTemplateComponent },
+  {path: 'user', component: UserComponent},
+  {path: '', redirectTo: '/home', pathMatch:'full'},
+]
 
 @NgModule({
   declarations: [
@@ -51,7 +58,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatOptionModule,
     MatChipsModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [
     {
@@ -62,4 +70,5 @@ import {MatMenuModule} from "@angular/material/menu";
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

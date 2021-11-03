@@ -82,6 +82,10 @@ export class PostTemplateComponent implements OnInit {
         .subscribe((post: any) => {
           this.posts.unshift(
             new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '1'));
+          this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '0'));
+          this.postTitle = this.postContent = "";
+          this.postCategory = this.emptyCategory;
+          this.displayPostTemplate = false;
       });
     }
 
@@ -96,7 +100,9 @@ export class PostTemplateComponent implements OnInit {
         votes: 0
       }).subscribe((post: any) => {
         this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, '0'));
-        console.log(this.posts);
+        this.postTitle = this.postContent = "";
+        this.postCategory = this.emptyCategory;
+        this.displayPostTemplate = false;
       });
     }
 }
@@ -111,9 +117,11 @@ export class PostTemplateComponent implements OnInit {
     });
   }
 
-  updatePostVotes(post: Post): void {
+  updatePost(post: Post): void {
     this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
-      votes: post.votes
+      votes: post.votes,
+      title: post.title,
+      content: post.content
     }).subscribe();
   }
 

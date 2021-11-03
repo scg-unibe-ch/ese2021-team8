@@ -53,8 +53,9 @@
     <app-post
       *ngFor="let post of posts"
       [post]="post"
-      (updateVotes)="updatePostVotes($event)"
-      (updatePosts)="getPosts()"
+      [categories]="categories"
+      (sendUpdate)="updatePost($event)"
+      (getNewPosts)="getPosts()"
     ></app-post>
 
 <!--

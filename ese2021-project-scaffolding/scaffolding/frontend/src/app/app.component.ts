@@ -5,6 +5,7 @@ import { TodoItem } from './models/todo-item.model';
 import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
 import { User } from './models/user.model';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -23,10 +24,23 @@ export class AppComponent implements OnInit {
 
   user: User | undefined;
 
+  navLinks: any[];
+
   constructor(
     public httpClient: HttpClient,
-    public userService: UserService
+    public userService: UserService,
+    private router: Router
   ) {
+    this.navLinks = [
+      {
+        label: 'Home',
+        link: './home'
+      },
+      {
+        label: 'Registration',
+        link: './user'
+      }
+    ]
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
     userService.user$.subscribe(res => this.user = res);

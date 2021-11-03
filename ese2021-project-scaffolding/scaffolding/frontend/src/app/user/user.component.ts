@@ -40,13 +40,6 @@ export class UserComponent {
     // Current value
     this.loggedIn = userService.getLoggedIn();
     this.user = userService.getUser();
-    let id = localStorage.getItem('userId');
-    /*if(id){
-      this.httpClient.get(environment.endpointURL + "user/" + id).subscribe( (res: any) => {
-      this.userService.setUser(res);
-      });
-    }*/
-    console.log(this.user);
   }
 
   /**

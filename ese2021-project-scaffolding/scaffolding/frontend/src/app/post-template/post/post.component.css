@@ -11,3 +11,7 @@
 .dropdown:hover{
   background-color: #dddddd !important;
 }
+
+.clicked{
+  background-color: #8a7200 !important;
+}

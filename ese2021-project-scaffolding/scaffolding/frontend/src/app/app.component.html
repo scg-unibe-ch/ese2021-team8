@@ -1,6 +1,3 @@
-
-
-
 <mat-toolbar>
   <mat-toolbar-row>
     <span>YB-FAN-Community</span> <button mat-flat-button class="Logo" (click)="EasterEgg()" ><img src="assets/YB_Logo.png" height="50"
@@ -9,30 +6,10 @@
 
 </mat-toolbar>
 
-<mat-tab-group>
-  <mat-tab label="Home">
-    <!--<div *ngIf="loggedIn">  activate later, not convenient for testing current state-->
-    <app-post-template></app-post-template>
-    <!-- </div>
- <mat-card>
-   <mat-form-field>
-       <input matInput placeholder="List Name" [(ngModel)]="newTodoListName" name="name">
-       <button mat-flat-button color="primary" (click)="createList()" [disabled]="newTodoListName === ''">Create new list</button>
-     </mat-form-field>
-   </mat-card>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link routerLink="/home">Home</a>
+  <a mat-tab-link *ngIf="!loggedIn" routerLink="/user" >Registration</a>
+  <a mat-tab-link *ngIf="loggedIn" routerLink="/user" >Profile Page</a>
+</nav>
 
-    <app-todo-list
-      *ngFor="let todoList of todoLists"
-      [todoList]="todoList"
-      (update)="updateList($event)"
-      (delete)="deleteList($event)"
-    ></app-todo-list>-->
-  </mat-tab>
-
-  <mat-tab *ngIf="!loggedIn" label="Registration">
-    <app-user></app-user>
-  </mat-tab>
-  <mat-tab *ngIf="loggedIn" label="Profil Page">
-    <app-user></app-user>
-  </mat-tab>
-</mat-tab-group>
+<router-outlet></router-outlet>
