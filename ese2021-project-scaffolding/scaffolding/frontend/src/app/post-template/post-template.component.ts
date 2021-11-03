@@ -68,21 +68,22 @@ export class PostTemplateComponent implements OnInit {
         creatorId: this.userService.getUser().userId,
         categoryId: this.postCategory.categoryId,
         date: new Date(),
-        votes: 0
+        votes: 0,
+        hasPicture: true
       }).subscribe((post: any) => {
-      });
+        this.posts.unshift(
+          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
+        const formData = new FormData();
+        // @ts-ignore
+        formData.append("image", this.selectedFile);
 
-      const formData = new FormData();
-      // @ts-ignore
-      formData.append("image", this.selectedFile);
-
-      this.httpClient.post(environment.endpointURL + "post/" + this.posts[0].postId + "/image", formData)
-        .subscribe((post: any) => {
-          this.posts.unshift(
-            new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
-          this.postTitle = this.postContent = "";
-          this.postCategory = this.emptyCategory;
-          this.displayPostTemplate = false;
+        this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
+          .subscribe((post: any) => {
+            console.log(post);
+            this.postTitle = this.postContent = "";
+            this.postCategory = this.emptyCategory;
+            this.displayPostTemplate = false;
+          });
       });
     }
 

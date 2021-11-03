@@ -16,6 +16,8 @@ button{
   position: absolute;
 }
 .upload{
-
-
+  padding-left: 0px;
+  padding-right: 0px;
+  right: 0px !important;
+  background-color: #dddddd !important;
 }
