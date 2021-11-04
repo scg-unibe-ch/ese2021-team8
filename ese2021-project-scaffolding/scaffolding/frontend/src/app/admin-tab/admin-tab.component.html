@@ -1,0 +1,20 @@
+
+
+<mat-card>
+   <h3>Create a new category:</h3>
+  <mat-form-field>
+    <input matInput placeholder="New Category Name" [(ngModel)]="newCategory">
+  </mat-form-field>
+  <button mat-flat-button (click)="createCategory()">Create New Category</button>
+  <br>{{createFeedback}}
+   <h3>Delete an existing category:</h3>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Select Category</mat-label>
+    <mat-select  [(ngModel)]="oldCategory">
+      <mat-option *ngFor="let category of categories" [value]="category" > {{category.categoryName}} </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-flat-button (click)="deleteCategory()">Delete Category</button>
+  <br>{{deleteFeedback}}
+</mat-card>
