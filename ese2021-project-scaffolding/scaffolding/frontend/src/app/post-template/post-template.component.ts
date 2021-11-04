@@ -95,7 +95,8 @@ export class PostTemplateComponent implements OnInit {
         creatorId: this.userService.getUser().userId,
         categoryId: this.postCategory.categoryId,
         date: new Date(),
-        votes: 0
+        votes: 0,
+        hasPicture: false
       }).subscribe((post: any) => {
         this.posts.unshift(
           new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
@@ -110,9 +111,13 @@ export class PostTemplateComponent implements OnInit {
     this.posts = [];
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
       posts.forEach((post:any)=>{
+        if(post.hasPicture){
+
+        }
       this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.isThePostWithPictures));})
       this.postTitle = this.postContent = '';
       this.displayPostTemplate = false;
+
     });
   }
 
@@ -150,15 +155,6 @@ export class PostTemplateComponent implements OnInit {
 
   }
 */
-  /*
-
-  createCategory(){
-    this.httpClient.post(environment.endpointURL + "category", {
-      categoryName: this.emptyCategory.categoryName
-    }).subscribe( (res: any) => {
-      this.emptyCategory.categoryName = ''; }
-    );
-  }*/
 
 
 }

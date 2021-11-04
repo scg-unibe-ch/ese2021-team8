@@ -20,14 +20,14 @@
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" style="width: 100%; height: 40%">
-      <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content"[(ngModel)]="postContent">
+      <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content" [(ngModel)]="postContent">
       </textarea>
 
       <input
         style="display: none"
         type="file" (change)="onFileChanged($event)"
         #fileInput>
-      <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon> attach_file</mat-icon> attach image </button>
+      <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>attach_file</mat-icon> attach image </button>
     </mat-form-field>
     <br>
 
@@ -48,3 +48,4 @@
       (sendUpdate)="updatePost($event)"
       (getNewPosts)="getPosts()"
     ></app-post>
+

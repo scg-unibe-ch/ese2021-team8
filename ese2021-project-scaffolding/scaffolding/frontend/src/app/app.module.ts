@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {Router, RouterModule, Routes} from '@angular/router'
+import { RouterModule, Routes} from '@angular/router'
 
 import { AppComponent } from './app.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -26,11 +26,13 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { AdminTabComponent } from './admin-tab/admin-tab.component';
 
 const routes: Routes = [
   {path: 'home', component: PostTemplateComponent },
   {path: 'user', component: UserComponent},
   {path: '', redirectTo: '/home', pathMatch:'full'},
+  {path: 'admin', component: AdminTabComponent},
 ]
 
 @NgModule({
@@ -40,7 +42,8 @@ const routes: Routes = [
     TodoItemComponent,
     UserComponent,
     PostTemplateComponent,
-    PostComponent
+    PostComponent,
+    AdminTabComponent
   ],
   imports: [
     BrowserModule,

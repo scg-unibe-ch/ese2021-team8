@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
+import {Post} from "../models/post.model";
 
 @Component({
   selector: 'app-user',
@@ -11,6 +12,7 @@ import { UserService } from '../services/user.service';
 })
 export class UserComponent {
   // Initialize the variables
+
   loggedIn: boolean | undefined;
   user: User | undefined;
 
@@ -27,7 +29,6 @@ export class UserComponent {
   endpointMsgAdmin: string = '';
   loginErrorMsg: string = '';
   registerErrorMsg: string = '';
-
 
   constructor(
     public httpClient: HttpClient,
@@ -100,6 +101,7 @@ export class UserComponent {
       this.userService.setLoggedIn(true);
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
+      this.userService.setAdmin(res.user.admin);
       }, (res: any) => {
       this.loginErrorMsg = res.error.message;
     })
@@ -111,6 +113,7 @@ export class UserComponent {
 
     this.userService.setLoggedIn(false);
     this.userService.setUser(undefined);
+    this.userService.setAdmin(false);
   }
 
   accessUserEndpoint(): void {

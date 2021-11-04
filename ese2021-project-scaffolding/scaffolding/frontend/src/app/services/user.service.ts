@@ -17,6 +17,7 @@ export class UserService {
 
   private user: User = new User(1,'','','','','','','',0);
 
+  private admin: boolean = false;
 
 
   /*******************************************************************************************************************
@@ -26,10 +27,12 @@ export class UserService {
   // Observable Sources
   private loggedInSource = new Subject<boolean>();
   private userSource = new Subject<User>();
+  private adminSource = new Subject<boolean>()
 
   // Observable Streams
   loggedIn$ = this.loggedInSource.asObservable();
   user$ = this.userSource.asObservable();
+  admin$ = this.adminSource.asObservable();
 
 
   /*******************************************************************************************************************
@@ -42,6 +45,10 @@ export class UserService {
 
   getUser(): User {
     return this.user;
+  }
+
+  isAdmin(): boolean{
+    return this.admin;
   }
 
 
@@ -57,6 +64,10 @@ export class UserService {
     this.userSource.next(user);
   }
 
+  setAdmin(admin: boolean): void {
+    this.adminSource.next(admin);
+  }
+
 
   /*******************************************************************************************************************
    * CONSTRUCTOR
@@ -66,12 +77,14 @@ export class UserService {
     // Observer
     this.loggedIn$.subscribe(res => this.loggedIn = res);
     this.user$.subscribe(res => this.user = res);
+    this.admin$.subscribe(res => this.admin = res)
 
     // Default values
     let id = localStorage.getItem('userId');
     if(id) {
       httpClient.get(environment.endpointURL + "user/" + id).subscribe((res: any) => {
         this.setUser(res);
+        this.setAdmin(res);
       });
     }
     this.setLoggedIn(false);

@@ -10,6 +10,6 @@
   <a mat-tab-link routerLink="/home">Home</a>
   <a mat-tab-link *ngIf="!loggedIn" routerLink="/user" >Registration</a>
   <a mat-tab-link *ngIf="loggedIn" routerLink="/user" >Profile Page</a>
+  <a mat-tab-link *ngIf="isAdmin" routerLink="/admin" >Admin page</a>
 </nav>
-
 <router-outlet></router-outlet>

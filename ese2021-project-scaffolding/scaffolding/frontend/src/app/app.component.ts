@@ -22,32 +22,24 @@ export class AppComponent implements OnInit {
 
   loggedIn: boolean | undefined;
 
+  isAdmin: boolean = false;
   user: User | undefined;
-
-  navLinks: any[];
 
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
     private router: Router
   ) {
-    this.navLinks = [
-      {
-        label: 'Home',
-        link: './home'
-      },
-      {
-        label: 'Registration',
-        link: './user'
-      }
-    ]
+
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
     userService.user$.subscribe(res => this.user = res);
+    userService.admin$.subscribe(res => this.isAdmin = res);
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
     this.user = userService.getUser();
+    this.isAdmin = this.userService.isAdmin();
   }
 
   ngOnInit() {
@@ -101,9 +93,11 @@ export class AppComponent implements OnInit {
     // Set boolean whether a user is logged in or not
     this.userService.setLoggedIn(!!userToken);
 
+
   }
 
   EasterEgg() {
     window.open('https://www.bscyb.ch/kids-club');
   }
+
 }
