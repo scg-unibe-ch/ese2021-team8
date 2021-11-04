@@ -66,7 +66,6 @@ const routes: Routes = [
     MatMenuModule,
     RouterModule.forRoot(routes),
     MatExpansionModule,
-    MatBadgeModule,
     MatTooltipModule
   ],
   providers: [
