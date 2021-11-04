@@ -1,5 +1,5 @@
 
-<mat-card class="postCard" *ngIf="!displayPostTemplate">
+<mat-card class="postCard" *ngIf="!displayPostTemplate && userService.getLoggedIn() && !userService.isAdmin()">
   <div class="postButton">
     <button mat-raised-button (click)="clickCreatePost()">Create New Post</button>
   </div>

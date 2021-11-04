@@ -15,13 +15,15 @@ export class PostComponent implements OnInit {
   @Input()
   categories: Category[] =[];
 
+  info: string = ""
   editMode: boolean = false;
   upvoted: boolean | undefined;
   downvoted: boolean = false;
   upvotes: number[] = [];
   downvotes: number[] = [];
   currentUser: string = "";
-  canEdit: boolean = false;
+  canEdit: undefined | boolean;
+  canVote: boolean | undefined;
   test: number[] = [];
   preview: string = "";
   collapse: boolean = false;
@@ -43,7 +45,8 @@ export class PostComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.getCategoryName();
-    this.canEdit = this.userService.getUser().userId == this.post.creatorId
+    this.whoCanEdit();
+    this.whoCanVote();
     this.getUpvotes();
     this.getDownvotes();
     if(this.post.content.length > 305){
@@ -145,4 +148,14 @@ export class PostComponent implements OnInit {
     this.collapse = true;
     this.preview = this.post.content.substr(0,300 ) + "...";
   }
+
+  private whoCanVote() {
+    this.canVote = this.userService.getLoggedIn() && !this.userService.isAdmin();
+  }
+
+  private whoCanEdit(){
+    this.canEdit = this.userService.getLoggedIn() && (this.userService.getUser().userId == this.post.creatorId ||
+      this.userService.isAdmin());
+  }
+
 }

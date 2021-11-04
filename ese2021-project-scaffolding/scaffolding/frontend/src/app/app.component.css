@@ -5,3 +5,6 @@
   position: absolute;
   background-color: yellow;
 }
+.mat-tab-link:focus{
+  text-decoration: underline;
+}

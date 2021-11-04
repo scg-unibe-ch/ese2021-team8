@@ -27,6 +27,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { AdminTabComponent } from './admin-tab/admin-tab.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
   {path: 'home', component: PostTemplateComponent },
@@ -64,7 +65,9 @@ const routes: Routes = [
     MatIconModule,
     MatMenuModule,
     RouterModule.forRoot(routes),
-    MatExpansionModule
+    MatExpansionModule,
+    MatBadgeModule,
+    MatTooltipModule
   ],
   providers: [
     {

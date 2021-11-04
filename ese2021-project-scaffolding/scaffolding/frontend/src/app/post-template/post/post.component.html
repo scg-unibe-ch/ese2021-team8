@@ -10,12 +10,15 @@
     </button>
   </mat-menu>
   </button>
-  <div class="likeButtons">
+  <div class="likeButtons" *ngIf="canVote">
   <button *ngIf="!upvoted" class="unclicked" (click)="upvote()"  > &#8679;</button>
   <button *ngIf="upvoted" class="clicked" (click)="revertUpvote()"> &#8679;</button>
     {{post.votes}}
   <button *ngIf="!downvoted" class="unclicked" (click)="downvote()">&#8681;</button>
   <button *ngIf="downvoted" class="clicked" (click)="revertDownvote()">&#8681;</button>
+  </div>
+  <div *ngIf="!canVote">
+    <button mat-fab matTooltip="log in to vote!"> score: {{post.votes}}</button>
   </div>
 <div class="postContent">
   <mat-card-title>{{post.title}}  </mat-card-title>
