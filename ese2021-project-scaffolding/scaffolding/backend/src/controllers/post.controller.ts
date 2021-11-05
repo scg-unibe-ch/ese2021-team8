@@ -11,6 +11,8 @@ import {ItemImage} from '../models/itemImage.model';
 
 const postController: Router = express.Router();
 const itemService = new ItemService();
+const path = require('path');
+postController.use(express.static('public'));
 
 // CREATE Post
 postController.post('/', verifyToken, (req: Request, res: Response) => {
@@ -98,7 +100,7 @@ postController.get('/:id/imageById', (req: Request, res: Response) => {
 
 // get filename of image by postId
 postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
-    ItemImage.findAll({where: {postId: req.params.postId}}).then(products => res.send(products))
+    ItemImage.findOne({where: {postId: req.params.postId}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 

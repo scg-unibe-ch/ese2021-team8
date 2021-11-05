@@ -28,6 +28,7 @@ export class PostComponent implements OnInit {
   preview: string = "";
   collapse: boolean = false;
   uncollapse: boolean = false;
+
   @Output()
   sendUpdate = new EventEmitter<Post>();
 
@@ -38,6 +39,8 @@ export class PostComponent implements OnInit {
   post: Post = new Post(0,'',0,'',0,new Date(),0, false);
 
   categoryName: string = ""
+  imagePath: string = ""
+  img: any;
 
   constructor(
     public httpClient: HttpClient,
@@ -49,6 +52,7 @@ export class PostComponent implements OnInit {
     this.whoCanVote();
     this.getUpvotes();
     this.getDownvotes();
+    this.getImage();
     if(this.post.content.length > 305){
       this.createCollapsable();
     }
@@ -158,4 +162,13 @@ export class PostComponent implements OnInit {
       this.userService.isAdmin());
   }
 
+  getImage(): void{
+    this.httpClient.get(environment.endpointURL + "post/" + this.post.postId + "/imageByPost").subscribe(
+      (res:any) =>{
+        this.imagePath = "http://localhost:3000/uploads/" + res.fileName;
+        this.img = this.imagePath
+      }, () => {
+        this.imagePath = "";
+      })
+  }
 }
