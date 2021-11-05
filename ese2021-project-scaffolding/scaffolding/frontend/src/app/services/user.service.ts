@@ -84,7 +84,7 @@ export class UserService {
     if(id) {
       httpClient.get(environment.endpointURL + "user/" + id).subscribe((res: any) => {
         this.setUser(res);
-        this.setAdmin(res);
+        this.setAdmin(res.admin);
       });
     }
     this.setLoggedIn(false);

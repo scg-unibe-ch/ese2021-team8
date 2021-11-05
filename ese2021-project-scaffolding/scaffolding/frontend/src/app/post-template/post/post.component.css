@@ -3,6 +3,7 @@
   right: 1%;
   top:2%;
   position: absolute;
+  z-index: 1;
 }
 
 .dropdown{
@@ -22,5 +23,12 @@
 
 .likeButtons{
   position: relative;
-  z-index: 1;
+}
+
+.imagePost{
+  width: 70%;
+}
+
+.mat-chip{
+  background-color: #fed200;
 }
