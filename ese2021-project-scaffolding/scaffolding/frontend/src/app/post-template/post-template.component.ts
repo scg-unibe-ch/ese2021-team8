@@ -64,22 +64,21 @@ export class PostTemplateComponent implements OnInit {
       this.httpClient.post(environment.endpointURL + "post", {
         title: this.postTitle,
         content: this.postContent,
-        image: this.hasPicture,
         creatorId: this.userService.getUser().userId,
         categoryId: this.postCategory.categoryId,
         date: new Date(),
         votes: 0,
-        hasPicture: true
+        itemImage: true
       }).subscribe((post: any) => {
         this.posts.unshift(
-          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
+          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
         const formData = new FormData();
         // @ts-ignore
         formData.append("image", this.selectedFile);
 
         this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
           .subscribe((post: any) => {
-            console.log(post);
+            console.log(this.posts);
             this.postTitle = this.postContent = "";
             this.postCategory = this.emptyCategory;
             this.displayPostTemplate = false;
@@ -91,15 +90,14 @@ export class PostTemplateComponent implements OnInit {
       this.httpClient.post(environment.endpointURL + "post", {
         title: this.postTitle,
         content: this.postContent,
-        image: this.hasPicture,
         creatorId: this.userService.getUser().userId,
         categoryId: this.postCategory.categoryId,
         date: new Date(),
         votes: 0,
-        hasPicture: false
+        itemImage: false
       }).subscribe((post: any) => {
         this.posts.unshift(
-          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.hasPicture));
+          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
         this.postTitle = this.postContent = "";
         this.postCategory = this.emptyCategory;
         this.displayPostTemplate = false;
@@ -114,7 +112,7 @@ export class PostTemplateComponent implements OnInit {
         if(post.hasPicture){
 
         }
-      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.isThePostWithPictures));})
+      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));})
       this.postTitle = this.postContent = '';
       this.displayPostTemplate = false;
 

@@ -41,8 +41,8 @@ postController.put('/:id', verifyToken, (req: Request, res: Response) => {
  * Deletes a post. Needs the id of the post which should be destroyed.
  * This is the delete-method used by the administrator. No limit to the post they can destroy.
  */
-postController.delete('/:id/:admin', checkAdmin, (req: Request, res: Response) => {
-    Post.findByPk(req.params.id)
+postController.delete('/:postid/:creator', (req: Request, res: Response) => {
+    Post.findByPk(req.params.postid)
         .then(found => {
             if (found != null) {
                 found.destroy()
@@ -57,8 +57,8 @@ postController.delete('/:id/:admin', checkAdmin, (req: Request, res: Response) =
 
 /**
  * Deletes a post. Only the author of the post may delete it.
- */
-postController.delete('/:id/:userId', verifyToken, (req: Request, res: Response) => {
+
+postController.delete('/:id/:userId', (req: Request, res: Response) => {
     Post.findByPk(req.params.id)
         .then(found => {
             if (found != null && (found.creatorId === Number(req.params.userId))) {
@@ -71,7 +71,7 @@ postController.delete('/:id/:userId', verifyToken, (req: Request, res: Response)
         })
         .catch(err => res.status(500).send(err));
 });
-
+ */
 // READ Posts
 postController.get('/',
     (req: Request, res: Response) => {

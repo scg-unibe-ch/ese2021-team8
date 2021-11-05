@@ -52,7 +52,9 @@ export class PostComponent implements OnInit {
     this.whoCanVote();
     this.getUpvotes();
     this.getDownvotes();
-    this.getImage();
+    if(this.post.itemImage){
+      this.getImage();
+    }
     if(this.post.content.length > 305){
       this.createCollapsable();
     }

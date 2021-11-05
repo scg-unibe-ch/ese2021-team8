@@ -34,7 +34,26 @@ export class ItemService {
             })
             .catch(() => Promise.reject('could not fetch the image!'));
     }
-
+/*
+* Delete Image: method does not work yet
+* */
+    public removeImage(post: Post): Promise<ItemImage> {
+        return ItemImage.findOne({where: {postId: post.postId }}).then( found => {
+            if (!found) {
+                return Promise.reject('Picture not found');
+            } else {
+                // tslint:disable-next-line:no-shadowed-variable
+                const fs = require('fs');
+                const path = './src/public/uploads/' + found.fileName;
+                fs.unlink(path, (err) => {
+                    if (err) {
+                        return Promise.reject('Could not delete image');
+                    }
+                });
+                return Promise.resolve(found);
+            }
+        });
+    }
 
 
 }
