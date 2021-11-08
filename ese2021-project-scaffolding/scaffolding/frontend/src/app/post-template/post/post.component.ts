@@ -97,7 +97,7 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(): void{
-    this.httpClient.delete(environment.endpointURL + "post/" + this.post.postId  + "/" +this.userService.getUser().userId)
+    this.httpClient.delete(environment.endpointURL + "post/user/" + this.post.postId  + "/" +this.userService.getUser().userId)
       .subscribe(((res:any)=>{
         this.getNewPosts.emit();
       }));
