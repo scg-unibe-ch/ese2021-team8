@@ -1,7 +1,7 @@
 import { Product} from './product.model';
 
 export class ShoppingCart {
-  
+
   constructor(
     public cartId: number,
     public userId: number,
