@@ -18,19 +18,20 @@ import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import {PostTemplateComponent} from "./post-template/post-template.component";
+import {BoardComponent } from './board/board.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
-import { PostComponent } from './post-template/post/post.component';
+import { PostComponent } from './board/post/post.component';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatExpansionModule} from "@angular/material/expansion";
 import { AdminTabComponent } from './admin-tab/admin-tab.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { ShopComponent } from './shop/shop.component';
 
 const routes: Routes = [
-  {path: 'home', component: PostTemplateComponent },
+  {path: 'home', component: BoardComponent },
   {path: 'user', component: UserComponent},
   {path: '', redirectTo: '/home', pathMatch:'full'},
   {path: 'admin', component: AdminTabComponent},
@@ -42,9 +43,10 @@ const routes: Routes = [
     TodoListComponent,
     TodoItemComponent,
     UserComponent,
-    PostTemplateComponent,
+    BoardComponent,
     PostComponent,
-    AdminTabComponent
+    AdminTabComponent,
+    ShopComponent
   ],
   imports: [
     BrowserModule,
