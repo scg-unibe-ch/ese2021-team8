@@ -97,10 +97,18 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(): void{
+    if (this.userService.isAdmin()) {
+      this.httpClient.delete(environment.endpointURL + "post/admin/" + this.post.postId  + "/" +this.userService.getUser().userId)
+        .subscribe(((res:any)=>{
+          this.getNewPosts.emit();
+        }));
+    }
+    else {
     this.httpClient.delete(environment.endpointURL + "post/user/" + this.post.postId  + "/" +this.userService.getUser().userId)
       .subscribe(((res:any)=>{
         this.getNewPosts.emit();
       }));
+    }
 
   }
 
