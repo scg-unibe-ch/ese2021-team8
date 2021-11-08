@@ -8,10 +8,10 @@ import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-post-template',
-  templateUrl: './post-template.component.html',
-  styleUrls: ['./post-template.component.css']
+  templateUrl: './board.component.html',
+  styleUrls: ['./board.component.css']
 })
-export class PostTemplateComponent implements OnInit {
+export class BoardComponent implements OnInit {
 
   displayPostTemplate: boolean = false;
 
