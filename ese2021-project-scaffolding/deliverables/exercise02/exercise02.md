@@ -68,3 +68,23 @@
 </tr>
 
 </table>
+
+##Shop
+<table>
+<tr> 
+    <th>Responsibilities</th>
+    <th>Collaborators</th>
+</tr>
+<tr>
+<td>
+    <li>Identify creator</li>
+    
+
+</td>
+<td>
+    <li>User</li>
+    <li></li>
+</td>
+</tr>
+
+</table>

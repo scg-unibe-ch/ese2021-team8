@@ -1,16 +1,26 @@
 # Task 1: User stories
 
 ## Functional:
-1. As a moderator, I want to remove inappropriate posts/ban misbehaving users so that the platform stays a friendly and controlled place.
-2. As a user, I want to reset my password in case I have forgotten it, so that I am able to get access to my user profile again.
-3. As a system administrator, I want to grant a user the role of a moderator, so that he can help maintaining the platform a friendly place.
-4. As a user, I want the possibility to post a post, edit a posts and delete a post.
-5. As a user, I want see other post
+1. As a moderator, I want to remove inappropriate posts/ban misbehaving users so that the platform stays a friendly 
+   and controlled place.
+6. As a user, I want to reset my password in case I have forgotten it, so that I am able to get access to my user 
+   profile again.
+9. As a system administrator, I want to grant a user the role of a moderator, so that he can help maintaining 
+   the platform a friendly place.
+6. As a user, I want the possibility to post a post, edit a posts and delete a post.
+9. As a user, I want see other post.
+6. As an Admin, I want to put Products in the Shop, with a title, image, description and a price.
+9. As an Admin, I need the option to see the Orders and changed the Status.
+6. As a user, I want see Products in the shop and "browse" the category. 
+9. As a user, I want to cancel a order. 
+
 
 ## Non-functional:
 1. As a user of the website, I want it’s usage to be so intuitive that I do not have to read a manual or forum posts.
-2. As a user, I don’t want my personal profile be secure, so that nobody who I don’t know is able to access sensitive data like real name, address or credit card number.
-3. As a user, I want to access the website from different platforms such as PC, smartphone or tablet, so that I can be connected to the community all day.
+2. As a user, I don’t want my personal profile be secure, so that nobody who I don’t know is able to access sensitive 
+   data like real name, address or credit card number.
+3. As a user, I want to access the website from different platforms such as PC, smartphone or tablet, so that I can be 
+   connected to the community all day.
 
 #Task 2:
 
@@ -44,3 +54,20 @@ and contact the member. The database must be updated with the reset.
 
 ## Register
 A guest can register himself by entering his data (username, password, etc.). The database has to save the inputs. The guest then becomes a member.
+
+
+# Task 5
+
+## Admin create a new product "post"
+
+An Admin need to set a Product in the Shop. He choice a category with a title, image, description and a Price. 
+
+## Admin deliver A product
+
+## Fan buy a product 
+A fan can see the product and buy it in the Shop. He can "browse" it with the category. 
+
+## Fan cancel a order
+A fan can cancle 
+
+
