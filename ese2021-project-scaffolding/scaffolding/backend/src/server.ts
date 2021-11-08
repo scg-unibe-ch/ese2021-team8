@@ -5,13 +5,13 @@ import { TodoListController } from './controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { CategoryController} from './controllers/category.controller';
+import { ShoppingCartController} from './controllers/shoppingCart.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
 import { Category } from './models/category.model';
-
-
+import { ShoppingCart } from './models/shoppingCart.model';
 
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
@@ -38,6 +38,7 @@ export class Server {
         Category.initialize(this.sequelize);
         Post.initialize(this.sequelize);
         Like.initialize(this.sequelize);
+        ShoppingCart.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         Post.createAssociations();
@@ -82,6 +83,7 @@ export class Server {
             .use('/category', CategoryController)
             .use('/post' , PostController)
             .use('/like', LikeController)
+            .use('/cart', ShoppingCartController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running
