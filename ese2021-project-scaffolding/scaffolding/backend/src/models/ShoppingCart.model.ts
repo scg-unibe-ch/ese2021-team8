@@ -8,7 +8,6 @@ import {
     Association
 } from 'sequelize';
 import { Product } from './Product.model'
-import {TodoItem} from "./todoitem.model";
 
 export interface ShoppingCartAttributes {
     cartId: number;
