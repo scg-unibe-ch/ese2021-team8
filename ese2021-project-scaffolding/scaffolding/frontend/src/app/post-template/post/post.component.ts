@@ -167,7 +167,7 @@ export class PostComponent implements OnInit {
   getImage(): void{
     this.httpClient.get(environment.endpointURL + "post/" + this.post.postId + "/imageByPost").subscribe(
       (res:any) =>{
-        this.imagePath = "http://localhost:3000/uploads/" + res.fileName;
+        this.imagePath = environment.endpointURL + "uploads/" + res.fileName;
         this.img = this.imagePath
       }, () => {
         this.imagePath = "";
