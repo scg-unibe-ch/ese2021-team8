@@ -2,6 +2,8 @@ import {upload} from '../middlewares/fileFilter';
 import {ItemImage, ItemImageAttributes} from '../models/itemImage.model';
 import {MulterRequest} from '../models/multerRequest.model';
 import {Post} from '../models/post.model';
+import {Product} from '../models/product.model';
+import {ProductImage, ProductImageAttributes} from '../models/productImage.model';
 
 export class ItemService {
 
@@ -9,11 +11,29 @@ export class ItemService {
         return Post.findByPk(req.params.id)
             .then(found => {
                 if (!found) {
-                    return Promise.reject('Product not found!');
+                    return Promise.reject('Post not found!');
                 } else {
                     return new Promise<ItemImageAttributes>((resolve, reject) => {
                         upload.single('image')(req, null, (error: any) => {
                             ItemImage.create({ fileName: req.file.filename, postId: found.postId })
+                                .then(created => resolve(created))
+                                .catch(() => reject('Could not upload image!'));
+                        });
+                    });
+                }
+            })
+            .catch((err) => Promise.reject(err));
+    }
+
+    public addImageToProduct(req: MulterRequest): Promise<ProductImageAttributes> {
+        return Product.findByPk(req.params.id)
+            .then(found => {
+                if (!found) {
+                    return Promise.reject('Product not found!');
+                } else {
+                    return new Promise<ProductImageAttributes>((resolve, reject) => {
+                        upload.single('image')(req, null, (error: any) => {
+                            ProductImage.create({ fileName: req.file.filename, productId: found.productId })
                                 .then(created => resolve(created))
                                 .catch(() => reject('Could not upload image!'));
                         });

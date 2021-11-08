@@ -5,7 +5,7 @@ import { TodoListController } from './controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { CategoryController} from './controllers/category.controller';
-import { ShoppingCartController} from './controllers/shoppingCart.controller';
+import { ProductController } from './controllers/product.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
@@ -20,6 +20,8 @@ import {PostController} from './controllers/post.controller';
 import {Post} from './models/post.model';
 import {Like} from './models/like.model';
 import {LikeController} from './controllers/like.controller';
+import {ProductImage} from './models/productImage.model';
+import {Product} from './models/product.model';
 
 
 export class Server {
@@ -38,11 +40,14 @@ export class Server {
         Category.initialize(this.sequelize);
         Post.initialize(this.sequelize);
         Like.initialize(this.sequelize);
-        ShoppingCart.initialize(this.sequelize);
+        ProductImage.initialize(this.sequelize);
+        Product.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
         Post.createAssociations();
         ItemImage.createAssociations();
+        ProductImage.createAssociations();
+        Product.createAssociations();
 
 
 
@@ -83,7 +88,7 @@ export class Server {
             .use('/category', CategoryController)
             .use('/post' , PostController)
             .use('/like', LikeController)
-            .use('/cart', ShoppingCartController)
+            .use('/product', ProductController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running

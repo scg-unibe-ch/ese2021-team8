@@ -76,7 +76,7 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
     }
 
     public static createAssociations() {
-        Post.hasMany(ItemImage, {
+        Post.hasOne(ItemImage, {
             as: 'images',
             foreignKey: 'postId'
         });
