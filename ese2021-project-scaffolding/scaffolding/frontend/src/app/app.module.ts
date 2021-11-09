@@ -29,6 +29,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import { AdminTabComponent } from './admin-tab/admin-tab.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { ShopComponent } from './shop/shop.component';
+import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -47,30 +50,33 @@ const routes: Routes = [
     BoardComponent,
     PostComponent,
     AdminTabComponent,
-    ShopComponent
+    ShopComponent,
+    ShopItemsComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatListModule,
-    FormsModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatIconModule,
-    MatMenuModule,
-    RouterModule.forRoot(routes),
-    MatExpansionModule,
-    MatTooltipModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatListModule,
+        FormsModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatIconModule,
+        MatMenuModule,
+        RouterModule.forRoot(routes),
+        MatExpansionModule,
+        MatTooltipModule,
+        MatGridListModule,
+        FlexLayoutModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

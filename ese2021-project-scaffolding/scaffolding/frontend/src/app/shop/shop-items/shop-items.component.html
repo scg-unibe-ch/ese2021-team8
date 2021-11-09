@@ -1,0 +1,16 @@
+<mat-card *ngIf="product != null" class="shopItem">
+      <mat-card-title>
+  {{product.title}}
+      </mat-card-title>
+      <mat-card-content>
+       <img class="productImage" src="{{imagePath}}">
+        <br>
+        {{product.description}}
+      </mat-card-content>
+  <div *ngIf="!this.userService.getLoggedIn()">
+  <button mat-fab (click)="router.navigate(['user'])">buy now</button>
+  </div>
+  <div *ngIf="this.userService.getLoggedIn()">
+    <button mat-fab>buy now</button>
+  </div>
+</mat-card>
