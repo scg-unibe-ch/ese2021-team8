@@ -109,9 +109,6 @@ export class BoardComponent implements OnInit {
     this.posts = [];
     this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
       posts.forEach((post:any)=>{
-        if(post.hasPicture){
-
-        }
       this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));})
       this.postTitle = this.postContent = '';
       this.displayPostTemplate = false;

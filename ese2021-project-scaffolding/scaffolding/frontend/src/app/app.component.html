@@ -9,9 +9,25 @@
 <nav mat-tab-nav-bar>
   <a mat-tab-link routerLink="/home">Home</a>
   <a mat-tab-link routerLink="/shop">Shop</a>
-  <a mat-tab-link *ngIf="!loggedIn" routerLink="/user" >Registration</a>
-  <a mat-tab-link *ngIf="loggedIn" routerLink="/user" >Profile Page</a>
-  <a mat-tab-link *ngIf="isAdmin" routerLink="/admin" >Admin page</a>
 
+  <button mat-icon-button class="login" [matMenuTriggerFor]="login" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
+    <mat-icon>account_circle</mat-icon></button>
+  <mat-menu #login="matMenu">
+    <div  *ngIf="!loggedIn">
+    <button mat-menu-item class="dropdown" routerLink="/user">
+      <span>Log in/Register</span>
+    </button>
+    </div>
+    <div *ngIf="loggedIn">
+      <button mat-menu-item class="dropdown" routerLink="/user" >
+        <span>Profile Page</span>
+      </button>
+    </div>
+    <div *ngIf="isAdmin">
+      <button mat-menu-item class="dropdown" routerLink="/admin">
+        <span>Admin page</span>
+      </button>
+    </div>
+  </mat-menu>
 </nav>
 <router-outlet></router-outlet>

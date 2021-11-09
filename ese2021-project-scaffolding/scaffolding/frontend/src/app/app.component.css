@@ -8,3 +8,8 @@
 .mat-tab-link:focus{
   text-decoration: underline;
 }
+
+.login{
+  position: absolute;
+  right: 0;
+}
