@@ -7,7 +7,7 @@ import {
     DataTypes,
     Association
 } from 'sequelize';
-import { Product } from './Product.model'
+import { Product } from './Product.model';
 
 export interface ShoppingCartAttributes {
     cartId: number;
