@@ -60,14 +60,15 @@ A guest can register himself by entering his data (username, password, etc.). Th
 
 ## Admin create a new product "post"
 
-An Admin need to set a Product in the Shop. He choice a category with a title, image, description and a Price. 
+An Admin need to set a Product in the Shop. He selects a category with a title, image, description and a Price. 
 
 ## Admin deliver A product
+An Admin need access to the orders and can change the status when he delivered it 
 
 ## Fan buy a product 
 A fan can see the product and buy it in the Shop. He can "browse" it with the category. 
 
 ## Fan cancel a order
-A fan can cancle 
+A fan can cancle a order. 
 
 
