@@ -32,6 +32,7 @@ import { ShopComponent } from './shop/shop.component';
 import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import { CheckoutComponent } from './shop/checkout/checkout.component';
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch:'full'},
   {path: 'admin', component: AdminTabComponent},
   {path: 'shop', component: ShopComponent},
+  {path: 'checkout', component: CheckoutComponent}
 ]
 
 @NgModule({
@@ -51,7 +53,8 @@ const routes: Routes = [
     PostComponent,
     AdminTabComponent,
     ShopComponent,
-    ShopItemsComponent
+    ShopItemsComponent,
+    CheckoutComponent
   ],
     imports: [
         BrowserModule,
@@ -75,7 +78,6 @@ const routes: Routes = [
         MatExpansionModule,
         MatTooltipModule,
         MatGridListModule,
-        FlexLayoutModule
     ],
   providers: [
     {

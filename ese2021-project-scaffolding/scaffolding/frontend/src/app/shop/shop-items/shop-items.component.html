@@ -11,6 +11,7 @@
   <button mat-fab (click)="router.navigate(['user'])">buy now</button>
   </div>
   <div *ngIf="this.userService.getLoggedIn()">
-    <button mat-fab>buy now</button>
+    <button mat-fab (click)="router.navigate(['checkout'])">buy now</button>
   </div>
 </mat-card>
+

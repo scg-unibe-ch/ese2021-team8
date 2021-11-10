@@ -1,6 +1,6 @@
 <div *ngFor="let in of counter(products.length);let i = index">
-  <mat-grid-list cols="3" rowHeight="300px">
-    <mat-grid-tile>
+  <mat-grid-list cols="3" >
+    <mat-grid-tile >
 <app-shop-items [product] = products[3*i]>
 </app-shop-items>
     </mat-grid-tile>
@@ -14,3 +14,5 @@
     </mat-grid-tile>
   </mat-grid-list>
 </div>
+
+
