@@ -1,1 +1,27 @@
-<p>checkout works!</p>
+<button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
+<mat-card>
+  Checkout
+  <br>
+  <mat-form-field>
+    <mat-label>First Name</mat-label>
+    <input matInput type="text" [defaultValue]="user.firstName" name="firstName">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Last Name</mat-label>
+    <input matInput type="text" [defaultValue]="user.lastName" name="lastName">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Address</mat-label>
+    <input matInput type="text" [defaultValue]="user.address" name="address">
+  </mat-form-field>
+  <br>
+  <mat-form-field>
+    <mat-label>Payment Method</mat-label>
+  <mat-select>
+    <mat-option>Payment via invoice</mat-option>
+  </mat-select>
+  </mat-form-field>
+  <br>
+  <button mat-flat-button>BUY NOW</button>
+</mat-card>

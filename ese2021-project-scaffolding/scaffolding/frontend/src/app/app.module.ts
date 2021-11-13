@@ -33,6 +33,7 @@ import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import { CheckoutComponent } from './shop/checkout/checkout.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -78,6 +79,7 @@ const routes: Routes = [
         MatExpansionModule,
         MatTooltipModule,
         MatGridListModule,
+        MatDialogModule
     ],
   providers: [
     {

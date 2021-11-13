@@ -4,6 +4,8 @@ import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
+import {MatDialog} from "@angular/material/dialog";
+import {CheckoutComponent} from "../checkout/checkout.component";
 
 @Component({
   selector: 'app-shop-items',
@@ -18,7 +20,9 @@ export class ShopItemsComponent implements OnInit {
 
   constructor(private httpClient: HttpClient,
               public userService: UserService,
-              public router: Router)
+              public router: Router,
+              public dialog: MatDialog
+  )
   { }
 
   ngOnInit(): void {
@@ -37,5 +41,13 @@ export class ShopItemsComponent implements OnInit {
     if(!this.userService.getLoggedIn()){
 
     }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CheckoutComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('closed');
+    });
   }
 }
