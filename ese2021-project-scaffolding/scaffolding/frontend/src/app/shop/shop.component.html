@@ -1,18 +1,28 @@
+<div *ngFor="let in of counter(products.length);let i = index"  fxLayout="column" fxLayout.gt-xs="row">
+  <div fxFlex="33">
+    <app-shop-items [product] = products[3*i]>
+    </app-shop-items>
+  </div>
+  <div fxFlex="33">
+    <app-shop-items [product] = products[3*i+1]>
+    </app-shop-items>
+  </div>
+  <div fxFlex="33">
+    <app-shop-items [product]="products[3*i+2]">
+    </app-shop-items>
+  </div>
+</div>
+<!--
 <div *ngFor="let in of counter(products.length);let i = index">
-  <mat-grid-list cols="3" >
-    <mat-grid-tile >
-<app-shop-items [product] = products[3*i]>
-</app-shop-items>
-    </mat-grid-tile>
+  <mat-grid-list cols="2" gutterSize="5px" >
     <mat-grid-tile>
-      <app-shop-items [product] = products[3*i+1]>
+      <app-shop-items [product] = products[2*i]>
       </app-shop-items>
     </mat-grid-tile>
     <mat-grid-tile>
-      <app-shop-items [product] = products[3*i+2]>
+      <app-shop-items [product] = products[2*i+1]>
       </app-shop-items>
     </mat-grid-tile>
   </mat-grid-list>
 </div>
-
-
+-->
