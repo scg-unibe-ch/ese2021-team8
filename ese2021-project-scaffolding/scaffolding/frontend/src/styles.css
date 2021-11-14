@@ -42,3 +42,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .dropdown:hover{
   background-color: #dddddd !important;
 }
+
+.preview{
+  width: 20%;
+}

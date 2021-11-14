@@ -27,6 +27,7 @@ export class BoardComponent implements OnInit {
   postPicture: string = '';
   selectedFile = null;
   hasPicture = false;
+  preview = null;
 
   constructor(
     public httpClient: HttpClient,
@@ -45,6 +46,11 @@ export class BoardComponent implements OnInit {
 
   closePostTemplate() {
     this.displayPostTemplate = false;
+    this.postTitle = '';
+    this.postContent = '';
+    this.postCategory = this.emptyCategory;
+    this.selectedFile = null;
+    this.preview = null;
   }
 
   readCategories(): void{
@@ -127,7 +133,11 @@ export class BoardComponent implements OnInit {
   onFileChanged(event: any) {
     this.hasPicture = true;
     this.selectedFile = event.target.files[0];
-
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.preview = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
   }
 
 

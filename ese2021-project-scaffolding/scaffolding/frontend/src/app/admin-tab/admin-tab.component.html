@@ -37,8 +37,11 @@
       type="file" (change)="onFileChanged($event)"
       #fileInput>
     <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
+    <div>
+      <img src="{{preview}}" class="preview">
+    </div>
   </mat-form-field>
   <br>
   <br>
-  <button mat-raised-button (click)="createProduct()">Publish Post</button>
+  <button mat-raised-button (click)="createProduct()">Publish Product</button>
 </mat-card>
