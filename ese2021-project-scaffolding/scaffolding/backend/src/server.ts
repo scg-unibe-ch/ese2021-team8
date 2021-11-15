@@ -12,7 +12,7 @@ import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
 import { Category } from './models/category.model';
-import { ShoppingCart } from './models/ShoppingCart.model';
+import { ShoppingCart } from './models/shoppingCart.model';
 
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
@@ -23,7 +23,7 @@ import {Like} from './models/like.model';
 import {LikeController} from './controllers/like.controller';
 import {ProductImage} from './models/productImage.model';
 import {Product} from './models/product.model';
-import {Order} from './models/Order.model';
+import {Order} from './models/order.model';
 import {OrderController} from './controllers/order.controller';
 
 

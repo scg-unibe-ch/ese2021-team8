@@ -1,6 +1,5 @@
 import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
 import {Category} from './category.model';
-import {ItemImage} from './itemImage.model';
 import {ProductImage} from './productImage.model';
 
 export interface ProductAttributes {
