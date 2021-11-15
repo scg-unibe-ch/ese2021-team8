@@ -156,9 +156,9 @@ export class UserComponent {
  // Autor @A
   checkPasswordSpecial(password: string): boolean{
     let hasSpezial = false;
-    let specialChars = ['+' ,'*', 'ç' , '%' , '&' , '/' , '(' , ')' , '=' , '£' , '!' , '?','@']
+    let specialChars = ['+' ,'*', 'ç' , '%' , '&' , '/' , '(' , ')' , '=' , '£' , '!' , ,`$`,'?','@']
     for(let i=0; i<password.length; i++) {
-      // Test this special Chars /+"*ç%&/()=£!?@;  @A
+      // Test this special Chars /+"*ç%&/()=£!?@$;  @A
       let passwordCharOne = password.charAt(i);
       if (specialChars.includes(passwordCharOne)){
         return true;
