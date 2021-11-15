@@ -12,16 +12,20 @@
   </mat-form-field>
   <br>
   <mat-form-field>
-    <mat-label>Address</mat-label>
-    <input matInput type="text" [defaultValue]="user.address" name="address">
+    <mat-label>Street</mat-label>
+    <input matInput type="text" [defaultValue]="street" name="address">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>PLZ Ort</mat-label>
+    <input matInput type="text" [defaultValue]="city" name="address">
   </mat-form-field>
   <br>
   <mat-form-field>
     <mat-label>Payment Method</mat-label>
-  <mat-select>
-    <mat-option>Payment via invoice</mat-option>
+  <mat-select required>
+    <mat-option value="Payment via invoice">Payment via invoice</mat-option>
   </mat-select>
   </mat-form-field>
   <br>
-  <button mat-flat-button>BUY NOW</button>
+  <button mat-flat-button (click)="makeOrder()">BUY NOW</button>
 </mat-card>

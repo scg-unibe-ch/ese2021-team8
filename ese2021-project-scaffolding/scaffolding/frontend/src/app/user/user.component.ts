@@ -80,8 +80,12 @@ export class UserComponent {
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
     }).subscribe((res: any) => {
+      this.userToLogin.username = this.userToRegister.username;
+      this.userToLogin.password = this.userToRegister.password;
+      this.loginUser();
       this.userToRegister.username = this.userToRegister.password = this.userToRegister.firstName
-        = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday = '',
+        = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday =
+        this.adress1 = this.adress2 = '',
       this.userToRegister.phoneNumber = 0;
       this.registerErrorMsg = '';
     }, (res: any) => {

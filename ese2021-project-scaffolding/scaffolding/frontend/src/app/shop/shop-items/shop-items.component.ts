@@ -44,10 +44,12 @@ export class ShopItemsComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(CheckoutComponent);
+    const dialogRef = this.dialog.open(CheckoutComponent, {
+      data: {product: this.product},
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('closed');
+
     });
   }
 }
