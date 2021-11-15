@@ -14,7 +14,11 @@
 }
 
 .clicked{
-  background-color: #8a7200 !important;
+  background-color: #fed200 !important;
+}
+
+.unclicked{
+  background-color: #dddddd !important;
 }
 
 .postContent{
