@@ -22,17 +22,21 @@ export class AdminTabComponent implements OnInit {
 
   createFeedback: string ="";
 
-  product: Product = new Product(0, "", 0, "", 0, false);
+  newProduct: Product = new Product(0, "", 0, "", 0, false);
+  toDelete: Product =  new Product(0, "", 0, "", 0, false);
 
   products: Product[] = [];
 
   productPicture: null;
   preview: null;
 
+  orders: string[] = [];
+
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.readCategories();
+    this.getProducts();
   }
 
 
@@ -72,10 +76,10 @@ export class AdminTabComponent implements OnInit {
 
   createProduct() {
     this.httpClient.post(environment.endpointURL + "product/", {
-      title: this.product.title,
+      title: this.newProduct.title,
       storeCategoryId: 1,
-      description: this.product.description,
-      price: this.product.price,
+      description: this.newProduct.description,
+      price: this.newProduct.price,
       productImage: true
 
     }).subscribe((product: any) => {
@@ -89,8 +93,8 @@ export class AdminTabComponent implements OnInit {
       this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
         .subscribe((post: any) => {
           console.log(this.products);
-          this.product.title = this.product.description = "";
-          this.product.price = 0;
+          this.newProduct.title = this.newProduct.description = "";
+          this.newProduct.price = 0;
         });
     });
   }
@@ -105,5 +109,21 @@ export class AdminTabComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
+  getProducts(){
+    this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) =>{
+      products.forEach((product: any) =>{
+        this.products.push(product);
+      });
+    })
+  }
 
+  deleteItem() {
+    this.httpClient.delete( environment.endpointURL + "product/" + this.toDelete.productId).subscribe((res:any)=>{
+        this.deleteFeedback = "Deleted item \" " + this.toDelete.title + "\"";
+        this.getProducts();
+      }, ((res:any)=>{
+        this.deleteFeedback = "could not delete category";
+      })
+    );
+  }
 }
