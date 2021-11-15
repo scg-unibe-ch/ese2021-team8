@@ -1,6 +1,6 @@
 import express from 'express';
 import { Router, Request, Response } from 'express';
-import { ShoppingCart} from '../models/shoppingCart.model';
+import { ShoppingCart} from '../models/ShoppingCart.model';
 
 const shoppingCartController: Router = express.Router();
 

@@ -12,7 +12,7 @@ import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
 import { Category } from './models/category.model';
-import { ShoppingCart } from './models/shoppingCart.model';
+import { ShoppingCart } from './models/ShoppingCart.model';
 
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
@@ -45,8 +45,9 @@ export class Server {
         Like.initialize(this.sequelize);
         ProductImage.initialize(this.sequelize);
         Product.initialize(this.sequelize);
+        Order.initialize(this.sequelize);
         ShoppingCart.initialize(this.sequelize);
-        Order.initialize((this.sequelize));
+
         TodoItem.createAssociations();
         TodoList.createAssociations();
         Post.createAssociations();

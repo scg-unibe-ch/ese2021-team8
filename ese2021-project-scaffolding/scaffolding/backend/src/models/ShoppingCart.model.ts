@@ -4,7 +4,7 @@ import {
     Sequelize,
     DataTypes,
 } from 'sequelize';
-import { Product } from './Product.model';
+import { Product } from './product.model';
 import { Order } from './Order.model';
 
 export interface ShoppingCartAttributes {
