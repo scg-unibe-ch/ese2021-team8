@@ -1,37 +1,25 @@
 import {
     Optional,
     Model,
-    HasManyGetAssociationsMixin,
-    HasManyAddAssociationMixin,
     Sequelize,
     DataTypes,
-    Association
 } from 'sequelize';
 import { Product } from './Product.model';
+import { Order } from './Order.model';
 
 export interface ShoppingCartAttributes {
     cartId: number;
-    userId: number;
-    deliveryStatus: number;
+    orderId: number;
+    productId: number;
 }
 
-export interface ShoppingCartCreationAttributes extends Optional<ShoppingCartAttributes, 'userId'> { }
+export interface ShoppingCartCreationAttributes extends Optional<ShoppingCartAttributes, 'cartId'> { }
 
 export class ShoppingCart extends Model<ShoppingCartAttributes, ShoppingCartCreationAttributes> implements ShoppingCartAttributes {
 
-    public static associations: {
-        products: Association<ShoppingCart, Product>
-    };
-
     cartId!: number;
-    userId!: number;
-    deliveryStatus!: number;
-
-    public getProducts!: HasManyGetAssociationsMixin<Product>;
-    public addProductToCart!: HasManyAddAssociationMixin<Product, number>;
-
-    /*Might be changed to private*/
-    public products?: Product[];
+    orderId!: number;
+    productId!: number;
 
     public static initialize(sequelize: Sequelize) {
         ShoppingCart.init({
@@ -40,14 +28,21 @@ export class ShoppingCart extends Model<ShoppingCartAttributes, ShoppingCartCrea
                     autoIncrement: true,
                     primaryKey: true
                 },
-                userId: {
-                    type: DataTypes.STRING,
-                    allowNull: false
+                productId: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: Product,
+                        key: 'productId'
+                    }
                 },
-                deliveryStatus: {
-                    type: DataTypes.STRING,
-                    defaultValue: 0,
-                    allowNull: false
+                orderId: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false,
+                    references: {
+                        model: Order,
+                        key: 'orderId'
+                    }
                 }
             },
             {
@@ -55,12 +50,5 @@ export class ShoppingCart extends Model<ShoppingCartAttributes, ShoppingCartCrea
                 tableName: 'shoppingCarts'
             }
         );
-    }
-    /*Might change foreignKey because of association-type*/
-    public static createAssociations() {
-        ShoppingCart.hasMany(Product, {
-            as: 'products',
-            foreignKey: 'cartId'
-        });
     }
 }

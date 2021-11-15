@@ -6,6 +6,7 @@ import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { CategoryController} from './controllers/category.controller';
 import { ProductController } from './controllers/product.controller';
+import { ShoppingCartController } from './controllers/shoppingCart.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
@@ -22,6 +23,8 @@ import {Like} from './models/like.model';
 import {LikeController} from './controllers/like.controller';
 import {ProductImage} from './models/productImage.model';
 import {Product} from './models/product.model';
+import {Order} from './models/Order.model';
+import {OrderController} from './controllers/order.controller';
 
 
 export class Server {
@@ -42,6 +45,8 @@ export class Server {
         Like.initialize(this.sequelize);
         ProductImage.initialize(this.sequelize);
         Product.initialize(this.sequelize);
+        ShoppingCart.initialize(this.sequelize);
+        Order.initialize((this.sequelize));
         TodoItem.createAssociations();
         TodoList.createAssociations();
         Post.createAssociations();
@@ -89,6 +94,8 @@ export class Server {
             .use('/post' , PostController)
             .use('/like', LikeController)
             .use('/product', ProductController)
+            .use('/cart', ShoppingCartController)
+            .use('/order', OrderController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running
