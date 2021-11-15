@@ -1,14 +1,18 @@
 <div *ngFor="let in of counter(products.length);let i = index"  fxLayout="column" fxLayout.gt-xs="row">
   <div fxFlex="33">
-    <app-shop-items [product] = products[3*i]>
+    <app-shop-items [product] = products[3*i]
+                    (getNewProducts)="getProducts()"
+                    (sendUpdate)="updateProduct($event)">
     </app-shop-items>
   </div>
   <div fxFlex="33">
-    <app-shop-items [product] = products[3*i+1]>
+    <app-shop-items [product] = products[3*i+1]
+                    (getNewProducts)="getProducts()">
     </app-shop-items>
   </div>
   <div fxFlex="33">
-    <app-shop-items [product]="products[3*i+2]">
+    <app-shop-items [product]="products[3*i+2]"
+                    (getNewProducts)="getProducts()">
     </app-shop-items>
   </div>
 </div>

@@ -18,7 +18,7 @@ export class CheckoutComponent implements OnInit {
   products: Product[] = [];
   street: string = "";
   city: string ="";
-  order: ShoppingCart = new ShoppingCart(0,0,0,this.products);
+
   constructor( public userService: UserService,
                public dialogRef: MatDialogRef<CheckoutComponent>,
                private httpClient: HttpClient,

@@ -14,3 +14,11 @@
 button {
   right: 0px !important;
 }
+
+.edit{
+  padding: 2px;
+  right: 1%;
+  top:2%;
+  position: absolute;
+  z-index: 1;
+}

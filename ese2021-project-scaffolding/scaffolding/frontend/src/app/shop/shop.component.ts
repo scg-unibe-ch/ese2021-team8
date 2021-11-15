@@ -30,4 +30,12 @@ export class ShopComponent implements OnInit {
   counter(i: number) {
     return new Array(i);
   }
+
+  updateProduct(product: Product) {
+    this.httpClient.put(environment.endpointURL + "product/" + product.productId, {
+      title: product.title,
+      description: product.description,
+      //TODO add category
+    }).subscribe();
+  }
 }
