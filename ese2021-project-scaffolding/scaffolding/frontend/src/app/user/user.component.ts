@@ -29,6 +29,9 @@ export class UserComponent {
   endpointMsgAdmin: string = '';
   loginErrorMsg: string = '';
   registerErrorMsg: string = '';
+  adress1 : string = '';
+  adress2 : string = '';
+
 
   constructor(
     public httpClient: HttpClient,
@@ -73,7 +76,7 @@ export class UserComponent {
       firstName: this.userToRegister.firstName,
       lastName: this.userToRegister.lastName,
       email: this.userToRegister.email,
-      address: this.userToRegister.address,
+      address: this.userToRegister.address + this.adress1 + ';' + this.adress2 ,
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
     }).subscribe((res: any) => {
@@ -169,6 +172,7 @@ export class UserComponent {
   }
 
   // Autor @A
+
   checkPasswordNumber(password: string): boolean{
     let hasNumber = false;
     let numbers = ['1','2','3','4','5','6','7','8','9','0']
