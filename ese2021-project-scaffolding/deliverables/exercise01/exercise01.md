@@ -59,7 +59,6 @@ A guest can register himself by entering his data (username, password, etc.). Th
 # Task 5
 
 ## Admin create a new product "post"
-
 An Admin need to set a Product in the Shop. He selects a category with a title, image, description and a Price. 
 
 ## Admin deliver A product
