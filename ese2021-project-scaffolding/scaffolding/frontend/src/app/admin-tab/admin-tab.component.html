@@ -31,16 +31,16 @@
     <mat-card>
       Add a new product to the shop <br>
       <mat-form-field appearance="fill" style="width: 60%;">
-        <input matInput type="text" placeholder="product title" name="title" [(ngModel)]="product.title">
+        <input matInput type="text" placeholder="product title" name="title" [(ngModel)]="newProduct.title">
       </mat-form-field>
       <br>
       <mat-form-field appearance="fill" style="width: 60%;">
         <mat-label>price</mat-label>
-        <input matInput type="number" name="price" [(ngModel)]="product.price">
+        <input matInput type="number" name="price" [(ngModel)]="newProduct.price">
       </mat-form-field>
       <br>
       <mat-form-field appearance="outline" style="width: 100%; height: 40%">
-      <textarea matInput placeholder="product description" style="width: 100%" rows="10" name="description" [(ngModel)]="product.description">
+      <textarea matInput placeholder="product description" style="width: 100%" rows="10" name="description" [(ngModel)]="newProduct.description">
       </textarea>
         <input
           style="display: none"
@@ -55,5 +55,21 @@
       <br>
       <button mat-raised-button (click)="createProduct()">Publish Product</button>
     </mat-card>
+    <mat-card >
+      <h3>Delete an existing shop item</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Item</mat-label>
+        <mat-select [(ngModel)]="toDelete">
+          <mat-option *ngFor="let product of products" [value]="product" > {{product.productId}} - {{product.title}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button (click)="deleteItem()">Delete Item</button>
+      <br>{{deleteFeedback}}
+    </mat-card>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      Manage orders
+    </mat-expansion-panel-header>
   </mat-expansion-panel>
 </mat-accordion>
