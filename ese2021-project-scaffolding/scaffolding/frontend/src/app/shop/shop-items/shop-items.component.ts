@@ -6,7 +6,7 @@ import {UserService} from "../../services/user.service";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CheckoutComponent} from "../checkout/checkout.component";
-import {Post} from "../../models/post.model";
+import {ShopCategory} from "../../models/shopCategory.model";
 
 @Component({
   selector: 'app-shop-items',
@@ -18,10 +18,12 @@ export class ShopItemsComponent implements OnInit {
   @Input() product: Product = new Product(0,"",0, "", 0, true);
   @Output() getNewProducts = new EventEmitter<Product>();
   @Output() sendUpdate = new EventEmitter<Product>();
+  @Input() categories: ShopCategory[] =[];
 
 
   imagePath: string = "";
   editMode: boolean = false;
+  categoryName: string = ""
 
   constructor(private httpClient: HttpClient,
               public userService: UserService,
@@ -31,8 +33,10 @@ export class ShopItemsComponent implements OnInit {
   { }
 
   ngOnInit(): void {
-    if(this.product != null)
-      this.getImage()
+    if(this.product != null) {
+      this.getImage();
+      this.getCategoryName()
+    }
   }
 
   getImage(): void {
@@ -75,5 +79,14 @@ export class ShopItemsComponent implements OnInit {
   updateProduct() {
     this.sendUpdate.emit(this.product);
     this.editMode = false;
+  }
+
+  getCategoryName(): void{
+    this.httpClient.get(environment.endpointURL + "shop/category/" + this.product.shopCategoryId).subscribe(
+      (res:any) =>{
+        this.categoryName = res.shopCategoryName;
+      }, () => {
+        this.categoryName = "undefined category";
+      })
   }
 }

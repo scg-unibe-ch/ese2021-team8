@@ -12,6 +12,9 @@
       <mat-card-title>
   {{product.title}}
       </mat-card-title>
+      <mat-chip-list>
+    <mat-chip>{{categoryName}}</mat-chip>
+      </mat-chip-list>
       <mat-card-content>
        <img class="productImage" src="{{imagePath}}">
         <br>
@@ -32,11 +35,11 @@
     <mat-label>title</mat-label>
     <input matInput type="text" placeholder= {{product.title}} name="title" [(ngModel)]="product.title">
   </mat-form-field>
-  <!--<mat-form-field appearance="fill">
+  <mat-form-field appearance="fill">
     <mat-label>{{categoryName}}</mat-label>
     <mat-select required [(ngModel)]="categoryName">
     </mat-select>
-  </mat-form-field>-->
+  </mat-form-field>
   <br>
   <mat-form-field appearance="outline" style="width: 100%; height: 40%">
     <mat-label>description</mat-label>

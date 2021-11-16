@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {PostCategory} from "../models/postCategory.model";
 import {Product} from "../models/product.model";
 import {Post} from "../models/post.model";
+import {ShopCategory} from "../models/shopCategory.model";
 
 @Component({
   selector: 'app-admin-tab',
@@ -17,6 +18,13 @@ export class AdminTabComponent implements OnInit {
   oldCategory: PostCategory = new PostCategory(0, "");
 
   categories: PostCategory[] = [];
+
+  newShopCategory: string = "";
+  oldShopCategory: ShopCategory = new ShopCategory(0," ");
+  shopCategories: ShopCategory[] = [];
+  emptyCategory = new ShopCategory(0,'');
+  shopCategory: ShopCategory = this.emptyCategory;
+
 
   deleteFeedback: string ="";
 
@@ -61,6 +69,12 @@ export class AdminTabComponent implements OnInit {
         this.categories.push(category);
       });
     });
+    this.shopCategories = [];
+    this.httpClient.get(environment.endpointURL + "shop/category").subscribe((categories:any) => {
+      categories.forEach((category:any) => {
+        this.shopCategories.push(category);
+      });
+    });
   }
 
   deleteCategory(): void{
@@ -77,14 +91,14 @@ export class AdminTabComponent implements OnInit {
   createProduct() {
     this.httpClient.post(environment.endpointURL + "product/", {
       title: this.newProduct.title,
-      storeCategoryId: 1,
+      shopCategoryId: this.shopCategory.shopCategoryId,
       description: this.newProduct.description,
       price: this.newProduct.price,
       productImage: true
 
     }).subscribe((product: any) => {
       this.products.unshift(
-        new Product(product.productId, product.title, product.storeCategoryId, product.description, product.price, product.productImage));
+        new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage));
 
       const formData = new FormData();
       // @ts-ignore

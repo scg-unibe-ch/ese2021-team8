@@ -61,9 +61,6 @@ export class BoardComponent implements OnInit {
     });
   }
 
-  /**
-   * in Progress, to reroll use if (this.isThePostWithPictures)
-   */
   createPost(): void {
     if (this.hasPicture) {
 
