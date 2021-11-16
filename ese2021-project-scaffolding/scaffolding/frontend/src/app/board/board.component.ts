@@ -28,6 +28,7 @@ export class BoardComponent implements OnInit {
   selectedFile = null;
   hasPicture = false;
   preview = null;
+  showError: boolean = false;
 
   constructor(
     public httpClient: HttpClient,
@@ -51,6 +52,7 @@ export class BoardComponent implements OnInit {
     this.postCategory = this.emptyCategory;
     this.selectedFile = null;
     this.preview = null;
+    this.showError = false;
   }
 
   readCategories(): void{
@@ -62,8 +64,11 @@ export class BoardComponent implements OnInit {
   }
 
   createPost(): void {
+    if(this.postTitle == '' || this.postCategory == this.emptyCategory || (this.postContent == '' && !this.hasPicture)){
+      this.showError = true;
+      return;
+    }
     if (this.hasPicture) {
-
       this.httpClient.post(environment.endpointURL + "post", {
         title: this.postTitle,
         content: this.postContent,
@@ -81,10 +86,7 @@ export class BoardComponent implements OnInit {
 
         this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
           .subscribe((post: any) => {
-            console.log(this.posts);
-            this.postTitle = this.postContent = "";
-            this.postCategory = this.emptyCategory;
-            this.displayPostTemplate = false;
+
           });
       });
     }
@@ -101,11 +103,9 @@ export class BoardComponent implements OnInit {
       }).subscribe((post: any) => {
         this.posts.unshift(
           new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
-        this.postTitle = this.postContent = "";
-        this.postCategory = this.emptyCategory;
-        this.displayPostTemplate = false;
       });
     }
+    this.closePostTemplate();
 }
 
   getPosts(): void{
@@ -124,7 +124,9 @@ export class BoardComponent implements OnInit {
       votes: post.votes,
       title: post.title,
       content: post.content
-    }).subscribe();
+    }).subscribe(() => {
+      this.getPosts();
+    });
   }
 
   onFileChanged(event: any) {

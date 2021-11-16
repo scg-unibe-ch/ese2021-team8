@@ -36,7 +36,7 @@
     <br>
     <br>
     <button mat-raised-button (click)="createPost()">Publish Post</button>
-
+    <mat-error *ngIf="showError">Fill all required fields!</mat-error>
   </mat-card>
 </div>
     <app-post
