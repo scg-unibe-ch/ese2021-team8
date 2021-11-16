@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {ShoppingCart} from "../../models/shopping-cart.model";
 import {Product} from "../../models/product.model";
+import {Order} from "../../models/order.model";
 
 @Component({
   selector: 'app-checkout',
@@ -18,6 +19,7 @@ export class CheckoutComponent implements OnInit {
   products: Product[] = [];
   street: string = "";
   city: string ="";
+  order: Order = new Order(0,0,0);
 
   constructor( public userService: UserService,
                public dialogRef: MatDialogRef<CheckoutComponent>,
@@ -39,6 +41,20 @@ export class CheckoutComponent implements OnInit {
   }
 
   makeOrder() {
-
+      this.httpClient.post(environment.endpointURL + "order",{
+        userId: this.user.userId,
+        deliveryStatus: 0
+      }).subscribe( (order: any)=>{
+      //  this.order = new Order(order.orderId, order.userId, order.deliveryStatus);
+        this.httpClient.post(environment.endpointURL + "cart",{
+          orderId: order.orderId,
+          productId: this.data.product.productId
+        }).subscribe((res: any) =>{
+          this.httpClient.put(environment.endpointURL + "order/" + res.orderId,{
+            deliveryStatus: 1
+          });
+        });
+      });
+    this.dialogRef.close();
   }
 }
