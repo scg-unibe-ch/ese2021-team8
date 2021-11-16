@@ -1,11 +1,12 @@
 import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
-import {Category} from './category.model';
+import { ShopCategory } from './shopCategory.model';
+import {ItemImage} from './itemImage.model';
 import {ProductImage} from './productImage.model';
 
 export interface ProductAttributes {
     productId: number;
     title: string;
-    storeCategoryId: number;
+    shopCategoryId: number;
     description: string;
     price: number;
     productImage: boolean;
@@ -16,7 +17,7 @@ export interface ProductCreationAttributes extends Optional<ProductAttributes, '
 export class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
     productId!: number;
     title!: string;
-    storeCategoryId!: number;
+    shopCategoryId!: number;
     description!: string;
     price!: number;
     productImage!: boolean;
@@ -32,11 +33,11 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            storeCategoryId: {
+            shopCategoryId: {
                 type: DataTypes.INTEGER,
                 references: {
-                    model: Category,
-                    key: 'categoryId'
+                    model: ShopCategory,
+                    key: 'shopCategoryId'
                 }
             },
             description: {

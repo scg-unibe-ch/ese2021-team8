@@ -116,7 +116,7 @@ postController.get('/user/:creatorId', verifyToken,
 /**
  * Gets all the posts from a certain category. No access limitation. Can be used for a basic sort function.
  */
-postController.get('/:categoryId',
+postController.get('/:postCategoryId',
     (req: Request, res: Response) => {
         Post.findAll({where: {categoryId: req.params.categoryId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }

@@ -3,7 +3,7 @@ import {Post} from "../../models/post.model";
 import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {Category} from "../../models/category.model";
+import {PostCategory} from "../../models/postCategory.model";
 
 @Component({
   selector: 'app-post',
@@ -13,7 +13,7 @@ import {Category} from "../../models/category.model";
 export class PostComponent implements OnInit {
 
   @Input()
-  categories: Category[] =[];
+  categories: PostCategory[] =[];
 
   info: string = ""
   editMode: boolean = false;
@@ -88,9 +88,9 @@ export class PostComponent implements OnInit {
   }
 
   getCategoryName(): void{
-    this.httpClient.get(environment.endpointURL + "category/" + this.post.categoryId).subscribe(
+    this.httpClient.get(environment.endpointURL + "post/category/" + this.post.categoryId).subscribe(
       (res:any) =>{
-        this.categoryName = res.categoryName;
+        this.categoryName = res.postCategoryName;
       }, () => {
         this.categoryName = "undefined category";
       })

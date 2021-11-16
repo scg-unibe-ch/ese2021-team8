@@ -69,14 +69,14 @@ productController.post('/:id/image', (req: MulterRequest, res: Response) => {
 });
 
 
-// get the filename of an image
+// get image by imageId
 productController.get('/:id/imageById', (req: Request, res: Response) => {
     itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 
 
-// get filename of image by productId
+// get image by productId
 productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
     ProductImage.findOne({where: {productId: req.params.id}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
@@ -86,9 +86,9 @@ productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
 /**
  * Gets all the products from a certain category.
  */
-productController.get('/:categoryId',
+productController.get('/:postCategoryId',
     (req: Request, res: Response) => {
-        Product.findAll({where: {storeCategoryId: req.params.categoryId}})
+        Product.findAll({where: {shopCategoryId: req.params.categoryId}})
             .then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );

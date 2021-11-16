@@ -4,14 +4,16 @@ import { TodoItemController } from './controllers/todoitem.controller';
 import { TodoListController } from './controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
-import { CategoryController} from './controllers/category.controller';
+import { PostCategoryController} from './controllers/postCategoryController';
+import { ShopCategoryController} from './controllers/shopCategoryController';
 import { ProductController } from './controllers/product.controller';
 import { ShoppingCartController } from './controllers/shoppingCart.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
-import { Category } from './models/category.model';
+import { PostCategory } from './models/postCategory.model';
+import { ShopCategory } from './models/shopCategory.model';
 import { ShoppingCart } from './models/shoppingCart.model';
 
 import cors from 'cors';
@@ -40,7 +42,8 @@ export class Server {
         TodoList.initialize(this.sequelize);
         User.initialize(this.sequelize);
         ItemImage.initialize(this.sequelize);
-        Category.initialize(this.sequelize);
+        PostCategory.initialize(this.sequelize);
+        ShopCategory.initialize(this.sequelize);
         Post.initialize(this.sequelize);
         Like.initialize(this.sequelize);
         ProductImage.initialize(this.sequelize);
@@ -54,6 +57,7 @@ export class Server {
         ItemImage.createAssociations();
         ProductImage.createAssociations();
         Product.createAssociations();
+
 
 
 
@@ -91,7 +95,8 @@ export class Server {
             .use('/user', UserController)
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
-            .use('/category', CategoryController)
+            .use('/post/category', PostCategoryController)
+            .use('/shop/category', ShopCategoryController)
             .use('/post' , PostController)
             .use('/like', LikeController)
             .use('/product', ProductController)

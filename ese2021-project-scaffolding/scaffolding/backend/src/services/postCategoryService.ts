@@ -1,8 +1,8 @@
-import {Category} from '../models/category.model';
+import {PostCategory} from '../models/postCategory.model';
 
-export class CategoryService {
-    public getCategory(id: number): Promise<Category> {
-        return Category.findByPk(id)
+export class PostCategoryService {
+    public getCategory(id: number): Promise<PostCategory> {
+        return PostCategory.findByPk(id)
             .then(result => {
                 if (result) {
                     return Promise.resolve(result);

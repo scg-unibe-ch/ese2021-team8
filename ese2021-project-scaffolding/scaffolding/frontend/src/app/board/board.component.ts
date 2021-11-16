@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Post} from "../models/post.model";
-import {Category} from "../models/category.model";
+import {PostCategory} from "../models/postCategory.model";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
@@ -16,13 +16,13 @@ export class BoardComponent implements OnInit {
   displayPostTemplate: boolean = false;
 
 
-  categories: Category[] =[];
+  categories: PostCategory[] =[];
 
-  emptyCategory = new Category(0,'');
+  emptyCategory = new PostCategory(0,'');
 
   posts: Post[] = [];
   postTitle : string = '';
-  postCategory: Category = this.emptyCategory;
+  postCategory: PostCategory = this.emptyCategory;
   postContent: string = '';
   postPicture: string = '';
   selectedFile = null;
@@ -54,7 +54,7 @@ export class BoardComponent implements OnInit {
   }
 
   readCategories(): void{
-    this.httpClient.get(environment.endpointURL + "category").subscribe((categories:any) => {
+    this.httpClient.get(environment.endpointURL + "post/category").subscribe((categories:any) => {
       categories.forEach((category: any) => {
         this.categories.push(category);
       });
@@ -71,7 +71,7 @@ export class BoardComponent implements OnInit {
         title: this.postTitle,
         content: this.postContent,
         creatorId: this.userService.getUser().userId,
-        categoryId: this.postCategory.categoryId,
+        categoryId: this.postCategory.postCategoryId,
         date: new Date(),
         votes: 0,
         itemImage: true
@@ -97,7 +97,7 @@ export class BoardComponent implements OnInit {
         title: this.postTitle,
         content: this.postContent,
         creatorId: this.userService.getUser().userId,
-        categoryId: this.postCategory.categoryId,
+        categoryId: this.postCategory.postCategoryId,
         date: new Date(),
         votes: 0,
         itemImage: false
@@ -139,27 +139,4 @@ export class BoardComponent implements OnInit {
     };
     reader.readAsDataURL(event.target.files[0]);
   }
-
-
-
-
-  /**
-   *Versuch das Bild aufzunehmen und am Backend zu senden. Jedoch ist Der Daten Typ im Model noch String
-   * und möchte dies nicht einfach ändern
-
-
-  selectFile({event}: { event: any }) {
-
-
-    this.selectedFile() = event.target.files[0];
-
-  }
-  fileUpload() {
-    const fileDate= new FormData();
-    fileDate.append('image', this.selectedFile, this.selectFile.name);
-
-  }
-*/
-
-
 }

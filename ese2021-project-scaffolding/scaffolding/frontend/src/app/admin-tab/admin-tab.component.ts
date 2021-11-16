@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {Category} from "../models/category.model";
+import {PostCategory} from "../models/postCategory.model";
 import {Product} from "../models/product.model";
 import {Post} from "../models/post.model";
 
@@ -14,9 +14,9 @@ export class AdminTabComponent implements OnInit {
 
   newCategory: string = "";
 
-  oldCategory: Category = new Category(0, "");
+  oldCategory: PostCategory = new PostCategory(0, "");
 
-  categories: Category[] = [];
+  categories: PostCategory[] = [];
 
   deleteFeedback: string ="";
 
@@ -41,14 +41,14 @@ export class AdminTabComponent implements OnInit {
 
 
   createCategory(){
-    this.httpClient.post(environment.endpointURL + "category", {
-      categoryName: this.newCategory
+    this.httpClient.post(environment.endpointURL + "post/category", {
+      postCategoryName: this.newCategory
     }).subscribe( (res: any) => {
       this.createFeedback = "Created new category \"" + this.newCategory + "\"";
       this.newCategory = "";
       this.readCategories();
 
-      },((res: any)=> {
+      },(()=> {
         this.createFeedback = "Could not create category";
       })
     );
@@ -56,7 +56,7 @@ export class AdminTabComponent implements OnInit {
 
   readCategories(): void{
     this.categories = [];
-    this.httpClient.get(environment.endpointURL + "category").subscribe((categories:any) => {
+    this.httpClient.get(environment.endpointURL + "post/category").subscribe((categories:any) => {
       categories.forEach((category: any) => {
         this.categories.push(category);
       });
@@ -65,8 +65,8 @@ export class AdminTabComponent implements OnInit {
 
   deleteCategory(): void{
 
-    this.httpClient.delete(environment.endpointURL + "category/" + this.oldCategory.categoryId).subscribe((res:any)=>{
-      this.deleteFeedback = "Deleted category \" " + this.oldCategory.categoryName + "\"";
+    this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldCategory.postCategoryId).subscribe((res:any)=>{
+      this.deleteFeedback = "Deleted category \" " + this.oldCategory.postCategoryName + "\"";
       this.readCategories();
   }, ((res:any)=>{
       this.deleteFeedback = "could not delete category";

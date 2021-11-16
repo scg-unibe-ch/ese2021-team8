@@ -8,18 +8,18 @@
     <mat-card>
       <h3>Create a new post category</h3>
       <mat-form-field>
-        <input matInput placeholder="New Category Name" [(ngModel)]="newCategory">
+        <input matInput placeholder="New PostCategory Name" [(ngModel)]="newCategory">
       </mat-form-field>
-      <button mat-flat-button (click)="createCategory()">Create New Category</button>
+      <button mat-flat-button (click)="createCategory()">Create New PostCategory</button>
       <br>{{createFeedback}}
       <h3>Delete an existing post category:</h3>
       <mat-form-field appearance="fill">
-        <mat-label>Select Category</mat-label>
+        <mat-label>Select PostCategory</mat-label>
         <mat-select  [(ngModel)]="oldCategory">
-          <mat-option *ngFor="let category of categories" [value]="category" > {{category.categoryName}} </mat-option>
+          <mat-option *ngFor="let category of categories" [value]="category" > {{category.postCategoryName}} </mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-flat-button (click)="deleteCategory()">Delete Category</button>
+      <button mat-flat-button (click)="deleteCategory()">Delete PostCategory</button>
       <br>{{deleteFeedback}}
     </mat-card>
   </mat-expansion-panel>

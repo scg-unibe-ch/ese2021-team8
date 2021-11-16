@@ -13,9 +13,9 @@
       <input matInput type="text" placeholder="Title*" name="title" [(ngModel)]="postTitle">
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Select Category</mat-label>
+      <mat-label>Select PostCategory</mat-label>
       <mat-select required [(ngModel)]="postCategory">
-        <mat-option *ngFor="let category of categories" [value]="category"  > {{category.categoryName}} </mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category"  > {{category.postCategoryName}} </mat-option>
       </mat-select>
     </mat-form-field>
     <br>

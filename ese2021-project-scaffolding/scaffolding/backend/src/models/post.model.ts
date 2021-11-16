@@ -1,5 +1,5 @@
 import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
-import {Category} from './category.model';
+import {PostCategory} from './postCategory.model';
 import { User } from './user.model';
 import {ItemImage} from './itemImage.model';
 
@@ -40,8 +40,8 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
             categoryId: {
                 type: DataTypes.INTEGER,
                 references: {
-                    model: Category,
-                    key: 'categoryId'
+                    model: PostCategory,
+                    key: 'postCategoryId'
                 }
             },
             content: {
