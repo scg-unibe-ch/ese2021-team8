@@ -3,7 +3,6 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {PostCategory} from "../models/postCategory.model";
 import {Product} from "../models/product.model";
-import {Post} from "../models/post.model";
 import {ShopCategory} from "../models/shopCategory.model";
 
 @Component({
@@ -13,22 +12,24 @@ import {ShopCategory} from "../models/shopCategory.model";
 })
 export class AdminTabComponent implements OnInit {
 
-  newCategory: string = "";
-
-  oldCategory: PostCategory = new PostCategory(0, "");
-
-  categories: PostCategory[] = [];
+  newPostCategory: string = "";
+  oldPostCategory: PostCategory = new PostCategory(0, "");
+  postCategories: PostCategory[] = [];
 
   newShopCategory: string = "";
   oldShopCategory: ShopCategory = new ShopCategory(0," ");
   shopCategories: ShopCategory[] = [];
-  emptyCategory = new ShopCategory(0,'');
-  shopCategory: ShopCategory = this.emptyCategory;
+
+  emptyShopCategory = new ShopCategory(0,'');
+  shopCategory: ShopCategory = this.emptyShopCategory;
 
 
-  deleteFeedback: string ="";
+  itemDeleteMsg: string ="";
+  shopCategoryDeleteMsg: string ="";
+  postCategoryDeleteMsg: string ="";
 
-  createFeedback: string ="";
+  shopCategoryCreateMsg: string ="";
+  postCategoryCreateMsg: string ="";
 
   newProduct: Product = new Product(0, "", 0, "", 0, false);
   toDelete: Product =  new Product(0, "", 0, "", 0, false);
@@ -48,25 +49,40 @@ export class AdminTabComponent implements OnInit {
   }
 
 
-  createCategory(){
+  createPostCategory(){
     this.httpClient.post(environment.endpointURL + "post/category", {
-      postCategoryName: this.newCategory
+      postCategoryName: this.newPostCategory
     }).subscribe( (res: any) => {
-      this.createFeedback = "Created new category \"" + this.newCategory + "\"";
-      this.newCategory = "";
+      this.postCategoryCreateMsg = "Created new category \"" + this.newPostCategory + "\"";
+      this.newPostCategory = "";
       this.readCategories();
 
       },(()=> {
-        this.createFeedback = "Could not create category";
+        this.postCategoryCreateMsg = "Could not create category";
       })
     );
   }
 
+  createShopCategory(){
+    this.httpClient.post(environment.endpointURL + "shop/category", {
+      shopCategoryName: this.newShopCategory
+    }).subscribe( (res: any) => {
+        this.shopCategoryCreateMsg = "Created new category \"" + this.newShopCategory + "\"";
+        this.newShopCategory = "";
+        this.readCategories();
+
+      },(()=> {
+        this.shopCategoryCreateMsg = "Could not create category";
+      })
+    );
+  }
+
+
   readCategories(): void{
-    this.categories = [];
+    this.postCategories = [];
     this.httpClient.get(environment.endpointURL + "post/category").subscribe((categories:any) => {
       categories.forEach((category: any) => {
-        this.categories.push(category);
+        this.postCategories.push(category);
       });
     });
     this.shopCategories = [];
@@ -77,13 +93,24 @@ export class AdminTabComponent implements OnInit {
     });
   }
 
-  deleteCategory(): void{
+  deletePostCategory(): void{
 
-    this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldCategory.postCategoryId).subscribe((res:any)=>{
-      this.deleteFeedback = "Deleted category \" " + this.oldCategory.postCategoryName + "\"";
+    this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldPostCategory.postCategoryId).subscribe((res:any)=>{
+      this.postCategoryDeleteMsg = "Deleted category \" " + this.oldPostCategory.postCategoryName + "\"";
       this.readCategories();
-  }, ((res:any)=>{
-      this.deleteFeedback = "could not delete category";
+      }, ((res:any)=>{
+      this.postCategoryDeleteMsg = "could not delete category";
+      })
+    );
+  }
+
+  deleteShopCategory(): void{
+
+    this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe((res:any)=>{
+        this.shopCategoryDeleteMsg = "Deleted category \" " + this.oldShopCategory.shopCategoryName + "\"";
+        this.readCategories();
+      }, ((res:any)=>{
+        this.shopCategoryDeleteMsg = "could not delete category";
       })
     );
   }
@@ -133,10 +160,10 @@ export class AdminTabComponent implements OnInit {
 
   deleteItem() {
     this.httpClient.delete( environment.endpointURL + "product/" + this.toDelete.productId).subscribe((res:any)=>{
-        this.deleteFeedback = "Deleted item \" " + this.toDelete.title + "\"";
+        this.itemDeleteMsg = "Deleted item \" " + this.toDelete.title + "\"";
         this.getProducts();
       }, ((res:any)=>{
-        this.deleteFeedback = "could not delete category";
+        this.itemDeleteMsg = "could not delete item";
       })
     );
   }

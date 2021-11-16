@@ -8,19 +8,19 @@
     <mat-card>
       <h3>Create a new post category</h3>
       <mat-form-field>
-        <input matInput placeholder="New PostCategory Name" [(ngModel)]="newCategory">
+        <input matInput placeholder="New PostCategory Name" [(ngModel)]="newPostCategory">
       </mat-form-field>
-      <button mat-flat-button (click)="createCategory()">Create New PostCategory</button>
-      <br>{{createFeedback}}
+      <button mat-flat-button (click)="createPostCategory()">Create New PostCategory</button>
+      <br>{{postCategoryCreateMsg}}
       <h3>Delete an existing post category:</h3>
       <mat-form-field appearance="fill">
         <mat-label>Select PostCategory</mat-label>
-        <mat-select  [(ngModel)]="oldCategory">
-          <mat-option *ngFor="let category of categories" [value]="category" > {{category.postCategoryName}} </mat-option>
+        <mat-select  [(ngModel)]="oldPostCategory">
+          <mat-option *ngFor="let category of postCategories" [value]="category" > {{category.postCategoryName}} </mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-flat-button (click)="deleteCategory()">Delete PostCategory</button>
-      <br>{{deleteFeedback}}
+      <button mat-flat-button (click)="deletePostCategory()">Delete PostCategory</button>
+      <br>{{postCategoryDeleteMsg}}
     </mat-card>
   </mat-expansion-panel>
 
@@ -71,7 +71,24 @@
         </mat-select>
       </mat-form-field>
       <button mat-flat-button (click)="deleteItem()">Delete Item</button>
-      <br>{{deleteFeedback}}
+      <br>{{itemDeleteMsg}}
+    </mat-card>
+    <mat-card>
+      <h3>Create a new shop category</h3>
+      <mat-form-field>
+        <input matInput placeholder="New ShopCategory Name" [(ngModel)]="newShopCategory">
+      </mat-form-field>
+      <button mat-flat-button (click)="createShopCategory()">Create New ShopCategory</button>
+      <br>{{shopCategoryCreateMsg}}
+      <h3>Delete an existing shop category:</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Select ShopCategory</mat-label>
+        <mat-select  [(ngModel)]="oldShopCategory">
+          <mat-option *ngFor="let category of shopCategories" [value]="category" > {{category.shopCategoryName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button (click)="deleteShopCategory()">Delete PostCategory</button>
+      <br>{{shopCategoryDeleteMsg}}
     </mat-card>
   </mat-expansion-panel>
   <mat-expansion-panel>
