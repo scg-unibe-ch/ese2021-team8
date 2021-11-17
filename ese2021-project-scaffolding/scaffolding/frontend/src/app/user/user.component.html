@@ -78,4 +78,11 @@
 </mat-card>
 </div>
 
-
+<div *ngIf="loggedIn">
+  <div *ngFor="let order of orders">
+   <mat-card>
+   Order:  {{getStatusAsString(order.deliveryStatus)}}
+    <button mat-flat-button *ngIf="order.deliveryStatus == 0">CANCEL ORDER</button>
+   </mat-card>
+  </div>
+</div>

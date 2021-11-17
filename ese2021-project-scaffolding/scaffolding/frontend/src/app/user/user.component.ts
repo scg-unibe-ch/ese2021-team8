@@ -4,13 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import {Post} from "../models/post.model";
+import {Order} from "../models/order.model";
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
-export class UserComponent {
+export class UserComponent implements OnInit{
   // Initialize the variables
 
   loggedIn: boolean | undefined;
@@ -32,6 +33,8 @@ export class UserComponent {
   adress1 : string = '';
   adress2 : string = '';
 
+  orders: Order[] = [];
+  status: string ='';
 
   constructor(
     public httpClient: HttpClient,
@@ -44,6 +47,10 @@ export class UserComponent {
     // Current value
     this.loggedIn = userService.getLoggedIn();
     this.user = userService.getUser();
+  }
+
+  ngOnInit() {
+    this.getOrders();
   }
 
   /**
@@ -190,5 +197,25 @@ export class UserComponent {
     return hasNumber;
   }
 
+  getOrders(): void{
+    this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId ).subscribe((orders:any) => {
+      orders.forEach((order:Order) => {
+        this.orders.unshift(new Order(order.orderId, order.userId, order.deliveryStatus));
+      })
+    });
+  }
+
+  getStatusAsString(status:number): string{
+    switch (status) {
+    case 0:
+      return "pending";
+
+    case 1:
+      return "Shipped/Delivered";
+
+    default:
+      return "unknown"
+    }
+  }
 
 }

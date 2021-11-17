@@ -3,13 +3,16 @@ body {
   background-color: #fed200;
   color:black;
 }
+
 .mat-toolbar {
   background-color: black;
   color: #fed200;
 }
+
 mat-ink-bar{
   background-color:black !important;
 }
+
 .mat-card{
   margin: 20px 0;
   background-color: #ddd !important;

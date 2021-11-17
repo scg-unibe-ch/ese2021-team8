@@ -1,6 +1,6 @@
 import express from 'express';
 import { Router, Request, Response } from 'express';
-import { Order } from '../models/Order.model';
+import { Order } from '../models/order.model';
 import {checkAdmin} from '../middlewares/checkAdmin';
 import {verifyToken} from '../middlewares/checkAuth';
 

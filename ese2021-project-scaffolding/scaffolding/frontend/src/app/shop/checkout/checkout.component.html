@@ -1,23 +1,23 @@
-<button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
-<mat-card>
+<mat-card *ngIf="!confimation">
+  <button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
   Checkout
   <br>
   <mat-form-field>
     <mat-label>First Name</mat-label>
-    <input matInput type="text" [defaultValue]="user.firstName" name="firstName">
+    <input matInput type="text" [defaultValue]="user.firstName" name="firstName" required>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Last Name</mat-label>
-    <input matInput type="text" [defaultValue]="user.lastName" name="lastName">
+    <input matInput type="text" [defaultValue]="user.lastName" name="lastName" required>
   </mat-form-field>
   <br>
   <mat-form-field>
     <mat-label>Street</mat-label>
-    <input matInput type="text" [defaultValue]="street" name="address">
+    <input matInput type="text" [defaultValue]="street" name="address" required>
   </mat-form-field>
   <mat-form-field>
     <mat-label>PLZ Ort</mat-label>
-    <input matInput type="text" [defaultValue]="city" name="address">
+    <input matInput type="text" [defaultValue]="city" name="address" required>
   </mat-form-field>
   <br>
   <mat-form-field>
@@ -28,4 +28,12 @@
   </mat-form-field>
   <br>
   <button mat-flat-button (click)="makeOrder()">BUY NOW</button>
+</mat-card>
+
+<mat-card *ngIf="confimation">
+  <button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
+  <mat-card-title>
+    Congratulations on your order!
+  </mat-card-title>
+  <mat-card-content>All orders are visible in you user profile</mat-card-content>
 </mat-card>

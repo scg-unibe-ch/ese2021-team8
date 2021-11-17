@@ -20,6 +20,7 @@ export class CheckoutComponent implements OnInit {
   street: string = "";
   city: string ="";
   order: Order = new Order(0,0,0);
+  confimation: boolean = false;
 
   constructor( public userService: UserService,
                public dialogRef: MatDialogRef<CheckoutComponent>,
@@ -45,16 +46,12 @@ export class CheckoutComponent implements OnInit {
         userId: this.user.userId,
         deliveryStatus: 0
       }).subscribe( (order: any)=>{
-      //  this.order = new Order(order.orderId, order.userId, order.deliveryStatus);
+        this.order = new Order(order.orderId, order.userId, order.deliveryStatus);
         this.httpClient.post(environment.endpointURL + "cart",{
           orderId: order.orderId,
           productId: this.data.product.productId
-        }).subscribe((res: any) =>{
-          this.httpClient.put(environment.endpointURL + "order/" + res.orderId,{
-            deliveryStatus: 1
-          });
-        });
+        }).subscribe(() =>{});
       });
-    this.dialogRef.close();
+    this.confimation = true;
   }
 }
