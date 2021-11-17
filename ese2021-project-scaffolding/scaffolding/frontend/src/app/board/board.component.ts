@@ -50,9 +50,10 @@ export class BoardComponent implements OnInit {
     this.postTitle = '';
     this.postContent = '';
     this.postCategory = this.emptyCategory;
-    this.selectedFile = null;
     this.preview = null;
+    this.selectedFile = null;
     this.showError = false;
+    this.hasPicture = false;
   }
 
   readCategories(): void{
@@ -80,13 +81,14 @@ export class BoardComponent implements OnInit {
       }).subscribe((post: any) => {
         this.posts.unshift(
           new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+
         const formData = new FormData();
         // @ts-ignore
         formData.append("image", this.selectedFile);
 
         this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
           .subscribe((post: any) => {
-
+            this.closePostTemplate();
           });
       });
     }
@@ -103,9 +105,10 @@ export class BoardComponent implements OnInit {
       }).subscribe((post: any) => {
         this.posts.unshift(
           new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+          this.closePostTemplate();
       });
     }
-    this.closePostTemplate();
+
 }
 
   getPosts(): void{
