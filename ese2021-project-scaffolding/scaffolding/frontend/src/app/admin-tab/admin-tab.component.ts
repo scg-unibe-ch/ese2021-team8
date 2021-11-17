@@ -142,7 +142,6 @@ export class AdminTabComponent implements OnInit {
 
   onFileChanged(event: any) {
     this.productPicture = event.target.files[0];
-    this.productPicture = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e: any) => {
       this.preview = e.target.result;
