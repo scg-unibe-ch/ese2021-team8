@@ -43,6 +43,13 @@ orderController.delete('/:id', (req: Request, res: Response) => {
 });
 
 /**
+ * Get all orders
+ */
+orderController.get('/', (req: Request, res: Response) => {
+    Order.findAll().then(orders => res.send(orders)).catch(err => res.status(500).send(err));
+});
+
+/**
  * Gets the order with a given id. Currently no constraints towards user,
  * general purpose method.
  */

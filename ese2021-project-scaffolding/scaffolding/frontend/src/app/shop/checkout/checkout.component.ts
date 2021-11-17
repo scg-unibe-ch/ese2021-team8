@@ -7,6 +7,7 @@ import {environment} from "../../../environments/environment";
 import {ShoppingCart} from "../../models/shopping-cart.model";
 import {Product} from "../../models/product.model";
 import {Order} from "../../models/order.model";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-checkout',
@@ -19,8 +20,12 @@ export class CheckoutComponent implements OnInit {
   products: Product[] = [];
   street: string = "";
   city: string ="";
-  order: Order = new Order(0,0,0);
-  confimation: boolean = false;
+  order: Order = new Order(0,0,'','', '',0,0,0);
+  confirmation: boolean = false;
+  invalid: boolean = false;
+  firstName: string = '';
+  lastName: string = '';
+  paymentMethod: number = 0;
 
   constructor( public userService: UserService,
                public dialogRef: MatDialogRef<CheckoutComponent>,
@@ -33,6 +38,8 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     let address : string[] = this.user.address.split(";");
+    this.firstName = this.user.firstName;
+    this.lastName = this.user.lastName;
     if(address.length==2) {
       this.street = address[0];
       this.city = address[1];
@@ -42,16 +49,31 @@ export class CheckoutComponent implements OnInit {
   }
 
   makeOrder() {
+    console.log(this.data.product.productId);
+      if(this.isValid()){
+        this.invalid = false;
+      } else{
+        this.invalid = true;
+        return;
+      }
       this.httpClient.post(environment.endpointURL + "order",{
         userId: this.user.userId,
-        deliveryStatus: 0
+        firstName: this.firstName,
+        lastName: this.lastName,
+        address: this.street + ';' + this.city,
+        paymentMethod: this.paymentMethod,
+        deliveryStatus: 0,
+        productId: this.data.product.productId
       }).subscribe( (order: any)=>{
-        this.order = new Order(order.orderId, order.userId, order.deliveryStatus);
-        this.httpClient.post(environment.endpointURL + "cart",{
-          orderId: order.orderId,
-          productId: this.data.product.productId
-        }).subscribe(() =>{});
-      });
-    this.confimation = true;
+        console.log(order);
+      },(error => {
+      this.confirmation = false;
+      return;
+      }));
+    this.confirmation = true;
+  }
+
+  isValid(): boolean{
+    return !(this.firstName == '' || this.lastName == '' || this.city == '' || this.street == '')
   }
 }

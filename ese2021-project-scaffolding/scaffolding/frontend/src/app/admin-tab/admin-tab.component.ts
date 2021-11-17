@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {PostCategory} from "../models/postCategory.model";
 import {Product} from "../models/product.model";
 import {ShopCategory} from "../models/shopCategory.model";
+import {Order} from "../models/order.model";
 
 @Component({
   selector: 'app-admin-tab',
@@ -39,13 +40,16 @@ export class AdminTabComponent implements OnInit {
   productPicture: null;
   preview: null;
 
-  orders: string[] = [];
+  toDoOrders: Order[] = [];
+  doneOrders: Order[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
     this.readCategories();
     this.getProducts();
+    this.getToDoOrders();
+    this.getDoneOrders();
   }
 
 
@@ -165,5 +169,26 @@ export class AdminTabComponent implements OnInit {
         this.itemDeleteMsg = "could not delete item";
       })
     );
+  }
+  getToDoOrders(): void{
+    this.httpClient.get(environment.endpointURL + "order/status/" + 0).subscribe((orders:any) => {
+      orders.forEach((order:Order) => {
+        this.toDoOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+      })
+    });
+  }
+
+  getDoneOrders(): void{
+    this.httpClient.get(environment.endpointURL + "order/status/" + 1).subscribe((orders:any) => {
+      orders.forEach((order:Order) => {
+        this.doneOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+      })
+    });
+  }
+
+  shipOrder() {
+    this.httpClient.put( environment.endpointURL + "order", {
+      deliveryStatus: 1
+    }).subscribe()
   }
 }

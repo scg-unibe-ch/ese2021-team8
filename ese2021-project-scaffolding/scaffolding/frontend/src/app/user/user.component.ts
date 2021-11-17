@@ -197,10 +197,12 @@ export class UserComponent implements OnInit{
     return hasNumber;
   }
 
-  getOrders(): void{
+
+
+ getOrders(): void{
     this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId ).subscribe((orders:any) => {
       orders.forEach((order:Order) => {
-        this.orders.unshift(new Order(order.orderId, order.userId, order.deliveryStatus));
+        this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
       })
     });
   }

@@ -14,7 +14,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoItemComponent } from './todo-list/todo-item/todo-item.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MatListModule } from '@angular/material/list';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -58,32 +58,33 @@ const routes: Routes = [
     ShopItemsComponent,
     CheckoutComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatListModule,
-    FormsModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatIconModule,
-    MatMenuModule,
-    RouterModule.forRoot(routes),
-    MatExpansionModule,
-    MatTooltipModule,
-    MatGridListModule,
-    MatDialogModule,
-    MatSidenavModule,
-    FlexModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatListModule,
+        FormsModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatIconModule,
+        MatMenuModule,
+        RouterModule.forRoot(routes),
+        MatExpansionModule,
+        MatTooltipModule,
+        MatGridListModule,
+        MatDialogModule,
+        MatSidenavModule,
+        FlexModule,
+        ReactiveFormsModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

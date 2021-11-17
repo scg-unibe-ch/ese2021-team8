@@ -5,11 +5,17 @@ import {
     DataTypes,
 } from 'sequelize';
 import { User } from './user.model';
+import {Product} from './product.model';
 
 export interface OrderAttributes {
     orderId: number;
     userId: number;
+    firstName: string;
+    lastName: string;
+    address: string;
+    paymentMethod: number;
     deliveryStatus: number;
+    productId: number;
 }
 
 export interface OrderCreationAttributes extends Optional<OrderAttributes, 'orderId'> { }
@@ -18,7 +24,12 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
 
     orderId!: number;
     userId!: number;
+    firstName!: string;
+    lastName!: string;
+    address!: string;
+    paymentMethod: number;
     deliveryStatus!: number;
+    productId!: number;
 
     public static initialize(sequelize: Sequelize) {
         Order.init({
@@ -35,10 +46,33 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
                         key: 'userId'
                     }
                 },
+                firstName: {
+                    type: DataTypes.STRING,
+                    allowNull: false
+                },
+                lastName: {
+                    type: DataTypes.STRING,
+                    allowNull: false
+                },
+                address: {
+                    type: DataTypes.STRING,
+                    allowNull: false
+                },
+                paymentMethod: {
+                    type: DataTypes.NUMBER,
+                    allowNull: false
+               },
                 deliveryStatus: {
                     type: DataTypes.INTEGER,
                     defaultValue: 0,
                     allowNull: false
+                },
+                productId: {
+                    type: DataTypes.INTEGER,
+                    references: {
+                        model: Product,
+                        key: 'productId'
+                    }
                 }
             },
             {
