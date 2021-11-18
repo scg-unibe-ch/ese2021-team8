@@ -42,7 +42,7 @@ export class UserComponent implements OnInit{
   ) {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
-    userService.user$.subscribe(res => this.user = res);
+    userService.user$.subscribe(res =>{ this.user = res; this.getOrders();});
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
@@ -50,6 +50,7 @@ export class UserComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.user = this.userService.getUser();
     this.getOrders();
   }
 
@@ -116,9 +117,10 @@ export class UserComponent implements OnInit{
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
       this.userService.setAdmin(res.user.admin);
+      this.ngOnInit();
       }, (res: any) => {
       this.loginErrorMsg = res.error.message;
-    })
+    });
   }
 
   logoutUser(): void {
@@ -130,21 +132,6 @@ export class UserComponent implements OnInit{
     this.userService.setAdmin(false);
   }
 
-  accessUserEndpoint(): void {
-    this.httpClient.get(environment.endpointURL + "secured").subscribe(() => {
-      this.endpointMsgUser = "Access granted";
-    }, () => {
-      this.endpointMsgUser = "Unauthorized";
-    });
-  }
-
-  accessAdminEndpoint(): void {
-    this.httpClient.get(environment.endpointURL + "admin").subscribe(() => {
-      this.endpointMsgAdmin = "Access granted";
-    }, () => {
-      this.endpointMsgAdmin = "Unauthorized";
-    });
-  }
   //Autor @Ramona
   checkPasswordLength(password: string): boolean{
     return password.length >= 8;
@@ -200,11 +187,19 @@ export class UserComponent implements OnInit{
 
 
  getOrders(): void{
-    this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId ).subscribe((orders:any) => {
+    this.orders = [];
+    this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId).subscribe((orders:any) => {
       orders.forEach((order:Order) => {
-        this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+        this.orders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
       })
-    });
+    }, () => {});
+  }
+
+  cancelOrder(id: number): void{
+    this.httpClient.put(environment.endpointURL + "order/" + id, {
+      deliveryStatus: 2
+    } ).subscribe((res)=> this.getOrders()
+    );
   }
 
   getStatusAsString(status:number): string{
@@ -214,9 +209,10 @@ export class UserComponent implements OnInit{
 
     case 1:
       return "Shipped/Delivered";
-
-    default:
-      return "unknown"
+      case 2:
+        return "cancelled";
+      default:
+        return "unknown";
     }
   }
 

@@ -186,9 +186,22 @@ export class AdminTabComponent implements OnInit {
     });
   }
 
-  shipOrder() {
-    this.httpClient.put( environment.endpointURL + "order", {
+  shipOrder(id: number) {
+    this.httpClient.put( environment.endpointURL + "order/" + id, {
       deliveryStatus: 1
-    }).subscribe()
+    }).subscribe((res: any) => {
+      this.doneOrders.unshift(res);
+      let index = -1;
+      this.toDoOrders.forEach((order)=>{
+        if(order.orderId == res.orderId){
+          index = this.toDoOrders.indexOf(order);
+        }
+      });
+      console.log(index);
+      console.log(this.toDoOrders);
+      if(index > -1){
+        this.toDoOrders.splice(index, 1);
+      }
+      });
   }
 }

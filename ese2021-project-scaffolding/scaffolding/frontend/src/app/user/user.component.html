@@ -82,7 +82,7 @@
   <div *ngFor="let order of orders">
    <mat-card>
    Order:  {{getStatusAsString(order.deliveryStatus)}}
-    <button mat-flat-button *ngIf="order.deliveryStatus == 0">CANCEL ORDER</button>
+    <button mat-flat-button *ngIf="order.deliveryStatus == 0" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
    </mat-card>
   </div>
 </div>

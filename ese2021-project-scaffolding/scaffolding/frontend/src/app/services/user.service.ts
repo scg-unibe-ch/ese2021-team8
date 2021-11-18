@@ -15,7 +15,7 @@ export class UserService {
 
   private loggedIn: boolean | undefined;
 
-  private user: User = new User(1,'','','','','','','',0);
+  private user: User = new User(0,'','','','','','','',0);
 
   private admin: boolean = false;
 

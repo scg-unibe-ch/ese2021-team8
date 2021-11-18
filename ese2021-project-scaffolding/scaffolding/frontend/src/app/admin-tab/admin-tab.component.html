@@ -95,12 +95,23 @@
     <mat-expansion-panel-header>
       Manage orders
     </mat-expansion-panel-header>
-    Open orders:
-  <!--  <div *ngFor="let order of orders">
-      <mat-card>
-        {{order.orderId}}
-        <button mat-flat-button (click)="shipOrder()">Send order</button>
-      </mat-card>
-    </div> -->
+    <mat-card>
+      <mat-card-title>Open orders:</mat-card-title>
+        <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
+          <div *ngFor="let order of toDoOrders">
+            {{order.orderId}}
+            <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button>
+            <br> <br>
+          </div>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Completed orders</mat-card-title>
+        <div *ngIf="doneOrders.length==0">Currently no completed orders</div>
+          <div *ngFor="let order of doneOrders">
+            {{order.orderId}}
+            <br>
+          </div>
+    </mat-card>
   </mat-expansion-panel>
 </mat-accordion>
