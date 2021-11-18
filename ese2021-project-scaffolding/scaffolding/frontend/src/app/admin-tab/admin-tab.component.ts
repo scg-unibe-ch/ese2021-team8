@@ -140,6 +140,8 @@ export class AdminTabComponent implements OnInit {
           console.log(this.products);
           this.newProduct.title = this.newProduct.description = "";
           this.newProduct.price = 0;
+          this.preview = null;
+          this.shopCategory = this.emptyShopCategory;
         });
     });
   }

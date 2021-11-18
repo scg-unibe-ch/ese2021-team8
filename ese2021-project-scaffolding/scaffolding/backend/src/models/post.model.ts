@@ -78,7 +78,8 @@ export class Post extends Model<PostAttributes, PostCreationAttributes> implemen
     public static createAssociations() {
         Post.hasOne(ItemImage, {
             as: 'images',
-            foreignKey: 'postId'
+            foreignKey: 'postId',
+            onDelete: 'cascade',
         });
     }
 }

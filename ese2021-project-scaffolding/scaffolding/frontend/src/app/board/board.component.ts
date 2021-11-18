@@ -79,8 +79,7 @@ export class BoardComponent implements OnInit {
         votes: 0,
         itemImage: true
       }).subscribe((post: any) => {
-        this.posts.unshift(
-          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+        const newPost = new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage);
 
         const formData = new FormData();
         // @ts-ignore
@@ -88,6 +87,7 @@ export class BoardComponent implements OnInit {
 
         this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
           .subscribe((post: any) => {
+            this.posts.unshift(newPost);
             this.closePostTemplate();
           });
       });
