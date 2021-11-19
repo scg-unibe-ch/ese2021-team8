@@ -17,12 +17,13 @@
       </mat-chip-list>
   <br>
       <mat-card-content>
-       <img class="productImage" src="{{imagePath}}">
+       <img class="productImage" src="{{imagePath}}" alt="{{product.description}}">
         <br>
         {{product.description}}
+        <div><h5>{{product.price}} CHF</h5></div>
       </mat-card-content>
   <div *ngIf="!this.userService.getLoggedIn()">
-  <button mat-fab (click)="router.navigate(['user'])">buy now</button>
+  <button mat-fab (click)="router.navigate(['user'])" [matTooltip]="'log in to buy'">buy now</button>
   </div>
   <div *ngIf="this.userService.getLoggedIn()">
     <button mat-fab (click)="openDialog()">buy now</button>
@@ -44,7 +45,7 @@
   <br>
   <mat-form-field appearance="outline" style="width: 100%; height: 40%">
     <mat-label>description</mat-label>
-    <textarea matInput placeholder={{product.description}} style="width: 100%" rows="10" name="content"[(ngModel)]="product.description"></textarea>
+    <textarea matInput placeholder={{product.description}} style="width: 100%" rows="10" name="content" [(ngModel)]="product.description"></textarea>
   </mat-form-field>
   <button mat-button (click)="updateProduct()">Update Product</button>
 </mat-card>

@@ -1,33 +1,31 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <span>YB-FAN-Community</span> <button style="background-color: transparent !important" mat-flat-button class="Logo" (click)="EasterEgg()" ><img src="assets/YB_Logo.png" height="50"
-                                                                             width="50"></button>
+    <span>YB-FAN-Community</span> <button style="background-color: transparent !important" mat-flat-button class="Logo" (click)="EasterEgg()" ><img src="assets/YB_Logo.png" height="50" width="50" alt="logo"></button>
   </mat-toolbar-row>
-
 </mat-toolbar>
+<body ngClass.gt-sm="bigScreen">
 
 <nav mat-tab-nav-bar>
   <a mat-tab-link routerLink="/home">Home</a>
   <a mat-tab-link routerLink="/shop">Shop</a>
 
-  <button mat-icon-button class="login" [matMenuTriggerFor]="login" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
-    <mat-icon>account_circle</mat-icon></button>
-  <mat-menu #login="matMenu">
-    <div  *ngIf="!loggedIn">
-    <button mat-menu-item class="dropdown" routerLink="/user">
-      <span>Log in/Register</span>
-    </button>
-    </div>
-    <div *ngIf="loggedIn">
+  <a mat-tab-link *ngIf="!loggedIn" class="login" routerLink="/user">
+    <span>Log in/Register</span>
+  </a>
+  <div *ngIf="loggedIn">
+    <button mat-icon-button class="login" [matMenuTriggerFor]="login" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
+      <mat-icon>account_circle</mat-icon></button>
+    <mat-menu #login="matMenu">
       <button mat-menu-item class="dropdown" routerLink="/user" >
         <span>Profile Page</span>
       </button>
-    </div>
     <div *ngIf="isAdmin">
       <button mat-menu-item class="dropdown" routerLink="/admin">
         <span>Admin page</span>
       </button>
     </div>
+      <button mat-menu-item class="dropdown" (click)="logout()">Log out</button>
   </mat-menu>
+  </div>
 </nav>
 <router-outlet></router-outlet>

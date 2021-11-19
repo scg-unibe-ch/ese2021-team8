@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TodoList } from './models/todo-list.model';
 import { TodoItem } from './models/todo-item.model';
@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
 import { User } from './models/user.model';
 import {Router} from "@angular/router";
+import {UserComponent} from "./user/user.component";
 
 
 @Component({
@@ -28,7 +29,6 @@ export class AppComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
-    private router: Router
   ) {
 
     // Listen for changes
@@ -94,6 +94,11 @@ export class AppComponent implements OnInit {
     this.userService.setLoggedIn(!!userToken);
 
 
+  }
+
+  logout(){
+    let userComp = new UserComponent(this.httpClient, this.userService,);
+    userComp.logoutUser();
   }
 
   EasterEgg() {

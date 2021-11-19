@@ -1,7 +1,6 @@
 import express from 'express';
 import { Router, Request, Response } from 'express';
 import { Product } from '../models/product.model';
-import {verifyToken} from '../middlewares/checkAuth';
 import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {ItemService} from '../services/item.service';
@@ -88,7 +87,7 @@ productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
  */
 productController.get('/:postCategoryId',
     (req: Request, res: Response) => {
-        Product.findAll({where: {shopCategoryId: req.params.categoryId}})
+        Product.findAll({where: {shopCategoryId: req.params.postCategoryId}})
             .then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );

@@ -1,10 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Post} from "../models/post.model";
 import {PostCategory} from "../models/postCategory.model";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
-import { ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-post-template',
@@ -86,7 +85,7 @@ export class BoardComponent implements OnInit {
         formData.append("image", this.selectedFile);
 
         this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
-          .subscribe((post: any) => {
+          .subscribe(() => {
             this.posts.unshift(newPost);
             this.closePostTemplate();
           });
@@ -118,7 +117,6 @@ export class BoardComponent implements OnInit {
       this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));})
       this.postTitle = this.postContent = '';
       this.displayPostTemplate = false;
-
     });
   }
 
@@ -126,7 +124,8 @@ export class BoardComponent implements OnInit {
     this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
       votes: post.votes,
       title: post.title,
-      content: post.content
+      content: post.content,
+      categoryId: post.categoryId
     }).subscribe(() => {
       this.getPosts();
     });

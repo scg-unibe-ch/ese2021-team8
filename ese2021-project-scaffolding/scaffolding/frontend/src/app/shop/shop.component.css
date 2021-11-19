@@ -5,3 +5,7 @@ mat-card{
 .mat-grid-tile-content{
   display: block !important;
 }
+
+.chip-list{
+  width: 100%;
+}

@@ -1,32 +1,45 @@
-<div *ngFor="let in of counter(products.length);let i = index"  fxLayout="column" fxLayout.gt-xs="row">
-  <div fxFlex="33">
-    <app-shop-items [product] = products[3*i]
-                    (getNewProducts)="getProducts()"
-                    (sendUpdate)="updateProduct($event)">
-    </app-shop-items>
+<!--<body fxLayout="column" ngClass.gt-sm="bigScreen"> -->
+<mat-form-field class="chip-list" appearance="fill">
+  <mat-label>Search by category</mat-label>
+  <mat-select class="selectCategory" [(value)]="categoryId" (selectionChange)="selected(categoryId)">
+    <mat-option *ngFor="let category of shopCategories" [value]="category.shopCategoryId">
+      {{category.shopCategoryName}}
+    </mat-option>
+  </mat-select>
+  <mat-chip-list>
+    <mat-chip
+      *ngFor="let category of selectedCategories"
+      [selectable]="selectable"
+      [removable]="removable"
+     (removed)="remove(category)">
+      {{category.shopCategoryName}}
+      <button matChipRemove *ngIf="removable">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-list>
+
+</mat-form-field>
+  <div *ngIf="products.length==0">
+    Currently no products
   </div>
-  <div fxFlex="33">
-    <app-shop-items [product] = products[3*i+1]
-                    (getNewProducts)="getProducts()">
-    </app-shop-items>
-  </div>
-  <div fxFlex="33">
-    <app-shop-items [product]="products[3*i+2]"
-                    (getNewProducts)="getProducts()">
-    </app-shop-items>
-  </div>
-</div>
-<!--
-<div *ngFor="let in of counter(products.length);let i = index">
-  <mat-grid-list cols="2" gutterSize="5px" >
-    <mat-grid-tile>
-      <app-shop-items [product] = products[2*i]>
+  <div *ngFor="let n of counter(products.length);let i = index"  fxLayout="column" fxLayout.gt-xs="row">
+    <div fxFlex="33">
+      <app-shop-items [product] = products[3*i]
+                      (getNewProducts)="getProducts()"
+                      (sendUpdate)="updateProduct($event)">
       </app-shop-items>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <app-shop-items [product] = products[2*i+1]>
+    </div>
+    <div fxFlex="33">
+      <app-shop-items [product] = products[3*i+1]
+                      (getNewProducts)="getProducts()">
       </app-shop-items>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
--->
+    </div>
+    <div fxFlex="33">
+      <app-shop-items [product]="products[3*i+2]"
+                      (getNewProducts)="getProducts()">
+      </app-shop-items>
+    </div>
+  </div>
+  <!--
+</body>   -->

@@ -31,10 +31,11 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import { ShopComponent } from './shop/shop.component';
 import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
 import {MatGridListModule} from "@angular/material/grid-list";
-import {FlexLayoutModule, FlexModule} from "@angular/flex-layout";
+import {ExtendedModule, FlexModule} from "@angular/flex-layout";
 import { CheckoutComponent } from './shop/checkout/checkout.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -58,33 +59,35 @@ const routes: Routes = [
     ShopItemsComponent,
     CheckoutComponent
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MatToolbarModule,
-        MatTabsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatListModule,
-        FormsModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatOptionModule,
-        MatChipsModule,
-        MatIconModule,
-        MatMenuModule,
-        RouterModule.forRoot(routes),
-        MatExpansionModule,
-        MatTooltipModule,
-        MatGridListModule,
-        MatDialogModule,
-        MatSidenavModule,
-        FlexModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatTabsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatListModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatChipsModule,
+    MatIconModule,
+    MatMenuModule,
+    RouterModule.forRoot(routes),
+    MatExpansionModule,
+    MatTooltipModule,
+    MatGridListModule,
+    MatDialogModule,
+    MatSidenavModule,
+    FlexModule,
+    ReactiveFormsModule,
+    ExtendedModule,
+    MatAutocompleteModule
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

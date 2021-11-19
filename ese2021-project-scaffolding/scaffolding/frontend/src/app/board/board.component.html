@@ -1,4 +1,4 @@
-
+<body fxLayout="column" ngClass.gt-sm="bigScreen">
 <mat-card class="postCard" *ngIf="!displayPostTemplate && userService.getLoggedIn() && !userService.isAdmin()">
   <div class="postButton">
     <button mat-raised-button (click)="clickCreatePost()">Create New Post</button>
@@ -30,7 +30,7 @@
       <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
       <br>
       <div>
-        <img src="{{preview}}" class="preview">
+        <img src="{{preview}}" class="preview" alt="upload preview">
       </div>
     </mat-form-field>
     <br>
@@ -46,4 +46,4 @@
       (sendUpdate)="updatePost($event)"
       (getNewPosts)="getPosts()"
     ></app-post>
-
+</body>

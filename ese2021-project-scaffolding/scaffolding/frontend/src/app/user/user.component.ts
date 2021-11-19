@@ -1,9 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
-import {Post} from "../models/post.model";
 import {Order} from "../models/order.model";
 
 @Component({
@@ -87,7 +86,7 @@ export class UserComponent implements OnInit{
       address: this.userToRegister.address + this.adress1 + ';' + this.adress2 ,
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
-    }).subscribe((res: any) => {
+    }).subscribe(() => {
       this.userToLogin.username = this.userToRegister.username;
       this.userToLogin.password = this.userToRegister.password;
       this.loginUser();
@@ -157,7 +156,7 @@ export class UserComponent implements OnInit{
  // Autor @A
   checkPasswordSpecial(password: string): boolean{
     let hasSpezial = false;
-    let specialChars = ['+' ,'*', 'ç' , '%' , '&' , '/' , '(' , ')' , '=' , '£' , '!' , ,`$`,'?','@']
+    let specialChars = ['+' ,'*', 'ç' , '%' , '&' , '/' , '(' , ')' , '=' , '£' , '!' ,`$`,'?','@']
     for(let i=0; i<password.length; i++) {
       // Test this special Chars /+"*ç%&/()=£!?@$;  @A
       let passwordCharOne = password.charAt(i);
@@ -190,7 +189,7 @@ export class UserComponent implements OnInit{
     this.orders = [];
     this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId).subscribe((orders:any) => {
       orders.forEach((order:Order) => {
-        this.orders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+        this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
       })
     }, () => {});
   }
