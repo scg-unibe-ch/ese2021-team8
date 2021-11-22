@@ -1,16 +1,1 @@
 #Frontend To Do's
-- in user.component registrations felder als required markieren
-- Phone number als string speichern
-- blaue boarders überall schwarz machen z.B. bei post input feldern
-- für admin funktion zu erstellung von categories implementieren (in profile page)
-- posts auf home feed anzeigen
-- von user erstellte posts auf profile page anzeigen
-- erstellte posts bearbeiten können
-- erstellte posts löschen können
-- Design: Logo einfügen 
-- Design: Impressum einfügen
-- Authenti zu Profile Page 
-- Profile Page zu Shop
-- bugfixes bei der Erstellung von Posts mit Bildern:
-  - Bild wird nicht dem neu erstellten Post angehängt sondern dem zuletzt erstellten post ('this.post[0]' liefert den falschen post)
-  - Seite muss zuerst aktualisiert werden bevor der Post korrekt angezeigt wird.
