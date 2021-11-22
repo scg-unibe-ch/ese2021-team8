@@ -59,3 +59,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin-left: 15% !important;
   margin-right: 15% !important;
 }
+
+#mat-select-value-1 > span > span{
+  display: none !important;
+}

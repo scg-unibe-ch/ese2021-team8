@@ -1,7 +1,22 @@
-<mat-card>
-  <h3>Login</h3>
-
-  <div *ngIf="!loggedIn">
+<mat-tab-group *ngIf="loggedIn">
+  <mat-tab label="My Profile">
+    <div>
+      <mat-card>
+      <button mat-flat-button color="warn" (click)="logoutUser()" style="position: center">Logout</button>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="My Orders">
+      <div *ngFor="let order of orders">
+        <mat-card>
+          Order:  {{getStatusAsString(order.deliveryStatus)}}
+          <button mat-flat-button *ngIf="order.deliveryStatus == 0" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
+        </mat-card>
+      </div>
+  </mat-tab>
+</mat-tab-group>
+<div *ngIf="!loggedIn">
+  <mat-card>
     <mat-form-field>
       <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToLogin.username">
     </mat-form-field>
@@ -10,13 +25,8 @@
     </mat-form-field>
     <button mat-flat-button color="primary" (click)="loginUser()">Login</button>
     {{ loginErrorMsg }}
-  </div>
-
-  <div *ngIf="loggedIn">
-    <button mat-flat-button color="warn" (click)="logoutUser()">Logout</button>
-  </div>
-</mat-card>
-
+  </mat-card>
+</div>
 <div *ngIf="!loggedIn">
 <mat-card>
   <h3>Register</h3>
@@ -78,11 +88,4 @@
 </mat-card>
 </div>
 
-<div *ngIf="loggedIn">
-  <div *ngFor="let order of orders">
-   <mat-card>
-   Order:  {{getStatusAsString(order.deliveryStatus)}}
-    <button mat-flat-button *ngIf="order.deliveryStatus == 0" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
-   </mat-card>
-  </div>
-</div>
+
