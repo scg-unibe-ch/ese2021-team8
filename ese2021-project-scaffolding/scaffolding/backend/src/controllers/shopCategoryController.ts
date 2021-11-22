@@ -62,7 +62,7 @@ shopCategoryController.get('/',
 );
 
 /**
- * Returns a shop category according to the input id.
+ * Returns a shop category according to the input id. No access barrier.
  */
 shopCategoryController.get('/:id',
     (req: Request, res: Response) => {

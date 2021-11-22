@@ -2,6 +2,7 @@
 import express, { Router, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { verifyToken } from '../middlewares/checkAuth';
+import { checkAdmin } from '../middlewares/checkAdmin';
 import { User } from '../models/user.model';
 
 const userController: Router = express.Router();
@@ -19,6 +20,9 @@ userController.post('/login',
     }
 );
 
+/**
+ * Let's the user update his userdata, preferably on his userpage.
+ */
 userController.put('/:id', verifyToken, (req: Request, res: Response) => {
         User.findByPk(req.params.id)
             .then(found => {
@@ -34,13 +38,20 @@ userController.put('/:id', verifyToken, (req: Request, res: Response) => {
     }
 );
 
-userController.get('/', verifyToken, // you can add middleware on specific requests like that
+/**
+ * Gets all existing users in the database. Only admins can access this method.
+ */
+userController.get('/', checkAdmin, // you can add middleware on specific requests like that
     (req: Request, res: Response) => {
         userService.getAll().then(users => res.send(users)).catch(err => res.status(500).send(err));
     }
 );
 
-userController.get('/:id',
+/**
+ * Gets the user from the database with a certain id. The user must be logged in and
+ * the method should mainly be used to access the users own data.
+ */
+userController.get('/:id', verifyToken,
     (req: Request, res: Response) => {
     userService.findUserWithId(Number(req.params.id))
         .then(result => res.send(result)).catch(err => res.status(500).send(err));
