@@ -196,7 +196,7 @@ export class UserComponent implements OnInit{
 
   cancelOrder(id: number): void{
     this.httpClient.put(environment.endpointURL + "order/" + id, {
-      deliveryStatus: 2
+      deliveryStatus: 'cancelled'
     }).subscribe(()=> this.getOrders()
     );
   }

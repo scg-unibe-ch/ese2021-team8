@@ -173,7 +173,7 @@ export class AdminTabComponent implements OnInit {
     );
   }
   getToDoOrders(): void{
-    this.httpClient.get(environment.endpointURL + "order/status/" + 0).subscribe((orders:any) => {
+    this.httpClient.get(environment.endpointURL + "order/status/" + 'pending').subscribe((orders:any) => {
       orders.forEach((order:Order) => {
         this.toDoOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
       })
@@ -181,7 +181,7 @@ export class AdminTabComponent implements OnInit {
   }
 
   getDoneOrders(): void{
-    this.httpClient.get(environment.endpointURL + "order/status/" + 1).subscribe((orders:any) => {
+    this.httpClient.get(environment.endpointURL + "order/status/" + 'shipped/delivered').subscribe((orders:any) => {
       orders.forEach((order:Order) => {
         this.doneOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
       })
@@ -190,7 +190,7 @@ export class AdminTabComponent implements OnInit {
 
   shipOrder(id: number) {
     this.httpClient.put( environment.endpointURL + "order/" + id, {
-      deliveryStatus: 1
+      deliveryStatus: 'shipped/delivered'
     }).subscribe((res: any) => {
       this.doneOrders.unshift(res);
       let index = -1;
