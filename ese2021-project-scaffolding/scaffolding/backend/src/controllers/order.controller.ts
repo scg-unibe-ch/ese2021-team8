@@ -81,7 +81,7 @@ orderController.get('/user/:id', verifyToken, (req: Request, res: Response) => {
 });
 
 /**
- * Gets all existing orders from a certain user. May be used on his profile page.
+ * Gets a certain order from a certain user. May be used on his profile page.
  */
 orderController.get('/userId:/:orderId', verifyToken, (req: Request, res: Response) => {
     Order.findOne({ where: {userId: req.params.userId, orderId: req.params.orderId}})
