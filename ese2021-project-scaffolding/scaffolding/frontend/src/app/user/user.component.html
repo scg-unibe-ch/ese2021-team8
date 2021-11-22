@@ -9,8 +9,8 @@
   <mat-tab label="My Orders">
       <div *ngFor="let order of orders">
         <mat-card>
-          Order:  {{getStatusAsString(order.deliveryStatus)}}
-          <button mat-flat-button *ngIf="order.deliveryStatus == 0" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
+          Order:  {{order.deliveryStatus}}
+          <button mat-flat-button *ngIf="order.deliveryStatus === 'pending'" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
         </mat-card>
       </div>
   </mat-tab>

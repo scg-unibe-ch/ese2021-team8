@@ -7,7 +7,7 @@ export class Order {
     public lastName: string,
     public address: string,
     public paymentMethod: number,
-    public deliveryStatus: number,
+    public deliveryStatus: string,
     public productId: number,
   ) {}
 }

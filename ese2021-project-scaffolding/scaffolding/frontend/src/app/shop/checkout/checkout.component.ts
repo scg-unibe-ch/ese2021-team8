@@ -20,7 +20,7 @@ export class CheckoutComponent implements OnInit {
   products: Product[] = [];
   street: string = "";
   city: string ="";
-  order: Order = new Order(0,0,'','', '',0,0,0);
+  order: Order = new Order(0,0,'','', '',0,'',0);
   confirmation: boolean = false;
   invalid: boolean = false;
   firstName: string = '';
@@ -62,7 +62,7 @@ export class CheckoutComponent implements OnInit {
         lastName: this.lastName,
         address: this.street + ';' + this.city,
         paymentMethod: this.paymentMethod,
-        deliveryStatus: 0,
+        deliveryStatus: 'pending',
         productId: this.data.product.productId
       }).subscribe( (order: any)=>{
         console.log(order);
