@@ -1,119 +1,131 @@
-<body fxLayout="column" ngClass.gt-sm="bigScreen">
-  <mat-accordion>
+
+<mat-tab-group>
+  <mat-tab label="Manage post categories">
+    <mat-card>
+      <h3>Create a new post category</h3>
+      <mat-form-field>
+        <input matInput placeholder="New PostCategory Name" [(ngModel)]="newPostCategory">
+      </mat-form-field>
+      <button mat-flat-button (click)="createPostCategory()">Create New PostCategory</button>
+      <br>{{postCategoryCreateMsg}}
+      <h3>Delete an existing post category:</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Select PostCategory</mat-label>
+        <mat-select  [(ngModel)]="oldPostCategory">
+          <mat-option *ngFor="let category of postCategories" [value]="category" > {{category.postCategoryName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button (click)="deletePostCategory()">Delete PostCategory</button>
+      <br>{{postCategoryDeleteMsg}}
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Manage shop">
+    <mat-card>
+      Add a new product to the shop <br>
+      <mat-form-field appearance="fill" style="width: 60%;">
+        <input matInput type="text" placeholder="product title" name="title" [(ngModel)]="newProduct.title">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill" style="width: 60%">
+        <mat-label>Select Category</mat-label>
+        <mat-select required [(ngModel)]="shopCategory">
+          <mat-option *ngFor="let shopCategory of shopCategories" [value]="shopCategory"  > {{shopCategory.shopCategoryName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill" style="width: 60%;">
+        <mat-label>price</mat-label>
+        <input matInput type="number" name="price" [(ngModel)]="newProduct.price">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline" style="width: 100%; height: 40%">
+        <textarea matInput placeholder="product description" style="width: 100%" rows="10" name="description" [(ngModel)]="newProduct.description">
+        </textarea>
+        <input
+          style="display: none"
+          type="file" (change)="onFileChanged($event)"
+          #fileInput>
+        <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
+        <div *ngIf="preview!=null">
+          <img src="{{preview}}" class="preview" alt="upload preview">
+        </div>
+      </mat-form-field>
+      <br>
+      <br>
+      <button mat-raised-button (click)="createProduct()">Publish Product</button>
+    </mat-card>
+    <mat-card >
+      <h3>Delete an existing shop item</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Select Item</mat-label>
+        <mat-select [(ngModel)]="toDelete">
+          <mat-option *ngFor="let product of products" [value]="product" > {{product.productId}} - {{product.title}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button (click)="deleteItem()">Delete Item</button>
+      <br>{{itemDeleteMsg}}
+    </mat-card>
+    <mat-card>
+      <h3>Create a new shop category</h3>
+      <mat-form-field>
+        <input matInput placeholder="New ShopCategory Name" [(ngModel)]="newShopCategory">
+      </mat-form-field>
+      <button mat-flat-button (click)="createShopCategory()">Create New ShopCategory</button>
+      <br>{{shopCategoryCreateMsg}}
+      <h3>Delete an existing shop category:</h3>
+      <mat-form-field appearance="fill">
+        <mat-label>Select ShopCategory</mat-label>
+        <mat-select  [(ngModel)]="oldShopCategory">
+          <mat-option *ngFor="let category of shopCategories" [value]="category" > {{category.shopCategoryName}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-flat-button (click)="deleteShopCategory()">Delete PostCategory</button>
+      <br>{{shopCategoryDeleteMsg}}
+    </mat-card>
+  </mat-tab>
+  <mat-tab label="Manage orders">
+    <mat-card>
+      <mat-card-title>Open orders:</mat-card-title>
+      <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
+      <div *ngFor="let order of toDoOrders">
+        {{order.orderId}}
+        <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button>
+        <br> <br>
+      </div>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-title>Completed orders</mat-card-title>
+      <div *ngIf="doneOrders.length==0">Currently no completed orders</div>
+      <div *ngFor="let order of doneOrders">
+        {{order.orderId}}
+        <br>
+      </div>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
+
+
+<!--<mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
         Manage post categories
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-card>
-        <h3>Create a new post category</h3>
-        <mat-form-field>
-          <input matInput placeholder="New PostCategory Name" [(ngModel)]="newPostCategory">
-        </mat-form-field>
-        <button mat-flat-button (click)="createPostCategory()">Create New PostCategory</button>
-        <br>{{postCategoryCreateMsg}}
-        <h3>Delete an existing post category:</h3>
-        <mat-form-field appearance="fill">
-          <mat-label>Select PostCategory</mat-label>
-          <mat-select  [(ngModel)]="oldPostCategory">
-            <mat-option *ngFor="let category of postCategories" [value]="category" > {{category.postCategoryName}} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button (click)="deletePostCategory()">Delete PostCategory</button>
-        <br>{{postCategoryDeleteMsg}}
-      </mat-card>
+
     </mat-expansion-panel>
 
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Manage shop</mat-panel-title>
       </mat-expansion-panel-header>
-      <mat-card>
-        Add a new product to the shop <br>
-        <mat-form-field appearance="fill" style="width: 60%;">
-          <input matInput type="text" placeholder="product title" name="title" [(ngModel)]="newProduct.title">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" style="width: 60%">
-          <mat-label>Select Category</mat-label>
-          <mat-select required [(ngModel)]="shopCategory">
-            <mat-option *ngFor="let shopCategory of shopCategories" [value]="shopCategory"  > {{shopCategory.shopCategoryName}} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="fill" style="width: 60%;">
-          <mat-label>price</mat-label>
-          <input matInput type="number" name="price" [(ngModel)]="newProduct.price">
-        </mat-form-field>
-        <br>
-        <mat-form-field appearance="outline" style="width: 100%; height: 40%">
-        <textarea matInput placeholder="product description" style="width: 100%" rows="10" name="description" [(ngModel)]="newProduct.description">
-        </textarea>
-          <input
-            style="display: none"
-            type="file" (change)="onFileChanged($event)"
-            #fileInput>
-          <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
-          <div>
-            <img src="{{preview}}" class="preview" alt="upload preview">
-          </div>
-        </mat-form-field>
-        <br>
-        <br>
-        <button mat-raised-button (click)="createProduct()">Publish Product</button>
-      </mat-card>
-      <mat-card >
-        <h3>Delete an existing shop item</h3>
-        <mat-form-field appearance="fill">
-          <mat-label>Select Item</mat-label>
-          <mat-select [(ngModel)]="toDelete">
-            <mat-option *ngFor="let product of products" [value]="product" > {{product.productId}} - {{product.title}} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button (click)="deleteItem()">Delete Item</button>
-        <br>{{itemDeleteMsg}}
-      </mat-card>
-      <mat-card>
-        <h3>Create a new shop category</h3>
-        <mat-form-field>
-          <input matInput placeholder="New ShopCategory Name" [(ngModel)]="newShopCategory">
-        </mat-form-field>
-        <button mat-flat-button (click)="createShopCategory()">Create New ShopCategory</button>
-        <br>{{shopCategoryCreateMsg}}
-        <h3>Delete an existing shop category:</h3>
-        <mat-form-field appearance="fill">
-          <mat-label>Select ShopCategory</mat-label>
-          <mat-select  [(ngModel)]="oldShopCategory">
-            <mat-option *ngFor="let category of shopCategories" [value]="category" > {{category.shopCategoryName}} </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <button mat-flat-button (click)="deleteShopCategory()">Delete PostCategory</button>
-        <br>{{shopCategoryDeleteMsg}}
-      </mat-card>
+
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         Manage orders
       </mat-expansion-panel-header>
-      <mat-card>
-        <mat-card-title>Open orders:</mat-card-title>
-          <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
-            <div *ngFor="let order of toDoOrders">
-              {{order.orderId}}
-              <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button>
-              <br> <br>
-            </div>
-      </mat-card>
 
-      <mat-card>
-        <mat-card-title>Completed orders</mat-card-title>
-          <div *ngIf="doneOrders.length==0">Currently no completed orders</div>
-            <div *ngFor="let order of doneOrders">
-              {{order.orderId}}
-              <br>
-            </div>
-      </mat-card>
     </mat-expansion-panel>
-  </mat-accordion>
-</body>
+  </mat-accordion>-->

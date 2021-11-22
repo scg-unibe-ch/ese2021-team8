@@ -29,8 +29,8 @@
         #fileInput>
       <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
       <br>
-      <div>
-        <img src="{{preview}}" class="preview" alt="upload preview">
+      <div *ngIf="hasPicture">
+        <img src="{{preview}}" class="preview">
       </div>
     </mat-form-field>
     <br>

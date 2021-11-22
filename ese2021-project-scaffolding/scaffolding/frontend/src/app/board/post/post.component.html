@@ -28,7 +28,9 @@
     </mat-chip-list>
   <mat-card-content *ngIf="!collapse">
     {{post.content}} <br>
+    <div *ngIf="post.itemImage">
     <img class="imagePost" src="{{img}}" alt="post image">
+    </div>
     <div *ngIf="uncollapse">
       <button mat-icon-button  (click)="(collapse=!collapse) && (uncollapse = false)"><mat-icon>expand_less</mat-icon></button>
     </div>
