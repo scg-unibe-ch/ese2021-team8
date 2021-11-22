@@ -2,6 +2,7 @@
 import express, { Router, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { verifyToken } from '../middlewares/checkAuth';
+import { User } from '../models/user.model';
 
 const userController: Router = express.Router();
 const userService = new UserService();
@@ -15,6 +16,21 @@ userController.post('/register',
 userController.post('/login',
     (req: Request, res: Response) => {
         userService.login(req.body).then(login => res.send(login)).catch(err => res.status(500).send(err));
+    }
+);
+
+userController.put('/:id', verifyToken, (req: Request, res: Response) => {
+        User.findByPk(req.params.id)
+            .then(found => {
+                if (found != null) {
+                    found.update(req.body).then(updated => {
+                        res.status(200).send(updated);
+                    });
+                } else {
+                    res.sendStatus(404);
+                }
+            })
+            .catch(err => res.status(500).send(err));
     }
 );
 
