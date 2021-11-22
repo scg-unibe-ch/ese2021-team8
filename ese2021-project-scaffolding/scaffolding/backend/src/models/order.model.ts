@@ -63,8 +63,8 @@ export class Order extends Model<OrderAttributes, OrderCreationAttributes> imple
                     allowNull: false
                },
                 deliveryStatus: {
-                    type: DataTypes.INTEGER,
-                    defaultValue: 0,
+                    type: DataTypes.ENUM('pending', 'shipped/delivered', 'cancelled', 'unknown'),
+                    defaultValue: 'pending',
                     allowNull: false
                 },
                 productId: {

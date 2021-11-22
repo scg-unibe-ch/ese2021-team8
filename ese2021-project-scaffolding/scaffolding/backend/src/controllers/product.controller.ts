@@ -5,7 +5,7 @@ import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {ItemService} from '../services/item.service';
 import {ProductImage} from '../models/productImage.model';
-import {verifyToken} from "../middlewares/checkAuth";
+import {verifyToken} from '../middlewares/checkAuth';
 
 
 const productController: Router = express.Router();
