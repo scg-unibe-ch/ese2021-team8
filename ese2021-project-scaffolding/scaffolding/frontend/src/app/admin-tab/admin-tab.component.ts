@@ -56,7 +56,7 @@ export class AdminTabComponent implements OnInit {
   createPostCategory(){
     this.httpClient.post(environment.endpointURL + "post/category", {
       postCategoryName: this.newPostCategory
-    }).subscribe( (res: any) => {
+    }).subscribe( () => {
       this.postCategoryCreateMsg = "Created new category \"" + this.newPostCategory + "\"";
       this.newPostCategory = "";
       this.readCategories();
@@ -70,7 +70,7 @@ export class AdminTabComponent implements OnInit {
   createShopCategory(){
     this.httpClient.post(environment.endpointURL + "shop/category", {
       shopCategoryName: this.newShopCategory
-    }).subscribe( (res: any) => {
+    }).subscribe( () => {
         this.shopCategoryCreateMsg = "Created new category \"" + this.newShopCategory + "\"";
         this.newShopCategory = "";
         this.readCategories();
@@ -99,10 +99,10 @@ export class AdminTabComponent implements OnInit {
 
   deletePostCategory(): void{
 
-    this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldPostCategory.postCategoryId).subscribe((res:any)=>{
+    this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldPostCategory.postCategoryId).subscribe(()=>{
       this.postCategoryDeleteMsg = "Deleted category \" " + this.oldPostCategory.postCategoryName + "\"";
       this.readCategories();
-      }, ((res:any)=>{
+      }, (()=>{
       this.postCategoryDeleteMsg = "could not delete category";
       })
     );
@@ -113,7 +113,7 @@ export class AdminTabComponent implements OnInit {
     this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe((res:any)=>{
         this.shopCategoryDeleteMsg = "Deleted category \" " + this.oldShopCategory.shopCategoryName + "\"";
         this.readCategories();
-      }, ((res:any)=>{
+      }, (()=>{
         this.shopCategoryDeleteMsg = "could not delete category";
       })
     );
@@ -136,7 +136,7 @@ export class AdminTabComponent implements OnInit {
       formData.append("image", this.productPicture);
 
       this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
-        .subscribe((post: any) => {
+        .subscribe(() => {
           console.log(this.products);
           this.newProduct.title = this.newProduct.description = "";
           this.newProduct.price = 0;
@@ -167,7 +167,7 @@ export class AdminTabComponent implements OnInit {
     this.httpClient.delete( environment.endpointURL + "product/" + this.toDelete.productId).subscribe((res:any)=>{
         this.itemDeleteMsg = "Deleted item \" " + this.toDelete.title + "\"";
         this.getProducts();
-      }, ((res:any)=>{
+      }, (()=>{
         this.itemDeleteMsg = "could not delete item";
       })
     );
@@ -199,8 +199,6 @@ export class AdminTabComponent implements OnInit {
           index = this.toDoOrders.indexOf(order);
         }
       });
-      console.log(index);
-      console.log(this.toDoOrders);
       if(index > -1){
         this.toDoOrders.splice(index, 1);
       }

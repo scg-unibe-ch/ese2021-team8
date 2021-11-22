@@ -4,10 +4,8 @@ import {User} from "../../models/user.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {ShoppingCart} from "../../models/shopping-cart.model";
 import {Product} from "../../models/product.model";
 import {Order} from "../../models/order.model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-checkout',
@@ -49,7 +47,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   makeOrder() {
-    console.log(this.data.product.productId);
       if(this.isValid()){
         this.invalid = false;
       } else{
@@ -64,9 +61,8 @@ export class CheckoutComponent implements OnInit {
         paymentMethod: this.paymentMethod,
         deliveryStatus: 'pending',
         productId: this.data.product.productId
-      }).subscribe( (order: any)=>{
-        console.log(order);
-      },(error => {
+      }).subscribe( ()=>{
+      },(() => {
       this.confirmation = false;
       return;
       }));

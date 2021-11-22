@@ -14,7 +14,7 @@ export class UserComponent implements OnInit{
   // Initialize the variables
 
   loggedIn: boolean | undefined;
-  user: User | undefined;
+  user: User = this.userService.getUser();
 
   userToRegister: User = new User(0, '', '','','','','','',0);
 
@@ -25,15 +25,16 @@ export class UserComponent implements OnInit{
   passwordHasLower: boolean = false;
   passwordHasNumber: boolean = false;
   passwordHasSpecial: boolean = false;
-  endpointMsgUser: string = '';
-  endpointMsgAdmin: string = '';
   loginErrorMsg: string = '';
   registerErrorMsg: string = '';
-  adress1 : string = '';
-  adress2 : string = '';
+  updateErrorMsg: string = '';
+  street : string = '';
+  city : string = '';
 
   orders: Order[] = [];
   status: string ='';
+
+  editInfo: boolean = false;
 
   constructor(
     public httpClient: HttpClient,
@@ -45,6 +46,15 @@ export class UserComponent implements OnInit{
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
+    userService.user$.subscribe(() =>{
+      let address : string[] = this.user.address.split(";");
+      if(address.length==2) {
+        this.street = address[0];
+        this.city = address[1];
+      } else{
+        this.street = this.user.address;
+      }
+    });
     this.user = userService.getUser();
   }
 
@@ -63,7 +73,9 @@ export class UserComponent implements OnInit{
    */
   // Edit A + R
   registerUser(): void {
-
+    if(!this.validate(this.userToRegister)){
+      this.registerErrorMsg = 'Please fill all required fields';
+    }
     this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
     this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
     this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
@@ -76,14 +88,14 @@ export class UserComponent implements OnInit{
                           && this.passwordHasNumber
                           && this.passwordHasSpecial ;
 
-    if(passwordOkay) {
+    if(passwordOkay&&this.validate(this.userToRegister)) {
     this.httpClient.post(environment.endpointURL + "user/register", {
       userName: this.userToRegister.username,
       password: this.userToRegister.password,
       firstName: this.userToRegister.firstName,
       lastName: this.userToRegister.lastName,
       email: this.userToRegister.email,
-      address: this.userToRegister.address + this.adress1 + ';' + this.adress2 ,
+      address: this.userToRegister.address + this.street + ';' + this.city ,
       birthday: this.userToRegister.birthday,
       phoneNumber: this.userToRegister.phoneNumber
     }).subscribe(() => {
@@ -92,7 +104,7 @@ export class UserComponent implements OnInit{
       this.loginUser();
       this.userToRegister.username = this.userToRegister.password = this.userToRegister.firstName
         = this.userToRegister.lastName = this.userToRegister.email = this.userToRegister.address = this.userToRegister.birthday =
-        this.adress1 = this.adress2 = '',
+        this.street = this.city = '',
       this.userToRegister.phoneNumber = 0;
       this.registerErrorMsg = '';
     }, (res: any) => {
@@ -201,18 +213,29 @@ export class UserComponent implements OnInit{
     );
   }
 
-  getStatusAsString(status:number): string{
-    switch (status) {
-    case 0:
-      return "pending";
 
-    case 1:
-      return "Shipped/Delivered";
-      case 2:
-        return "cancelled";
-      default:
-        return "unknown";
+  updateInfo() {
+    if(this.validate(this.user)){
+    this.httpClient.put(environment.endpointURL + "user/" + this.userService.getUser(),{
+      firstName: this.user?.firstName,
+      lastName: this.user?.username,
+      address: this.street + ';' + this.city,
+      birthday: this.user.birthday,
+      phoneNumber: this.user.phoneNumber,
+      email: this.user.email
+    }).subscribe(()=>{
+      this.updateErrorMsg = '';
+      this.editInfo = false;
+    },(res:any)=>{
+      this.updateErrorMsg= res.error.message;
+    });
+    } else{
+      this.updateErrorMsg = 'Please fill all required fields!';
     }
+
   }
 
+  validate(user: User) :boolean{
+    return user.firstName !='' && user.lastName !='' && user.email!='' && user.username !='' && user.password!='';
+  }
 }
