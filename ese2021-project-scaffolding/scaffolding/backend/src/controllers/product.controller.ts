@@ -5,6 +5,7 @@ import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {ItemService} from '../services/item.service';
 import {ProductImage} from '../models/productImage.model';
+import {verifyToken} from "../middlewares/checkAuth";
 
 
 const productController: Router = express.Router();
@@ -12,7 +13,9 @@ const itemService = new ItemService();
 const path = require('path');
 productController.use(express.static('public'));
 
-// CREATE Product
+/**
+ * Creates a new product for the shop. Only admins can add new products.
+ */
 productController.post('/', checkAdmin, (req: Request, res: Response) => {
     Product.create(req.body).then(created => {
         res.status(201).send(created);
@@ -21,7 +24,9 @@ productController.post('/', checkAdmin, (req: Request, res: Response) => {
 });
 
 
-// UPDATE Product
+/**
+ * Updates an existing product. Only admins can modify products.
+ */
 productController.put('/:id', checkAdmin, (req: Request, res: Response) => {
     Product.findByPk(req.params.id)
         .then(found => {
@@ -55,27 +60,36 @@ productController.delete('/:id', checkAdmin, (req: Request, res: Response) => {
 });
 
 
-// READ Products
+/**
+ * Reads all existing Products. No access barrier.
+ */
 productController.get('/',
     (req: Request, res: Response) => {
         Product.findAll().then(products => res.send(products)).catch(err => res.status(500).send(err));
     }
 );
 
-// upload image and add to a product
-productController.post('/:id/image', (req: MulterRequest, res: Response) => {
+/**
+ * upload image and add to a product. User needs to be logged in.
+ */
+productController.post('/:id/image', verifyToken, (req: MulterRequest, res: Response) => {
     itemService.addImageToProduct(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
 
 
-// get image by imageId
+/**
+ * Get image by imageId. No access barrier.
+ */
 productController.get('/:id/imageById', (req: Request, res: Response) => {
     itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 
 
-// get image by productId
+/**
+ * Get image by productId. No access barrier.
+ */
+
 productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
     ProductImage.findOne({where: {productId: req.params.id}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
@@ -83,7 +97,7 @@ productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
 
 
 /**
- * Gets all the products from a certain category.
+ * Gets all the products from a certain category. No access barrier.
  */
 productController.get('/:postCategoryId',
     (req: Request, res: Response) => {

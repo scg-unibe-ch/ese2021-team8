@@ -14,7 +14,9 @@ const itemService = new ItemService();
 const path = require('path');
 postController.use(express.static('public'));
 
-// CREATE Post
+/**
+ * Creates a new post. User must be logged in to create posts.
+ */
 postController.post('/', verifyToken, (req: Request, res: Response) => {
     Post.create(req.body).then(created => {
         res.status(201).send(created);
@@ -22,7 +24,10 @@ postController.post('/', verifyToken, (req: Request, res: Response) => {
         .catch(err => res.status(500).send(err));
 });
 
-// UPDATE Post
+/**
+ * Updates an existing post. Should only be done by the author of the post or admins,
+ * hence the user must be logged in.
+ */
 postController.put('/:id', verifyToken, (req: Request, res: Response) => {
     Post.findByPk(req.params.id)
         .then(found => {
@@ -72,33 +77,45 @@ postController.delete('/user/:id/:userId', verifyToken, (req: Request, res: Resp
         .catch(err => res.status(500).send(err));
 });
 
-// READ Posts
+/**
+ * Reads post. No access barrier.
+ */
 postController.get('/',
     (req: Request, res: Response) => {
         Post.findAll().then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );
 
-// upload image and add to a post
-postController.post('/:id/image', (req: MulterRequest, res: Response) => {
+/**
+ * upload image and add to a post. User must be logged in.
+ */
+postController.post('/:id/image', verifyToken, (req: MulterRequest, res: Response) => {
     itemService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
 
-// upload image
-postController.post('/uploadImage', upload.single('image'), (req, res) => {
+/**
+ * upload image. User must be logged in.
+  */
+postController.post('/uploadImage', verifyToken, upload.single('image'), (req, res) => {
     res.send(req.file);
 }, (error, req, res, next) => {
     res.status(400).send({ error: error.message });
 });
 
 
-// get the filename of an image
-postController.get('/:id/imageById', (req: Request, res: Response) => {
+/**
+ * get the filename of an image. User must be logged in.
+ */
+
+postController.get('/:id/imageById', verifyToken, (req: Request, res: Response) => {
     itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 
-// get filename of image by postId
+/**
+ * get filename of image by postId. No access barrier.
+ */
+
 postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
     ItemImage.findOne({where: {postId: req.params.postId}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
@@ -106,6 +123,7 @@ postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
 
 /**
  * Gets all the posts created from a certain creator. Should be used to view posts in profile page.
+ * User must be logged in.
  */
 postController.get('/user/:creatorId', verifyToken,
     (req: Request, res: Response) => {
