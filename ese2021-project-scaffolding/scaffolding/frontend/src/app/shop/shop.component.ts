@@ -62,8 +62,10 @@ export class ShopComponent implements OnInit {
     this.httpClient.put(environment.endpointURL + "product/" + product.productId, {
       title: product.title,
       description: product.description,
-      shopCategoryId: product.shopCategoryId,
-    }).subscribe();
+      shopCategoryId: product.shopCategoryId
+    }).subscribe(()=> {
+        this.getProducts();
+      });
   }
 
 

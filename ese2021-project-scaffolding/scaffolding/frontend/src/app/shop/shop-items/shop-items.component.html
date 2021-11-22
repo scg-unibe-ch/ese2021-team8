@@ -25,7 +25,7 @@
   <div *ngIf="!this.userService.getLoggedIn()">
   <button mat-fab (click)="router.navigate(['user'])" [matTooltip]="'log in to buy'">buy now</button>
   </div>
-  <div *ngIf="this.userService.getLoggedIn()">
+  <div *ngIf="this.userService.getLoggedIn()&&!this.userService.isAdmin()">
     <button mat-fab (click)="openDialog()">buy now</button>
   </div>
 </mat-card>
