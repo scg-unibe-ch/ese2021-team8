@@ -84,28 +84,89 @@
     </mat-card>
   </mat-tab>
   <mat-tab label="Manage orders">
-    <mat-card>
-      <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          All Orders
+        </mat-expansion-panel-header>
+        <div *ngIf="orders.length==0">Currently no open orders</div>
+        <mat-card>
+        <table *ngIf="orders.length>0" matSort (matSortChange)="sortData($event, orders, 'all')">
+          <tr>
+            <th mat-sort-header="orderId">Order Id</th>
+            <th mat-sort-header="name">Name</th>
+            <th mat-sort-header="address">Delivery Address</th>
+            <th mat-sort-header="productId">Product Id - Name</th>
+            <th mat-sort-header="deliveryStatus">Status</th>
+            <th> Actions</th>
+          </tr>
 
-      <table *ngIf="toDoOrders.length>0" matSort (matSortChange)="sortData($event)">
-      <tr>
-        <th mat-sort-header="orderId">Order Id</th>
-        <th mat-sort-header="name">Name</th>
-        <th mat-sort-header="address">Delivery Address</th>
-        <th mat-sort-header="productId">Product Id - Name</th>
-        <th mat-sort-header="deliveryStatus">Status</th>
-      </tr>
+          <tr *ngFor="let order of orders">
+            <td>{{order.orderId}}</td>
+            <td>{{order.lastName}}, {{order.firstName}}</td>
+            <td>{{order.address}}</td>
+            <td>{{order.productId}}</td>
+            <td>{{order.deliveryStatus}}</td>
+            <td> <button *ngIf="(order.deliveryStatus == 'pending')" mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
+          </tr>
+        </table>
+        </mat-card>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>Pending Orders</mat-expansion-panel-header>
+        <mat-card>
+          <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
+          <table *ngIf="toDoOrders.length>0" matSort (matSortChange)="sortData($event, toDoOrders, 'toDo')">
+            <tr>
+              <th mat-sort-header="orderId">Order Id</th>
+              <th mat-sort-header="name">Name</th>
+              <th mat-sort-header="address">Delivery Address</th>
+              <th mat-sort-header="productId">Product Id - Name</th>
+              <th mat-sort-header="deliveryStatus">Status</th>
+              <th> Actions</th>
+            </tr>
 
-      <tr *ngFor="let order of sortedData">
-        <td>{{order.orderId}}</td>
-        <td>{{order.lastName}}, {{order.firstName}}</td>
-        <td>{{order.address}}</td>
-        <td>{{order.productId}}</td>
-        <td>{{order.deliveryStatus}}</td>
-        <td>        <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
-      </tr>
-    </table>
-    </mat-card>
+            <tr *ngFor="let order of toDoOrders">
+              <td>{{order.orderId}}</td>
+              <td>{{order.lastName}}, {{order.firstName}}</td>
+              <td>{{order.address}}</td>
+              <td>{{order.productId}}</td>
+              <td>{{order.deliveryStatus}}</td>
+              <td> <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
+            </tr>
+          </table>
+        </mat-card>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          Completed/Cancelled Orders
+        </mat-expansion-panel-header>
+        <mat-card>
+          <div *ngIf="doneOrders.length==0">
+            Currently no completed/cancelled orders
+          </div>
+          <table *ngIf="doneOrders.length>0" matSort (matSortChange)="sortData($event, doneOrders, 'done')">
+            <tr>
+              <th mat-sort-header="orderId">Order Id</th>
+              <th mat-sort-header="name">Name</th>
+              <th mat-sort-header="address">Delivery Address</th>
+              <th mat-sort-header="productId">Product Id - Name</th>
+              <th mat-sort-header="deliveryStatus">Status</th>
+            </tr>
+
+            <tr *ngFor="let order of doneOrders">
+              <td>{{order.orderId}}</td>
+              <td>{{order.lastName}}, {{order.firstName}}</td>
+              <td>{{order.address}}</td>
+              <td>{{order.productId}}</td>
+              <td>{{order.deliveryStatus}}</td>
+            </tr>
+          </table>
+        </mat-card>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-tab>
+</mat-tab-group>
     <!--<mat-card>
       <mat-card-title>Open orders:</mat-card-title>
       <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
@@ -115,39 +176,39 @@
         <br> <br>
       </div>
     </mat-card>-->
+    <!--
+        <mat-card>
+          <mat-card-title>Completed orders</mat-card-title>
+          <div *ngIf="doneOrders.length==0">Currently no completed orders</div>
+          <div *ngFor="let order of doneOrders">
+            {{order.orderId}}
+            <br>
+          </div>
+        </mat-card>
+      </mat-tab>
+    </mat-tab-group>
 
-    <mat-card>
-      <mat-card-title>Completed orders</mat-card-title>
-      <div *ngIf="doneOrders.length==0">Currently no completed orders</div>
-      <div *ngFor="let order of doneOrders">
-        {{order.orderId}}
-        <br>
-      </div>
-    </mat-card>
-  </mat-tab>
-</mat-tab-group>
 
+    <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+            Manage post categories
+            </mat-panel-title>
+          </mat-expansion-panel-header>
 
-<!--<mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-        Manage post categories
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+        </mat-expansion-panel>
 
-    </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Manage shop</mat-panel-title>
+          </mat-expansion-panel-header>
 
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>Manage shop</mat-panel-title>
-      </mat-expansion-panel-header>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            Manage orders
+          </mat-expansion-panel-header>
 
-    </mat-expansion-panel>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        Manage orders
-      </mat-expansion-panel-header>
-
-    </mat-expansion-panel>
-  </mat-accordion>-->
+        </mat-expansion-panel>
+      </mat-accordion>-->

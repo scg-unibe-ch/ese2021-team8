@@ -43,16 +43,17 @@ export class AdminTabComponent implements OnInit {
 
   toDoOrders: Order[] = [];
   doneOrders: Order[] = [];
+  orders: Order[] = [];
 
-  sortedData: Order[] = [];
+  itemName: string = "";
 
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+    this.getOrders();
     this.readCategories();
     this.getProducts();
-    this.getToDoOrders();
-    this.getDoneOrders();
+
   }
 
 
@@ -175,18 +176,16 @@ export class AdminTabComponent implements OnInit {
       })
     );
   }
-  getToDoOrders(): void{
-    this.httpClient.get(environment.endpointURL + "order/status/" + 'pending').subscribe((orders:any) => {
-      orders.forEach((order:Order) => {
-        this.toDoOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
-      })
-    });
-  }
-
-  getDoneOrders(): void{
-    this.httpClient.get(environment.endpointURL + "order/status/" + 'shipped/delivered').subscribe((orders:any) => {
-      orders.forEach((order:Order) => {
-        this.doneOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+  getOrders():void{
+    this.httpClient.get(environment.endpointURL + "order").subscribe((orders:any)=>{
+      orders.forEach((order: Order) => {
+        this.orders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+        if(order.deliveryStatus =='pending'){
+          this.toDoOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+        }
+        else{
+          this.doneOrders.push(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
+        }
       })
     });
   }
@@ -208,14 +207,15 @@ export class AdminTabComponent implements OnInit {
       });
   }
 
-  sortData(sort: Sort) {
-    const data = this.toDoOrders.slice();
+  sortData(sort: Sort, orders: Order[], kind: string) {
+    const data = orders.slice();
+    let sortedData;
     if (!sort.active || sort.direction == '') {
-      this.sortedData = data;
+      sortedData = data;
       return;
     }
 
-    this.sortedData = data.sort((a, b) => {
+    sortedData = data.sort((a, b) => {
       let isAsc = sort.direction == 'asc';
       switch (sort.active) {
         case 'orderId': return compare(a.orderId, b.orderId, isAsc);
@@ -226,6 +226,18 @@ export class AdminTabComponent implements OnInit {
         default: return 0;
       }
     });
+    switch (kind){
+      case 'all': this.orders = sortedData; break;
+      case 'toDo': this.toDoOrders = sortedData; break;
+      case 'done': this.doneOrders = sortedData; break;
+    }
+  }
+
+  getItemName(id: number): string{
+    this.httpClient.get(environment.endpointURL + "product/" + id).subscribe((item: any) =>{
+      return item.title;
+    });
+    return "";
   }
 }
 function compare(a : any, b: any, isAsc: any) {
