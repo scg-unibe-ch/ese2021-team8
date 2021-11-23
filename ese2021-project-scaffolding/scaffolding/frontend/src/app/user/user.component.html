@@ -44,7 +44,7 @@
 
 
   </mat-tab>
-  <mat-tab label="My Orders">
+  <mat-tab *ngIf="!this.userService.isAdmin()" label="My Orders">
       <div *ngIf="orders.length==0">
         <h4>No orders</h4>
         <p>You can order items in the <a routerLink="/shop">Shop</a></p>
@@ -59,6 +59,7 @@
 </mat-tab-group>
 <div *ngIf="!loggedIn">
   <mat-card>
+   <h3>Login</h3>
     <mat-form-field>
       <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToLogin.username">
     </mat-form-field>

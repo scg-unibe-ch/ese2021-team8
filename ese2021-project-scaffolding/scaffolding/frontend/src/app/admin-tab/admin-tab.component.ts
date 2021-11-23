@@ -5,6 +5,7 @@ import {PostCategory} from "../models/postCategory.model";
 import {Product} from "../models/product.model";
 import {ShopCategory} from "../models/shopCategory.model";
 import {Order} from "../models/order.model";
+import {Sort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-admin-tab',
@@ -42,6 +43,8 @@ export class AdminTabComponent implements OnInit {
 
   toDoOrders: Order[] = [];
   doneOrders: Order[] = [];
+
+  sortedData: Order[] = [];
 
   constructor(private httpClient: HttpClient) { }
 
@@ -110,7 +113,7 @@ export class AdminTabComponent implements OnInit {
 
   deleteShopCategory(): void{
 
-    this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe((res:any)=>{
+    this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe(()=>{
         this.shopCategoryDeleteMsg = "Deleted category \" " + this.oldShopCategory.shopCategoryName + "\"";
         this.readCategories();
       }, (()=>{
@@ -164,7 +167,7 @@ export class AdminTabComponent implements OnInit {
   }
 
   deleteItem() {
-    this.httpClient.delete( environment.endpointURL + "product/" + this.toDelete.productId).subscribe((res:any)=>{
+    this.httpClient.delete( environment.endpointURL + "product/" + this.toDelete.productId).subscribe(()=>{
         this.itemDeleteMsg = "Deleted item \" " + this.toDelete.title + "\"";
         this.getProducts();
       }, (()=>{
@@ -204,4 +207,27 @@ export class AdminTabComponent implements OnInit {
       }
       });
   }
+
+  sortData(sort: Sort) {
+    const data = this.toDoOrders.slice();
+    if (!sort.active || sort.direction == '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      let isAsc = sort.direction == 'asc';
+      switch (sort.active) {
+        case 'orderId': return compare(a.orderId, b.orderId, isAsc);
+        case 'lastName': return compare(+a.lastName, +b.lastName, isAsc);
+        case 'address': return compare(+a.address, +b.address, isAsc);
+        case 'productId': return compare(+a.productId, +b.productId, isAsc);
+        case 'deliveryStatus': return compare(+a.deliveryStatus, +b.deliveryStatus, isAsc);
+        default: return 0;
+      }
+    });
+  }
+}
+function compare(a : any, b: any, isAsc: any) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

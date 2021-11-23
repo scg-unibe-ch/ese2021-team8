@@ -3,7 +3,6 @@ import {Product} from "../models/product.model";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {ShopCategory} from "../models/shopCategory.model";
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-shop',
@@ -62,7 +61,8 @@ export class ShopComponent implements OnInit {
     this.httpClient.put(environment.endpointURL + "product/" + product.productId, {
       title: product.title,
       description: product.description,
-      shopCategoryId: product.shopCategoryId
+      shopCategoryId: product.shopCategoryId,
+      price: product.price
     }).subscribe(()=> {
         this.getProducts();
       });

@@ -85,6 +85,28 @@
   </mat-tab>
   <mat-tab label="Manage orders">
     <mat-card>
+      <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
+
+      <table *ngIf="toDoOrders.length>0" matSort (matSortChange)="sortData($event)">
+      <tr>
+        <th mat-sort-header="orderId">Order Id</th>
+        <th mat-sort-header="name">Name</th>
+        <th mat-sort-header="address">Delivery Address</th>
+        <th mat-sort-header="productId">Product Id - Name</th>
+        <th mat-sort-header="deliveryStatus">Status</th>
+      </tr>
+
+      <tr *ngFor="let order of sortedData">
+        <td>{{order.orderId}}</td>
+        <td>{{order.lastName}}, {{order.firstName}}</td>
+        <td>{{order.address}}</td>
+        <td>{{order.productId}}</td>
+        <td>{{order.deliveryStatus}}</td>
+        <td>        <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
+      </tr>
+    </table>
+    </mat-card>
+    <!--<mat-card>
       <mat-card-title>Open orders:</mat-card-title>
       <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
       <div *ngFor="let order of toDoOrders">
@@ -92,7 +114,7 @@
         <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button>
         <br> <br>
       </div>
-    </mat-card>
+    </mat-card>-->
 
     <mat-card>
       <mat-card-title>Completed orders</mat-card-title>

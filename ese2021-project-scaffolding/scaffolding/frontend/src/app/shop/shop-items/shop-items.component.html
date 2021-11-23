@@ -47,6 +47,10 @@
     <mat-label>description</mat-label>
     <textarea matInput placeholder={{product.description}} style="width: 100%" rows="10" name="content" [(ngModel)]="product.description"></textarea>
   </mat-form-field>
+  <mat-form-field>
+    <mat-label>price</mat-label>
+    <input matInput type="number" placeholder="{{product.price}}" name="price" [(ngModel)]="product.price">
+  </mat-form-field>
   <button mat-button (click)="updateProduct()">Update Product</button>
 </mat-card>
 

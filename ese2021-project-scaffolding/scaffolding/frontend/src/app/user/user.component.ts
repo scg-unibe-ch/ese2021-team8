@@ -36,6 +36,7 @@ export class UserComponent implements OnInit{
 
   editInfo: boolean = false;
 
+
   constructor(
     public httpClient: HttpClient,
     public userService: UserService

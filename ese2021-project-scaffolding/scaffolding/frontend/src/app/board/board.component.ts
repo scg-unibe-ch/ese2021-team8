@@ -127,7 +127,7 @@ export class BoardComponent implements OnInit {
       content: post.content,
       categoryId: post.categoryId
     }).subscribe(() => {
-      this.getPosts();
+      //this.getPosts();
     });
   }
 

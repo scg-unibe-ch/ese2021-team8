@@ -36,6 +36,7 @@ import { CheckoutComponent } from './shop/checkout/checkout.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSortModule} from "@angular/material/sort";
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -59,35 +60,36 @@ const routes: Routes = [
     ShopItemsComponent,
     CheckoutComponent
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatListModule,
-    FormsModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatChipsModule,
-    MatIconModule,
-    MatMenuModule,
-    RouterModule.forRoot(routes),
-    MatExpansionModule,
-    MatTooltipModule,
-    MatGridListModule,
-    MatDialogModule,
-    MatSidenavModule,
-    FlexModule,
-    ReactiveFormsModule,
-    ExtendedModule,
-    MatAutocompleteModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatTabsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatListModule,
+        FormsModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatOptionModule,
+        MatChipsModule,
+        MatIconModule,
+        MatMenuModule,
+        RouterModule.forRoot(routes),
+        MatExpansionModule,
+        MatTooltipModule,
+        MatGridListModule,
+        MatDialogModule,
+        MatSidenavModule,
+        FlexModule,
+        ReactiveFormsModule,
+        ExtendedModule,
+        MatAutocompleteModule,
+        MatSortModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
