@@ -30,7 +30,6 @@ export class UserService {
 
     public login(loginRequestee: LoginRequest): Promise<User | LoginResponse> {
         const secret = process.env.JWT_SECRET;
-
         return this.findUser(loginRequestee)
             .then(user => {
                 if (bcrypt.compareSync(loginRequestee.password, user.password)) {
@@ -52,7 +51,7 @@ export class UserService {
     /**
      * Checks the database whether a given username is already in the database.
      * Returns a promise containing a User if one is found with the fitting name, or null.
-     * @param name : the userdata with the name you want to check.
+     * @param name: the userdata with the name you want to check.
      * @private helper for @see register()
      */
     private doesNameExist(name: UserAttributes): Promise<User | null> {
@@ -61,7 +60,7 @@ export class UserService {
     /**
      * Checks the database whether a given email is already in the database.
      * Returns a promise containing a User if one is found with the fitting email, or null.
-     * @param name : the userdata with the email you want to check.
+     * @param name: the userdata with the email you want to check.
      * @private helper for @see register()
      */
     private doesMailExist(name: UserAttributes): Promise<User | null> {
@@ -96,8 +95,7 @@ export class UserService {
 
     /**
      * Searches and returns an User according to the id entered.
-     * ToDo: Declare privacy level.
-     * @param id the id of the user to find
+     * @param id: the id of the user to find
      */
     public findUserWithId(id: number): Promise<User> {
         return User.findByPk(id)

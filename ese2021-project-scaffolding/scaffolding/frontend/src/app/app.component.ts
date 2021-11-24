@@ -1,7 +1,7 @@
 import {Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TodoList } from './models/todo-list.model';
-import { TodoItem } from './models/todo-item.model';
+import { TodoList } from '../deprecated/models/todo-list.model';
+import { TodoItem } from '../deprecated/models/todo-item.model';
 import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
 import { User } from './models/user.model';

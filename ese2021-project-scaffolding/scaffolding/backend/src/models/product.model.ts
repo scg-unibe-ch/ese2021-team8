@@ -1,7 +1,6 @@
 import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
 import { ShopCategory } from './shopCategory.model';
-import {ItemImage} from './itemImage.model';
-import {ProductImage} from './productImage.model';
+import { ProductImage } from './productImage.model';
 
 export interface ProductAttributes {
     productId: number;

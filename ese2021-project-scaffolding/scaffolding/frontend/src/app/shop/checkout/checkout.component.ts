@@ -12,6 +12,7 @@ import {Order} from "../../models/order.model";
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.css']
 })
+
 export class CheckoutComponent implements OnInit {
 
   user: User = new User(0, "","","","","","","",0);

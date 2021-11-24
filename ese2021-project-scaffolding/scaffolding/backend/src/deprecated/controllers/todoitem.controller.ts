@@ -1,14 +1,14 @@
 import express from 'express';
 import {Router, Request, Response} from 'express';
 import {TodoItem} from '../models/todoitem.model';
-import {ItemService} from '../services/item.service';
-import {MulterRequest} from '../models/multerRequest.model';
-import {upload} from '../middlewares/fileFilter';
+import {ImageService} from '../../services/image.service';
+import {MulterRequest} from '../../models/multerRequest.model';
+import {upload} from '../../middlewares/fileFilter';
 
 
 
 const todoItemController: Router = express.Router();
-const itemService = new ItemService();
+const itemService = new ImageService();
 
 
 todoItemController.post('/', (req: Request, res: Response) => {
@@ -19,7 +19,7 @@ todoItemController.post('/', (req: Request, res: Response) => {
 
 // add image to a todoItem
 todoItemController.post('/:id/image', (req: MulterRequest, res: Response) => {
-    itemService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
+    itemService.addImageToPost(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
 
 // upload image

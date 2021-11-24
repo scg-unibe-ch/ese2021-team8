@@ -1,7 +1,7 @@
-import { Optional, Model, DataTypes, Sequelize} from 'sequelize';
-import {PostCategory} from './postCategory.model';
+import { Optional, Model, DataTypes, Sequelize } from 'sequelize';
+import { PostCategory } from './postCategory.model';
 import { User } from './user.model';
-import {ItemImage} from './itemImage.model';
+import { ItemImage } from './itemImage.model';
 
 export interface PostAttributes {
     postId: number;

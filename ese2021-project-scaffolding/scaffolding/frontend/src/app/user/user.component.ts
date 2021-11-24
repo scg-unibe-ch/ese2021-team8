@@ -10,8 +10,8 @@ import {Order} from "../models/order.model";
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
+
 export class UserComponent implements OnInit{
-  // Initialize the variables
 
   loggedIn: boolean | undefined;
   user: User = this.userService.getUser();
@@ -65,10 +65,9 @@ export class UserComponent implements OnInit{
   }
 
   /**
-   * This Methode is responsible for the register from a user. It handle the Name and
+   * This Methode is responsible for the registration request from a user. It passes the name and
    * the password to the backend.
-   * This Methode check the following constraints: has a Upper/ Lower7 Number and a Special char
-   * parameter passwordOkey
+   * This Methode checks the following constraints: has a Upper-/Lowercase, Number and a Special char
    * @author Assistenz, Ramona, A
    *
    */
@@ -148,6 +147,7 @@ export class UserComponent implements OnInit{
   checkPasswordLength(password: string): boolean{
     return password.length >= 8;
   }
+
   //Autor @Ramona
   checkPasswordUpper(password: string): boolean{
     for(let i=0; i<password.length; i++){
@@ -157,6 +157,7 @@ export class UserComponent implements OnInit{
     }
     return false;
   }
+
   //Autor @Ramona
   checkPasswordLower(password: string): boolean{
     for(let i=0; i<password.length; i++) {
@@ -166,6 +167,7 @@ export class UserComponent implements OnInit{
     }
     return false;
   }
+
  // Autor @A
   checkPasswordSpecial(password: string): boolean{
     let hasSpezial = false;
@@ -182,7 +184,6 @@ export class UserComponent implements OnInit{
   }
 
   // Autor @A
-
   checkPasswordNumber(password: string): boolean{
     let hasNumber = false;
     let numbers = ['1','2','3','4','5','6','7','8','9','0']
@@ -195,8 +196,6 @@ export class UserComponent implements OnInit{
     }
     return hasNumber;
   }
-
-
 
  getOrders(): void{
     this.orders = [];
@@ -213,7 +212,6 @@ export class UserComponent implements OnInit{
     }).subscribe(()=> this.getOrders()
     );
   }
-
 
   updateInfo() {
     if(this.validate(this.user)){

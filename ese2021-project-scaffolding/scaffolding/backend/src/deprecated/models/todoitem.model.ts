@@ -1,6 +1,6 @@
 import {Optional, Model, Sequelize, DataTypes, Association} from 'sequelize';
 import { TodoList } from './todolist.model';
-import {ItemImage} from './itemImage.model';
+import { ItemImage } from '../../models/itemImage.model';
 
 export interface TodoItemAttributes {
     todoItemId: number;

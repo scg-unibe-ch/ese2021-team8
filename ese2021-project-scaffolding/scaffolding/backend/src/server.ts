@@ -1,7 +1,7 @@
 import express, { Application , Request, Response } from 'express';
 import morgan from 'morgan';
-import { TodoItemController } from './controllers/todoitem.controller';
-import { TodoListController } from './controllers/todolist.controller';
+import { TodoItemController } from './deprecated/controllers/todoitem.controller';
+import { TodoListController } from './deprecated/controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { PostCategoryController} from './controllers/postCategoryController';
@@ -9,8 +9,8 @@ import { ShopCategoryController} from './controllers/shopCategoryController';
 import { ProductController } from './controllers/product.controller';
 import { ShoppingCartController } from './controllers/shoppingCart.controller';
 import { Sequelize } from 'sequelize';
-import { TodoList } from './models/todolist.model';
-import { TodoItem } from './models/todoitem.model';
+import { TodoList } from './deprecated/models/todolist.model';
+import { TodoItem } from './deprecated/models/todoitem.model';
 import { User } from './models/user.model';
 import { PostCategory } from './models/postCategory.model';
 import { ShopCategory } from './models/shopCategory.model';
@@ -57,11 +57,6 @@ export class Server {
         ItemImage.createAssociations();
         ProductImage.createAssociations();
         Product.createAssociations();
-
-
-
-
-
 
         this.sequelize.sync().then(() => {                           // create connection to the database
             this.server.listen(this.port, () => {                                   // start server on specified port
