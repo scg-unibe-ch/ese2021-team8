@@ -3,14 +3,13 @@ import { Router, Request, Response } from 'express';
 import { Product } from '../models/product.model';
 import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
-import {ItemService} from '../services/item.service';
+import {ImageService} from '../services/image.service';
 import {ProductImage} from '../models/productImage.model';
 import {verifyToken} from '../middlewares/checkAuth';
 
 
 const productController: Router = express.Router();
-const itemService = new ItemService();
-const path = require('path');
+const itemService = new ImageService();
 productController.use(express.static('public'));
 
 /**
@@ -42,7 +41,7 @@ productController.put('/:id', checkAdmin, (req: Request, res: Response) => {
 });
 
 /**
- * Deletes a product. Needs the id of the product which should be destroyed.
+ * Deletes a product. Needs the id of the product to be destroyed.
  * This is the delete-method can only be used by admins.
  */
 productController.delete('/:id', checkAdmin, (req: Request, res: Response) => {
@@ -89,7 +88,6 @@ productController.get('/:id/imageById', (req: Request, res: Response) => {
 /**
  * Get image by productId. No access barrier.
  */
-
 productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
     ProductImage.findOne({where: {productId: req.params.id}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));

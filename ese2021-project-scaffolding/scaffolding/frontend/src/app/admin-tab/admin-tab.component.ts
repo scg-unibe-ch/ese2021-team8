@@ -102,7 +102,6 @@ export class AdminTabComponent implements OnInit {
   }
 
   deletePostCategory(): void{
-
     this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldPostCategory.postCategoryId).subscribe(()=>{
       this.postCategoryDeleteMsg = "Deleted category \" " + this.oldPostCategory.postCategoryName + "\"";
       this.readCategories();
@@ -113,7 +112,6 @@ export class AdminTabComponent implements OnInit {
   }
 
   deleteShopCategory(): void{
-
     this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe(()=>{
         this.shopCategoryDeleteMsg = "Deleted category \" " + this.oldShopCategory.shopCategoryName + "\"";
         this.readCategories();
@@ -176,6 +174,7 @@ export class AdminTabComponent implements OnInit {
       })
     );
   }
+
   getOrders():void{
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders:any)=>{
       orders.forEach((order: Order) => {
@@ -226,6 +225,7 @@ export class AdminTabComponent implements OnInit {
         default: return 0;
       }
     });
+
     switch (kind){
       case 'all': this.orders = sortedData; break;
       case 'toDo': this.toDoOrders = sortedData; break;
@@ -240,6 +240,7 @@ export class AdminTabComponent implements OnInit {
     return "";
   }
 }
+
 function compare(a : any, b: any, isAsc: any) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

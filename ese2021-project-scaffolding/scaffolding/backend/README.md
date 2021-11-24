@@ -14,7 +14,7 @@ You should have installed [NodeJS and npm](https://nodejs.org/en/download/) (the
 This part of the repository serves as a template for common problems you will face as a backend developer during your project. It is by no means complete but should give you a broad overview over the frameworks, libraries and technologies used. Please refer to the [reading list](https://github.com/scg-unibe-ch/ese2021/wiki/Reading-list) for links and tutorials.
 
 We tried to show you different approaches how your backend may be structured, however you are free to follow your own principles.
-Notice the differences between the [UserController](./src/controllers/user.controller.ts) and e.g. [TodoItemController](./src/controllers/todoitem.controller.ts). 
+Notice the differences between the [UserController](./src/controllers/user.controller.ts) and e.g. [TodoItemController](src/deprecated/controllers/todoitem.controller.ts). 
 
 1. The logic is split up:
 	- authorizing a request is done via middleware
@@ -41,7 +41,7 @@ These are links to some of the files that we have implemented/modified when deve
 - Registration:
 	- [service](./src/services/user.service.ts)
 	- [controller](./src/controllers/user.controller.ts)
-- [crud](./src/controllers/todolist.controller.ts)
+- [crud](src/deprecated/controllers/todolist.controller.ts)
 - [typescript config](./src/tsconfig.json)
 - [routing](./src/controllers)
 - [API construction](./src/server.ts)

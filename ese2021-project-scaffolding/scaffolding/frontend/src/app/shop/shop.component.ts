@@ -11,7 +11,6 @@ import {ShopCategory} from "../models/shopCategory.model";
 })
 export class ShopComponent implements OnInit {
 
-
   products: Product[] = [];
   shopCategories: ShopCategory[] = [];
 
@@ -67,7 +66,6 @@ export class ShopComponent implements OnInit {
         this.getProducts();
       });
   }
-
 
   selected(shopCategoryId: number) {
     let selected = false;

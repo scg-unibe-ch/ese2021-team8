@@ -5,13 +5,13 @@ import {verifyToken} from '../middlewares/checkAuth';
 import {checkAdmin} from '../middlewares/checkAdmin';
 import {MulterRequest} from '../models/multerRequest.model';
 import {upload} from '../middlewares/fileFilter';
-import {ItemService} from '../services/item.service';
+import {ImageService} from '../services/image.service';
 import {ItemImage} from '../models/itemImage.model';
 
 
 const postController: Router = express.Router();
-const itemService = new ItemService();
-const path = require('path');
+const imageService = new ImageService();
+
 postController.use(express.static('public'));
 
 /**
@@ -43,7 +43,7 @@ postController.put('/:id', verifyToken, (req: Request, res: Response) => {
 });
 
 /**
- * Deletes a post. Needs the id of the post which should be destroyed.
+ * Deletes a post. Needs the id of the post to be destroyed.
  * This is the delete-method used by the administrator. No limit to the post they can destroy.
  */
 postController.delete('/admin/:postid/:creator', checkAdmin, (req: Request, res: Response) => {
@@ -63,8 +63,8 @@ postController.delete('/admin/:postid/:creator', checkAdmin, (req: Request, res:
 /**
  * Deletes a post. Only the author of the post may delete it.
 */
-postController.delete('/user/:id/:userId', verifyToken, (req: Request, res: Response) => {
-    Post.findByPk(req.params.id)
+postController.delete('/user/:postId/:userId', verifyToken, (req: Request, res: Response) => {
+    Post.findByPk(req.params.postId)
         .then(found => {
             if (found != null && (found.creatorId === Number(req.params.userId))) {
                 found.destroy()
@@ -90,7 +90,7 @@ postController.get('/',
  * upload image and add to a post. User must be logged in.
  */
 postController.post('/:id/image', verifyToken, (req: MulterRequest, res: Response) => {
-    itemService.addImage(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
+    imageService.addImageToPost(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
 
 /**
@@ -106,16 +106,14 @@ postController.post('/uploadImage', verifyToken, upload.single('image'), (req, r
 /**
  * get the filename of an image. User must be logged in.
  */
-
 postController.get('/:id/imageById', verifyToken, (req: Request, res: Response) => {
-    itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
+    imageService.getImageItem(Number(req.params.id)).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 
 /**
  * get filename of image by postId. No access barrier.
  */
-
 postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
     ItemImage.findOne({where: {postId: req.params.postId}}).then(products => res.send(products))
         .catch(err => res.status(500).send(err));

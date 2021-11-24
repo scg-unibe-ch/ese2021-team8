@@ -65,6 +65,7 @@ export class ShopItemsComponent implements OnInit {
   editProduct() {
     this.editMode = true;
   }
+
   deleteProduct(){
     this.httpClient.delete( environment.endpointURL + "product/" + this.product.productId).subscribe((res:any)=> {
       this.getNewProducts.emit();

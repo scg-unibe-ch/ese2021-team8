@@ -1,5 +1,5 @@
 import { Optional, Model, DataTypes, Sequelize, Association } from 'sequelize';
-import {Post} from './post.model';
+import { Post } from './post.model';
 
 export interface ItemImageAttributes {
     imageId: number;

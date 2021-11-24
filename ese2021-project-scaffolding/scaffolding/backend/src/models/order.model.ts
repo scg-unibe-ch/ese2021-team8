@@ -5,7 +5,7 @@ import {
     DataTypes,
 } from 'sequelize';
 import { User } from './user.model';
-import {Product} from './product.model';
+import { Product } from './product.model';
 
 export interface OrderAttributes {
     orderId: number;

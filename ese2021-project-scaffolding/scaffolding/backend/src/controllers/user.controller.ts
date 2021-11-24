@@ -1,4 +1,3 @@
-
 import express, { Router, Request, Response } from 'express';
 import { UserService } from '../services/user.service';
 import { verifyToken } from '../middlewares/checkAuth';
@@ -21,7 +20,7 @@ userController.post('/login',
 );
 
 /**
- * Let's the user update his userdata, preferably on his userpage.
+ * Let's the user update his userdata, preferably on his profile page.
  */
 userController.put('/:id', verifyToken, (req: Request, res: Response) => {
         User.findByPk(req.params.id)

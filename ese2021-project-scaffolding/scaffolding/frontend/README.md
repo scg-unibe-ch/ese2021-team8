@@ -51,9 +51,9 @@ These are links to some of the files that we have implemented/modified when deve
   Includes all the necessary modules and components
 - **AppComponent** | [TS](./src/app/app.component.ts), [HTML](./src/app/app.component.html)  
   Main component of the frontend application
-- **TodoListComponent** | [TS](./src/app/todo-list/todo-list.component.ts), [HTML](./src/app/todo-list/todo-list.component.html)  
+- **TodoListComponent** | [TS](src/deprecated/todo-list/todo-list.component.ts), [HTML](src/deprecated/todo-list/todo-list.component.html)  
   Represents a todo-list
-- **TodoItemComponent** | [TS](./src/app/todo-list/todo-item/todo-item.component.ts), [HTML](./src/app/todo-list/todo-item/todo-item.component.html)  
+- **TodoItemComponent** | [TS](src/deprecated/todo-list/todo-item/todo-item.component.ts), [HTML](src/deprecated/todo-list/todo-item/todo-item.component.html)  
   Represents a todo-item
 - **UserComponent** | [TS](./src/app/user/user.component.ts), [HTML](./src/app/user/user.component.html)  
   Represents the user registration and login section. Contains requests to user/admin endpoints.

@@ -1,5 +1,5 @@
-import {Model, DataTypes, Sequelize, Optional} from 'sequelize';
-import {Post, PostAttributes, PostCreationAttributes} from './post.model';
+import { Model, DataTypes, Sequelize, Optional } from 'sequelize';
+import { Post } from './post.model';
 import { User } from './user.model';
 
 export interface LikeAttributes {
