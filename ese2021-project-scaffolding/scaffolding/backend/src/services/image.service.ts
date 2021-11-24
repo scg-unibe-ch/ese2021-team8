@@ -5,9 +5,9 @@ import {Post} from '../models/post.model';
 import {Product} from '../models/product.model';
 import {ProductImage, ProductImageAttributes} from '../models/productImage.model';
 
-export class ItemService {
+export class ImageService {
 
-    public addImage(req: MulterRequest): Promise<ItemImageAttributes> {
+    public addImageToPost(req: MulterRequest): Promise<ItemImageAttributes> {
         return Post.findByPk(req.params.id)
             .then(found => {
                 if (!found) {
@@ -74,6 +74,4 @@ export class ItemService {
             }
         });
     }
-
-
 }

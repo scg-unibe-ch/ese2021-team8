@@ -1,6 +1,3 @@
-import {PostCategory} from "./postCategory.model";
-import {User} from "./user.model";
-
 export class Post{
   constructor(
     public postId: number,
@@ -11,6 +8,5 @@ export class Post{
     public date: Date,
     public votes: number,
     public itemImage: boolean
-  ) {
-  }
+  ) {}
 }

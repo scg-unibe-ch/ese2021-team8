@@ -62,7 +62,7 @@ postCategoryController.get('/',
 );
 
 /**
- * Returns a post category according to the inputted id.
+ * Returns a post category according to the input id.
  */
 postCategoryController.get('/:id',
     (req: Request, res: Response) => {

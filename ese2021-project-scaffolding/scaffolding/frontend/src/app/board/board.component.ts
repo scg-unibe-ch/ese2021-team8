@@ -32,7 +32,7 @@ export class BoardComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.readCategories();
