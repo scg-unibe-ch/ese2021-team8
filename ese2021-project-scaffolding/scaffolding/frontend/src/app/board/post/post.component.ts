@@ -4,6 +4,7 @@ import {UserService} from "../../services/user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {PostCategory} from "../../models/postCategory.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-post',
@@ -12,46 +13,57 @@ import {PostCategory} from "../../models/postCategory.model";
 })
 export class PostComponent implements OnInit {
 
-  @Input()
-  categories: PostCategory[] =[];
+  @Input() categories!: PostCategory[];
+  @Input() post!: Post;
 
-  info: string = ""
-  editMode: boolean = false;
-  upvoted: boolean | undefined;
-  downvoted: boolean = false;
+  @Output() sendUpdate = new EventEmitter<Post>();
+  @Output() getNewPosts = new EventEmitter<Post>();
+
+
+  loggedIn: boolean | undefined;
+
   upvotes: number[] = [];
   downvotes: number[] = [];
-  currentUser: string = "";
+
+  //indicates if this post has been up/downvoted
+  upvoted: boolean | undefined;
+  downvoted: boolean = false;
+
+  //to display edit option if a user is logged in and created this post
   canEdit: undefined | boolean;
+
+  //to display up/downvote buttons if user is logged in and not an admin
   canVote: boolean | undefined;
-  test: number[] = [];
+
+  //to open edit window if a user clicks on 'edit post'
+  editMode: boolean = false;
+
+
   preview: string = "";
+
+  //create a collapsed post if a post has more than 305 characters
   collapse: boolean = false;
   uncollapse: boolean = false;
 
-  @Output()
-  sendUpdate = new EventEmitter<Post>();
 
-  @Output()
-  getNewPosts = new EventEmitter<Post>();
-
-  @Input()
-  post: Post = new Post(0,'',0,'',0,new Date(),0, false);
-
-  categoryName: string = ""
-  imagePath: string = ""
+  categoryName: string = "";
   img: any;
 
   constructor(
     public httpClient: HttpClient,
-    public userService: UserService
-  ) { }
+    public userService: UserService,
+    public router: Router
+  ) {
+    userService.loggedIn$.subscribe((res) => {this.loggedIn = res; this.whoCanVote(); this.whoCanEdit();});
+    this.loggedIn = userService.getLoggedIn();
+  }
+
   ngOnInit(): void {
     this.getCategoryName();
-    this.whoCanEdit();
-    this.whoCanVote();
     this.getUpvotes();
     this.getDownvotes();
+    this.whoCanEdit();
+    this.whoCanVote();
     if(this.post.itemImage){
       this.getImage();
     }
@@ -60,7 +72,57 @@ export class PostComponent implements OnInit {
     }
   }
 
-   upvote() {
+  getCategoryName(): void{
+    this.httpClient.get(environment.endpointURL + "post/category/" + this.post.categoryId).subscribe(
+      (res:any) =>{
+        this.categoryName = res.postCategoryName;
+      }, () => {
+        this.categoryName = "undefined category";
+      })
+  }
+
+  private createCollapsable() {
+    this.collapse = true;
+    this.preview = this.post.content.substr(0,300 ) + "...";
+  }
+
+  private whoCanVote() {
+    this.canVote = this.loggedIn && !this.userService.isAdmin();
+  }
+
+  private whoCanEdit(){
+    this.canEdit = this.loggedIn && (this.userService.getUser().userId == this.post.creatorId ||
+      this.userService.isAdmin());
+  }
+
+  getImage(): void{
+    this.httpClient.get(environment.endpointURL + "post/" + this.post.postId + "/imageByPost").subscribe(
+      (res:any) =>{
+        this.img = environment.endpointURL + "uploads/" + res.fileName;
+      }, () => {
+        this.img = "";
+      })
+  }
+  getUpvotes(): void{
+    this.httpClient.get(environment.endpointURL + "like/upvotes/" + this.post.postId ).subscribe((posts: any)=>{
+      posts.forEach((id:any)=> {
+        this.upvotes.push(parseInt(id.userId));
+      });
+      this.upvoted = this.upvotes.includes(this.userService.getUser().userId);
+    },() => {this.upvotes = []});
+  }
+
+  getDownvotes(): void{
+    this.httpClient.get(environment.endpointURL + "like/downvotes/" + this.post.postId ).subscribe((posts: any)=> {
+      posts.forEach((id: any) => {
+        this.downvotes.push(parseInt(id.userId));
+      });
+      this.downvoted = this.downvotes.includes(this.userService.getUser().userId);
+    },() => {this.downvotes = []});
+
+  }
+
+  upvote() {
     this.post.votes++;
     this.httpClient.post(environment.endpointURL + "like", {
       postId: this.post.postId,
@@ -83,54 +145,6 @@ export class PostComponent implements OnInit {
     this.sendUpdate.emit(this.post)
   }
 
-  editPost():void{
-    this.editMode = true;
-  }
-
-  getCategoryName(): void{
-    this.httpClient.get(environment.endpointURL + "post/category/" + this.post.categoryId).subscribe(
-      (res:any) =>{
-        this.categoryName = res.postCategoryName;
-      }, () => {
-        this.categoryName = "undefined category";
-      })
-  }
-
-  deletePost(): void{
-    if (this.userService.isAdmin()) {
-      this.httpClient.delete(environment.endpointURL + "post/admin/" + this.post.postId  + "/" +this.userService.getUser().userId)
-        .subscribe(((res:any)=>{
-          this.getNewPosts.emit();
-        }));
-    }
-    else {
-    this.httpClient.delete(environment.endpointURL + "post/user/" + this.post.postId  + "/" +this.userService.getUser().userId)
-      .subscribe(((res:any)=>{
-        this.getNewPosts.emit();
-      }));
-    }
-
-  }
-
-  getUpvotes(): void{
-    this.httpClient.get(environment.endpointURL + "like/upvotes/" + this.post.postId ).subscribe((posts: any)=>{
-      posts.forEach((id:any)=> {
-        this.upvotes.push(parseInt(id.userId));
-      });
-      this.upvoted = this.upvotes.includes(this.userService.getUser().userId);
-      },() => {this.upvotes = []});
-  }
-
-  getDownvotes(): void{
-    this.httpClient.get(environment.endpointURL + "like/downvotes/" + this.post.postId ).subscribe((posts: any)=> {
-      posts.forEach((id: any) => {
-        this.downvotes.push(parseInt(id.userId));
-      });
-      this.downvoted = this.downvotes.includes(this.userService.getUser().userId);
-     },() => {this.downvotes = []});
-
-  }
-
   revertUpvote() {
     this.httpClient.delete(environment.endpointURL + "like/upvotes/" + this.userService.getUser().userId + "/" + this.post.postId )
       .subscribe(()=>{
@@ -149,36 +163,37 @@ export class PostComponent implements OnInit {
     this.sendUpdate.emit(this.post);
   }
 
-  updatePost() {
-    this.sendUpdate.emit(this.post);
-    this.editMode = false;
+  editPost():void{
+    this.editMode = true;
   }
 
   discardEdits() {
     this.editMode = false;
   }
 
-  private createCollapsable() {
-    this.collapse = true;
-    this.preview = this.post.content.substr(0,300 ) + "...";
+  updatePost() {
+    this.sendUpdate.emit(this.post);
+    this.editMode = false;
   }
 
-  private whoCanVote() {
-    this.canVote = this.userService.getLoggedIn() && !this.userService.isAdmin();
+  deletePost(): void{
+    if (this.userService.isAdmin()) {
+      this.httpClient.delete(environment.endpointURL + "post/admin/" + this.post.postId  + "/" +this.userService.getUser().userId)
+        .subscribe((()=>{
+          this.getNewPosts.emit();
+        }));
+    }
+    else {
+    this.httpClient.delete(environment.endpointURL + "post/user/" + this.post.postId  + "/" +this.userService.getUser().userId)
+      .subscribe((()=>{
+        this.getNewPosts.emit();
+      }));
+    }
   }
 
-  private whoCanEdit(){
-    this.canEdit = this.userService.getLoggedIn() && (this.userService.getUser().userId == this.post.creatorId ||
-      this.userService.isAdmin());
-  }
-
-  getImage(): void{
-    this.httpClient.get(environment.endpointURL + "post/" + this.post.postId + "/imageByPost").subscribe(
-      (res:any) =>{
-        this.imagePath = environment.endpointURL + "uploads/" + res.fileName;
-        this.img = this.imagePath
-      }, () => {
-        this.imagePath = "";
-      })
+  redirect() {
+    if(!this.loggedIn){
+      this.router.navigate(['user']);
+    }
   }
 }
