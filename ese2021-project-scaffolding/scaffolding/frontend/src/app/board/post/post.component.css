@@ -1,3 +1,8 @@
+:root {
+  --me-colorGrey: #dddddd;
+  --me-colorYellow: #fed200;
+
+}
 .edit{
   padding: 2px;
   right: 1%;
@@ -10,15 +15,15 @@
   background-color: white !important;
 }
 .dropdown:hover{
-  background-color: #dddddd !important;
+  background-color: var(--me-colorGrey) !important;
 }
 
 .clicked{
-  background-color: #fed200 !important;
+  background-color: var(--me-colorYellow) !important;
 }
 
 .unclicked{
-  background-color: #dddddd !important;
+  background-color: var(--me-colorGrey) !important;
 }
 
 .postContent{

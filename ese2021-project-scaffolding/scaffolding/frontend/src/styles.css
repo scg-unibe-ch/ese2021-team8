@@ -1,27 +1,33 @@
+:root {
+  --me-colorGrey: #ddd;
+  --me-colorYellow: #fed200;
+  --me-colorBlack: black;
+
+}
 body {
   margin-left: 30px !important;
   margin-right: 30px !important;
-  background-color: #fed200;
-  color:black;
+  background-color: var(--me-colorYellow);
+  color:var(--me-colorBlack);
 }
 
 .mat-toolbar {
-  background-color: black;
-  color: #fed200;
+  background-color: var(--me-colorBlack);
+  color: var(--me-colorYellow);
 }
 
 mat-ink-bar{
-  background-color:black !important;
+  background-color:var(--me-colorBlack) !important;
 }
 
 .mat-card{
   margin: 20px 0;
-  background-color: #ddd !important;
+  background-color: var(--me-colorGrey) !important;
 }
 
 button{
-  background-color: #fed200 !important;
-  color:black !important;
+  background-color: var(--me-colorYellow) !important;
+  color:var(--me-colorBlack) !important;
 }
 
 input, textarea{
@@ -44,7 +50,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color: white !important;
 }
 .dropdown:hover{
-  background-color: #dddddd !important;
+  background-color: var(--me-colorGrey) !important;
 }
 
 .preview{
@@ -52,7 +58,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .mat-chip{
-  background-color: #fed200 !important;
+  background-color: var(--me-colorYellow) !important;
 }
 
 .bigScreen{
