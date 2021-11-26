@@ -69,6 +69,14 @@ productController.get('/',
 );
 
 /**
+ * Get Product by its productId
+ */
+productController.get('/:id',
+    (req: Request, res: Response) => {
+    Product.findByPk(req.params.id).then(product => res.send(product))
+        .catch(err => res.status(500).send(err));
+    });
+/**
  * upload image and add to a product. User needs to be logged in.
  */
 productController.post('/:id/image', verifyToken, (req: MulterRequest, res: Response) => {

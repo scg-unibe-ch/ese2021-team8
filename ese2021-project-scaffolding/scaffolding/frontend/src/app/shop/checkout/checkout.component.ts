@@ -5,7 +5,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Product} from "../../models/product.model";
-import {Order} from "../../models/order.model";
 
 @Component({
   selector: 'app-checkout',
@@ -19,7 +18,6 @@ export class CheckoutComponent implements OnInit {
   products: Product[] = [];
   street: string = "";
   city: string ="";
-  order: Order = new Order(0,0,'','', '',0,'',0);
   confirmation: boolean = false;
   invalid: boolean = false;
   firstName: string = '';

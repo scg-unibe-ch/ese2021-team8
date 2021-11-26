@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
+    public router: Router
   ) {
 
     // Listen for changes
@@ -97,8 +98,9 @@ export class AppComponent implements OnInit {
   }
 
   logout(){
-    let userComp = new UserComponent(this.httpClient, this.userService,);
+    let userComp = new UserComponent(this.httpClient, this.userService, this.router);
     userComp.logoutUser();
+    this.ngOnInit();
   }
 
   EasterEgg() {

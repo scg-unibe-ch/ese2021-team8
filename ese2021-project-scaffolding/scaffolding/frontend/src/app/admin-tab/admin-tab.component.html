@@ -1,5 +1,5 @@
 
-<mat-tab-group>
+<mat-tab-group *ngIf="userService.isAdmin()">
   <mat-tab label="Manage post categories">
     <mat-card>
       <h3>Create a new post category</h3>
@@ -83,6 +83,7 @@
       <br>{{shopCategoryDeleteMsg}}
     </mat-card>
   </mat-tab>
+
   <mat-tab label="Manage orders">
     <mat-accordion>
       <mat-expansion-panel>
@@ -104,8 +105,8 @@
           <tr *ngFor="let order of orders">
             <td>{{order.orderId}}</td>
             <td>{{order.lastName}}, {{order.firstName}}</td>
-            <td>{{order.address}}</td>
-            <td>{{order.productId}}</td>
+            <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
+            <td>{{order.product.productId}} - {{order.product.title}}</td>
             <td>{{order.deliveryStatus}}</td>
             <td> <button *ngIf="(order.deliveryStatus == 'pending')" mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
           </tr>
@@ -126,11 +127,10 @@
               <th> Actions</th>
             </tr>
 
-            <tr *ngFor="let order of toDoOrders">
-              <td>{{order.orderId}}</td>
+            <tr *ngFor="let order of toDoOrders;"  >
               <td>{{order.lastName}}, {{order.firstName}}</td>
-              <td>{{order.address}}</td>
-              <td>{{order.productId}}</td>
+              <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
+              <td>{{order.product.productId}}</td>
               <td>{{order.deliveryStatus}}</td>
               <td> <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
             </tr>
@@ -157,8 +157,8 @@
             <tr *ngFor="let order of doneOrders">
               <td>{{order.orderId}}</td>
               <td>{{order.lastName}}, {{order.firstName}}</td>
-              <td>{{order.address}}</td>
-              <td>{{order.productId}}</td>
+              <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
+              <td>{{order.product.productId}}</td>
               <td>{{order.deliveryStatus}}</td>
             </tr>
           </table>
@@ -167,48 +167,3 @@
     </mat-accordion>
   </mat-tab>
 </mat-tab-group>
-    <!--<mat-card>
-      <mat-card-title>Open orders:</mat-card-title>
-      <div *ngIf="toDoOrders.length==0">Currently no open orders</div>
-      <div *ngFor="let order of toDoOrders">
-        {{order.orderId}}
-        <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button>
-        <br> <br>
-      </div>
-    </mat-card>-->
-    <!--
-        <mat-card>
-          <mat-card-title>Completed orders</mat-card-title>
-          <div *ngIf="doneOrders.length==0">Currently no completed orders</div>
-          <div *ngFor="let order of doneOrders">
-            {{order.orderId}}
-            <br>
-          </div>
-        </mat-card>
-      </mat-tab>
-    </mat-tab-group>
-
-
-    <mat-accordion>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-            Manage post categories
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>Manage shop</mat-panel-title>
-          </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            Manage orders
-          </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-      </mat-accordion>-->

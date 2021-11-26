@@ -54,21 +54,23 @@ export class PostComponent implements OnInit {
     public userService: UserService,
     public router: Router
   ) {
-    userService.loggedIn$.subscribe((res) => {this.loggedIn = res; this.whoCanVote(); this.whoCanEdit();});
+    userService.loggedIn$.subscribe((res) => {this.loggedIn = res;});
     this.loggedIn = userService.getLoggedIn();
   }
 
   ngOnInit(): void {
     this.getCategoryName();
-    this.getUpvotes();
-    this.getDownvotes();
-    this.whoCanEdit();
     this.whoCanVote();
     if(this.post.itemImage){
       this.getImage();
     }
     if(this.post.content.length > 305){
       this.createCollapsable();
+    }
+    if(this.loggedIn){
+      this.getUpvotes();
+      this.getDownvotes();
+      this.whoCanEdit();
     }
   }
 

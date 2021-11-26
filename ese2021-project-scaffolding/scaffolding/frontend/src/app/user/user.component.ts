@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import {Order} from "../models/order.model";
+import {Product} from "../models/product.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user',
@@ -39,11 +41,12 @@ export class UserComponent implements OnInit{
 
   constructor(
     public httpClient: HttpClient,
-    public userService: UserService
+    public userService: UserService,
+    public router: Router
   ) {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
-    userService.user$.subscribe(res =>{ this.user = res; this.getOrders();});
+    userService.user$.subscribe(res =>{ this.user = res;});
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
@@ -61,7 +64,9 @@ export class UserComponent implements OnInit{
 
   ngOnInit() {
     this.user = this.userService.getUser();
-    this.getOrders();
+    if(this.loggedIn){
+      this.getOrders()
+    }
   }
 
   /**
@@ -141,6 +146,7 @@ export class UserComponent implements OnInit{
     this.userService.setLoggedIn(false);
     this.userService.setUser(undefined);
     this.userService.setAdmin(false);
+    this.router.navigate(['home']).then();
   }
 
   //Autor @Ramona
@@ -200,9 +206,12 @@ export class UserComponent implements OnInit{
  getOrders(): void{
     this.orders = [];
     this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId).subscribe((orders:any) => {
-      orders.forEach((order:Order) => {
-        this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, order.productId));
-      })
+      orders.forEach((order:any) => {
+        this.httpClient.get(environment.endpointURL + "product/" + order.productId).subscribe((product: any) =>{
+          let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
+          this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, orderProduct));
+        });
+      });
     }, () => {});
   }
 
