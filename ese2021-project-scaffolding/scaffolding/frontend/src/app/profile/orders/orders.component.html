@@ -1,0 +1,30 @@
+<div *ngIf="orders.length==0">
+  <h4>No orders</h4>
+  <p>You can order items in the <a routerLink="/shop">Shop</a></p>
+</div>
+<div>
+  <mat-card>
+    <table>
+      <tr>
+        <th>Order Id</th>
+        <th>Item</th>
+        <th>Item Name</th>
+        <th>Price</th>
+        <th>Delivery Address</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+
+      <tr *ngFor="let order of orders; let i = index">
+        <td>{{order.orderId}}</td>
+        <td><img src="{{orderImages[order.product.productId]}}" width="40px" height="40px"></td>
+        <td>{{order.product.title}}</td>
+        <td>{{order.product.price}} CHF</td>
+        <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
+        <td>{{order.deliveryStatus}}</td>
+        <td><button mat-flat-button *ngIf="order.deliveryStatus === 'pending'" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
+        </td>
+      </tr>
+    </table>
+  </mat-card>
+</div>

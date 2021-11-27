@@ -1,0 +1,29 @@
+mat-drawer-content {
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+
+.container {
+  width: 400px;
+  height: 200px;
+  margin: 12px;
+  border: 1px solid #555;
+}
+
+.example-container {
+  height: 100vh;
+}
+
+#menuButton{
+  position: absolute;
+  right: 0px;
+  margin: 2px;
+}
+
+
+mat-drawer{
+  background-color: #fed200;
+}
