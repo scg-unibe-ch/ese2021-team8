@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
   <mat-toolbar-row>
     <span>YB-FAN-Community</span> <button style="background-color: transparent !important" mat-flat-button class="Logo" (click)="EasterEgg()" ><img src="assets/YB_Logo.png" height="50" width="50" alt="logo"></button>
   </mat-toolbar-row>
@@ -16,7 +16,7 @@
     <button mat-icon-button class="login" [matMenuTriggerFor]="login" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
       <mat-icon>account_circle</mat-icon></button>
     <mat-menu #login="matMenu">
-      <button mat-menu-item class="dropdown" routerLink="/user" >
+      <button mat-menu-item class="dropdown" routerLink="/profile" >
         <span>Profile Page</span>
       </button>
     <div *ngIf="isAdmin">
@@ -24,7 +24,7 @@
         <span>Admin page</span>
       </button>
     </div>
-      <button mat-menu-item class="dropdown" (click)="logout()">Log out</button>
+      <button mat-menu-item class="dropdown" (click)="logout()"><mat-icon>exit_to_app</mat-icon> Log out</button>
   </mat-menu>
   </div>
 </nav>

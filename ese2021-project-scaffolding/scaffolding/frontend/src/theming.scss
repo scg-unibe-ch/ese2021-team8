@@ -2,40 +2,41 @@
 
 /* For use in src/lib/core/theming/_palette.scss */
 $md-ybpalette: (
-  50 : #000000,
-  100 : #000000,
-  200 : #000000,
-  300 : #000000,
-  400 : #000000,
-  500 : #000000,
-  600 : #000000,
-  700 : #000000,
-  800 : #000000,
-  900 : #000000,
-  A100 : #000000,
-  A200 : #000000,
-  A400 : #000000,
-  A700 : #000000,
-  contrast: (
+  50 : #fffae0,
+  100 : #fff2b3,
+  200 : #ffe980,
+  300 : #fee04d,
+  400 : #fed926,
+  500 : #fed200,
+  600 : #fecd00,
+  700 : #fec700,
+  800 : #fec100,
+  900 : #fdb600,
+  A100 : #ffffff,
+  A200 : #fffaf1,
+  A400 : #ffeabe,
+  A700 : #ffe2a4,
 
-    50 : #fffae0,
-    100 : #fff2b3,
-    200 : #ffe980,
-    300 : #fee04d,
-    400 : #fed926,
-    500 : #fed200,
-    600 : #fecd00,
-    700 : #fec700,
-    800 : #fec100,
-    900 : #fdb600,
-    A100 : #ffffff,
-    A200 : #fffaf1,
-    A400 : #ffeabe,
-    A700 : #ffe2a4,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+
   )
 );
 
-$my-primary: mat.define-palette($md-ybpalette, 900);
+$my-primary: mat.define-palette($md-ybpalette, 500);
 $my-accent: mat.define-palette($md-ybpalette, A200, A100, A400);
 
 $my-theme: mat.define-light-theme((

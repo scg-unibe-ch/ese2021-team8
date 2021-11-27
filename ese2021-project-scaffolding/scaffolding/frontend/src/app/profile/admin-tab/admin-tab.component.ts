@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {PostCategory} from "../models/postCategory.model";
-import {Product} from "../models/product.model";
-import {ShopCategory} from "../models/shopCategory.model";
-import {Order} from "../models/order.model";
+import {environment} from "../../../environments/environment";
+import {PostCategory} from "../../models/postCategory.model";
+import {Product} from "../../models/product.model";
+import {ShopCategory} from "../../models/shopCategory.model";
+import {Order} from "../../models/order.model";
 import {Sort} from "@angular/material/sort";
-import {UserService} from "../services/user.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-admin-tab',

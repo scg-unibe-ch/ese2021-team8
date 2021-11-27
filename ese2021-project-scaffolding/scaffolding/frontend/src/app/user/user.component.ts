@@ -3,8 +3,6 @@ import { User } from '../models/user.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
-import {Order} from "../models/order.model";
-import {Product} from "../models/product.model";
 import {Router} from "@angular/router";
 
 @Component({
@@ -29,15 +27,10 @@ export class UserComponent implements OnInit{
   passwordHasSpecial: boolean = false;
   loginErrorMsg: string = '';
   registerErrorMsg: string = '';
-  updateErrorMsg: string = '';
   street : string = '';
   city : string = '';
 
-  orders: Order[] = [];
   status: string ='';
-
-  editInfo: boolean = false;
-
 
   constructor(
     public httpClient: HttpClient,
@@ -50,23 +43,12 @@ export class UserComponent implements OnInit{
 
     // Current value
     this.loggedIn = userService.getLoggedIn();
-    userService.user$.subscribe(() =>{
-      let address : string[] = this.user.address.split(";");
-      if(address.length==2) {
-        this.street = address[0];
-        this.city = address[1];
-      } else{
-        this.street = this.user.address;
-      }
-    });
     this.user = userService.getUser();
   }
 
   ngOnInit() {
     this.user = this.userService.getUser();
-    if(this.loggedIn){
-      this.getOrders()
-    }
+
   }
 
   /**
@@ -133,7 +115,7 @@ export class UserComponent implements OnInit{
       this.userService.setUser(new User(res.user.userId, res.user.userName, res.user.password, res.user.firstName, res.user.lastName,
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
       this.userService.setAdmin(res.user.admin);
-      this.ngOnInit();
+      this.router.navigate(['home']).then();
       }, (res: any) => {
       this.loginErrorMsg = res.error.message;
     });
@@ -201,46 +183,6 @@ export class UserComponent implements OnInit{
 
     }
     return hasNumber;
-  }
-
- getOrders(): void{
-    this.orders = [];
-    this.httpClient.get(environment.endpointURL + "order/user/" + this.user?.userId).subscribe((orders:any) => {
-      orders.forEach((order:any) => {
-        this.httpClient.get(environment.endpointURL + "product/" + order.productId).subscribe((product: any) =>{
-          let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
-          this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, orderProduct));
-        });
-      });
-    }, () => {});
-  }
-
-  cancelOrder(id: number): void{
-    this.httpClient.put(environment.endpointURL + "order/" + id, {
-      deliveryStatus: 'cancelled'
-    }).subscribe(()=> this.getOrders()
-    );
-  }
-
-  updateInfo() {
-    if(this.validate(this.user)){
-    this.httpClient.put(environment.endpointURL + "user/" + this.userService.getUser(),{
-      firstName: this.user?.firstName,
-      lastName: this.user?.username,
-      address: this.street + ';' + this.city,
-      birthday: this.user.birthday,
-      phoneNumber: this.user.phoneNumber,
-      email: this.user.email
-    }).subscribe(()=>{
-      this.updateErrorMsg = '';
-      this.editInfo = false;
-    },(res:any)=>{
-      this.updateErrorMsg= res.error.message;
-    });
-    } else{
-      this.updateErrorMsg = 'Please fill all required fields!';
-    }
-
   }
 
   validate(user: User) :boolean{

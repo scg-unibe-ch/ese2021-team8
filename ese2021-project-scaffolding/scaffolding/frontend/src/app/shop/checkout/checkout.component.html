@@ -1,6 +1,7 @@
 <div *ngIf="!confirmation">
+  <mat-card>
+  <mat-card-title>Checkout</mat-card-title>
   <button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
-  Checkout
   <br>
   <mat-form-field>
     <mat-label>First Name</mat-label>
@@ -22,13 +23,14 @@
   <br>
   <mat-form-field>
     <mat-label>Payment Method</mat-label>
-  <mat-select required name="paymentMethod" [(ngModel)]="paymentMethod">
-    <mat-option value=0>Payment via invoice</mat-option>
-  </mat-select>
+  <select matNativeControl required>
+    <option value="0">Payment via invoice</option>
+  </select>
   </mat-form-field>
   <br>
   <button mat-flat-button (click)="makeOrder()">BUY NOW</button>
   <mat-error *ngIf="invalid">Fill all required fields!</mat-error>
+  </mat-card>
 </div>
 <div *ngIf="confirmation">
 <button mat-flat-button class="close" [mat-dialog-close]="true">X</button>

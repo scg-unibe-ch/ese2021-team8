@@ -41,7 +41,6 @@ export class BoardComponent implements OnInit {
 
   clickCreatePost(): void {
     this.displayPostTemplate = true;
-    console.log(this.posts);
   }
 
   closePostTemplate() {

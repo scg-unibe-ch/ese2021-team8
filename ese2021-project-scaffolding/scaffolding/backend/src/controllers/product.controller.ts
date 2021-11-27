@@ -105,7 +105,7 @@ productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
 /**
  * Gets all the products from a certain category. No access barrier.
  */
-productController.get('/:postCategoryId',
+productController.get('/:postCategoryId/byCategory',
     (req: Request, res: Response) => {
         Product.findAll({where: {shopCategoryId: req.params.postCategoryId}})
             .then(posts => res.send(posts)).catch(err => res.status(500).send(err));

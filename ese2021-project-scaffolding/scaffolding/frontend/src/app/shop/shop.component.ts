@@ -37,7 +37,7 @@ export class ShopComponent implements OnInit {
     });
     }else{
       this.selectedCategories.forEach((category)=>{
-        this.httpClient.get(environment.endpointURL + "product/" + category.shopCategoryId ).subscribe((products: any) => {
+        this.httpClient.get(environment.endpointURL + "product/" + category.shopCategoryId + "/byCategory" ).subscribe((products: any) => {
           products.forEach((product: any) =>{
             this.products.unshift(new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage));
           });

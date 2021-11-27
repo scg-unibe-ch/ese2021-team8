@@ -13,20 +13,27 @@ import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { BoardComponent } from './board/board.component';
 import { PostComponent } from './board/post/post.component';
-import { AdminTabComponent } from './admin-tab/admin-tab.component';
+import { AdminTabComponent } from './profile/admin-tab/admin-tab.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
 import { CheckoutComponent } from './shop/checkout/checkout.component';
-import { MaterialModule} from "../material/material.module";
+import { MaterialModule } from "../material/material.module";
+import { ProfileComponent } from "./profile/profile.component";
+import { OrdersComponent } from './profile/orders/orders.component';
+
 
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
   {path: 'user', component: UserComponent},
   {path: '', redirectTo: '/home', pathMatch:'full'},
-  {path: 'admin', component: AdminTabComponent},
   {path: 'shop', component: ShopComponent},
-  {path: 'checkout', component: CheckoutComponent}
+  {path: 'checkout', component: CheckoutComponent},
+  {path: 'profile', component: ProfileComponent, children: [
+      {path: 'admin', component: AdminTabComponent},
+      {path: 'orders/:userId', component: OrdersComponent}
+    ]},
+
 ]
 
 @NgModule({
@@ -41,6 +48,8 @@ const routes: Routes = [
     ShopComponent,
     ShopItemsComponent,
     CheckoutComponent,
+    ProfileComponent,
+    OrdersComponent
   ],
     imports: [
         BrowserModule,

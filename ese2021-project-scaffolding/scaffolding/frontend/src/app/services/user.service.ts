@@ -83,7 +83,7 @@ export class UserService {
     let id = localStorage.getItem('userId');
     if(id) {
       httpClient.get(environment.endpointURL + "user/" + id).subscribe((res: any) => {
-        this.setUser(res);
+        this.setUser(new User(res.userId, res.userName, res.password, res.firstName,res.lastName, res.email, res.address, res.birthday, res.phoneNumber));
         this.setAdmin(res.admin);
       });
     }

@@ -12,7 +12,7 @@
 }
 
 button {
-  right: 0px !important;
+  right: 0 !important;
 }
 
 .edit{
@@ -21,4 +21,11 @@ button {
   top:2%;
   position: absolute;
   z-index: 1;
+}
+
+.close{
+  padding: 2px;
+  right: 1%;
+  top:2%;
+  position: absolute;
 }

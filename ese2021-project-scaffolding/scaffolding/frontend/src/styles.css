@@ -7,13 +7,13 @@
 body {
   margin-left: 30px !important;
   margin-right: 30px !important;
-  background-color: var(--me-colorYellow);
-  color:var(--me-colorBlack);
+ /* background-color: var(--me-colorYellow);
+  color:var(--me-colorBlack);*/
 }
 
 .mat-toolbar {
-  background-color: var(--me-colorBlack);
-  color: var(--me-colorYellow);
+ /* background-color: var(--me-colorBlack);
+  color: var(--me-colorYellow);*/
 }
 
 mat-ink-bar{
