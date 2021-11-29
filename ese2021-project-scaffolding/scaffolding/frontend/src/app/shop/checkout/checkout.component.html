@@ -1,7 +1,7 @@
 <div *ngIf="!confirmation">
   <mat-card>
   <mat-card-title>Checkout</mat-card-title>
-  <button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
+  <button mat-flat-button class="close" [mat-dialog-close]="true"><mat-icon>close</mat-icon></button>
   <br>
   <mat-form-field>
     <mat-label>First Name</mat-label>
@@ -28,16 +28,20 @@
   </select>
   </mat-form-field>
   <br>
-  <button mat-flat-button (click)="makeOrder()">BUY NOW</button>
+  <button mat-flat-button color="primary" (click)="confirmation = true">BUY NOW</button>
   <mat-error *ngIf="invalid">Fill all required fields!</mat-error>
   </mat-card>
 </div>
 <div *ngIf="confirmation">
-<button mat-flat-button class="close" [mat-dialog-close]="true">X</button>
 <mat-card >
   <mat-card-title>
-    Congratulations on your order!
+    Buy now?
   </mat-card-title>
-  <mat-card-content>All orders are visible in you user profile</mat-card-content>
+  <mat-card-content>
+    Do you want to order 1 {{data.product.title}} now?
+    Amount due: {{data.product.price}} CHF
+  </mat-card-content>
+  <button mat-flat-button (click)="makeOrder()" class="buyNow" color="primary">BUY NOW</button>
+  <button mat-flat-button [mat-dialog-close]="true" class="buyNow">Cancel</button>
 </mat-card>
 </div>

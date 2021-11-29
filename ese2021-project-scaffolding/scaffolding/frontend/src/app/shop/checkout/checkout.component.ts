@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Product} from "../../models/product.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-checkout',
@@ -27,6 +28,7 @@ export class CheckoutComponent implements OnInit {
   constructor( public userService: UserService,
                public dialogRef: MatDialogRef<CheckoutComponent>,
                private httpClient: HttpClient,
+               private toastr: ToastrService,
                @Inject (MAT_DIALOG_DATA) public data: {product: Product}) {
     userService.user$.subscribe(res => this.user = res);
     this.user = userService.getUser();
@@ -65,7 +67,8 @@ export class CheckoutComponent implements OnInit {
       this.confirmation = false;
       return;
       }));
-    this.confirmation = true;
+    this.toastr.show('All orders are visible in your profile','Order completed!');
+    this.dialogRef.close();
   }
 
   isValid(): boolean{

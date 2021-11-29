@@ -3,4 +3,10 @@
   right: 1%;
   top:2%;
   position: absolute;
+  background-color: transparent;
+}
+
+.buyNow{
+  margin: 5px;
+  position: center;
 }

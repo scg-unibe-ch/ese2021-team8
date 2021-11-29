@@ -46,3 +46,8 @@
   top:2%;
   position: absolute;
 }
+
+.editButtons{
+  margin: 5px;
+  position: center;
+}

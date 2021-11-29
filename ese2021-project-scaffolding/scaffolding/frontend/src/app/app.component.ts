@@ -5,8 +5,9 @@ import { TodoItem } from '../deprecated/models/todo-item.model';
 import { environment } from '../environments/environment';
 import { UserService } from './services/user.service';
 import { User } from './models/user.model';
-import {Router} from "@angular/router";
-import {UserComponent} from "./user/user.component";
+import { Router } from "@angular/router";
+import { UserComponent } from "./user/user.component";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
-    public router: Router
+    public router: Router,
+    private toastr: ToastrService
   ) {
 
     // Listen for changes
@@ -98,7 +100,7 @@ export class AppComponent implements OnInit {
   }
 
   logout(){
-    let userComp = new UserComponent(this.httpClient, this.userService, this.router);
+    let userComp = new UserComponent(this.httpClient, this.userService, this.router, this.toastr);
     userComp.logoutUser();
     this.ngOnInit();
   }

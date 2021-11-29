@@ -20,7 +20,7 @@ import { CheckoutComponent } from './shop/checkout/checkout.component';
 import { MaterialModule } from "../material/material.module";
 import { ProfileComponent } from "./profile/profile.component";
 import { OrdersComponent } from './profile/orders/orders.component';
-
+import { ToastrModule } from 'ngx-toastr';
 
 
 const routes: Routes = [
@@ -61,6 +61,7 @@ const routes: Routes = [
         ReactiveFormsModule,
         ExtendedModule,
         MaterialModule,
+        ToastrModule.forRoot()
     ],
   providers: [
     {

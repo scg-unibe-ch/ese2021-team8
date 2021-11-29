@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-user',
@@ -35,7 +36,8 @@ export class UserComponent implements OnInit{
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
-    public router: Router
+    public router: Router,
+    private toastr: ToastrService
   ) {
     // Listen for changes
     userService.loggedIn$.subscribe(res => this.loggedIn = res);
@@ -94,6 +96,7 @@ export class UserComponent implements OnInit{
         this.street = this.city = '',
       this.userToRegister.phoneNumber = 0;
       this.registerErrorMsg = '';
+      this.toastr.show('Login successful', '');
     }, (res: any) => {
       this.registerErrorMsg = res.error.message;
     });
@@ -129,6 +132,8 @@ export class UserComponent implements OnInit{
     this.userService.setUser(undefined);
     this.userService.setAdmin(false);
     this.router.navigate(['home']).then();
+    this.toastr.show('Log out successful','');
+
   }
 
   //Autor @Ramona

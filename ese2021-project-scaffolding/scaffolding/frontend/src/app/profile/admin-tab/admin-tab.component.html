@@ -10,7 +10,7 @@
           <mat-form-field>
             <input matInput placeholder="New PostCategory Name" [(ngModel)]="newPostCategory">
           </mat-form-field>
-          <button mat-flat-button (click)="createPostCategory()">Create New PostCategory</button>
+          <button mat-flat-button color="primary" (click)="createPostCategory()">Create New PostCategory</button>
           <br>{{postCategoryCreateMsg}}
         </mat-card>
       </mat-expansion-panel>
@@ -23,7 +23,7 @@
               <mat-option *ngFor="let category of postCategories" [value]="category" > {{category.postCategoryName}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-flat-button (click)="deletePostCategory()">Delete PostCategory</button>
+          <button mat-flat-button color="primary" (click)="deletePostCategory()">Delete PostCategory</button>
           <br>{{postCategoryDeleteMsg}}
         </mat-card>
       </mat-expansion-panel>
@@ -64,7 +64,7 @@
           </mat-form-field>
           <br>
           <br>
-          <button mat-raised-button (click)="createProduct()">Publish Product</button>
+          <button mat-raised-button color="primary" (click)="createProduct()">Publish Product</button>
         </mat-card>
       </mat-expansion-panel>
       <mat-expansion-panel>
@@ -76,7 +76,7 @@
               <mat-option *ngFor="let product of products" [value]="product" > {{product.productId}} - {{product.title}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-flat-button (click)="deleteItem()">Delete Item</button>
+          <button mat-flat-button color="primary" (click)="deleteItem()">Delete Item</button>
           <br>{{itemDeleteMsg}}
         </mat-card>
       </mat-expansion-panel>
@@ -86,7 +86,7 @@
           <mat-form-field>
             <input matInput placeholder="New ShopCategory Name" [(ngModel)]="newShopCategory">
           </mat-form-field>
-          <button mat-flat-button (click)="createShopCategory()">Create New ShopCategory</button>
+          <button mat-flat-button color="primary" (click)="createShopCategory()">Create New ShopCategory</button>
           <br>{{shopCategoryCreateMsg}}
         </mat-card>
       </mat-expansion-panel>
@@ -99,7 +99,7 @@
               <mat-option *ngFor="let category of shopCategories" [value]="category" > {{category.shopCategoryName}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-flat-button (click)="deleteShopCategory()">Delete PostCategory</button>
+          <button mat-flat-button color="primary" (click)="deleteShopCategory()">Delete PostCategory</button>
           <br>{{shopCategoryDeleteMsg}}
         </mat-card>
       </mat-expansion-panel>
@@ -130,7 +130,7 @@
             <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
             <td>{{order.product.productId}} - {{order.product.title}}</td>
             <td>{{order.deliveryStatus}}</td>
-            <td> <button *ngIf="(order.deliveryStatus == 'pending')" mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
+            <td> <button color="primary" *ngIf="(order.deliveryStatus == 'pending')" mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
           </tr>
         </table>
         </mat-card>
@@ -154,7 +154,7 @@
               <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
               <td>{{order.product.productId}}</td>
               <td>{{order.deliveryStatus}}</td>
-              <td> <button mat-flat-button (click)="shipOrder(order.orderId)">Send order</button></td>
+              <td> <button mat-flat-button color="primary" (click)="shipOrder(order.orderId)">Send order</button></td>
             </tr>
           </table>
         </mat-card>
