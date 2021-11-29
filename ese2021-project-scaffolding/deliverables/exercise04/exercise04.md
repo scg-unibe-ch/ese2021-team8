@@ -59,8 +59,8 @@
     <li>Has a title</li>
     <li>Can include an image</li>
     <li>Is part of the board</li>
-    <li>Has a category</li>
-    <li>Can be deleted or edited by creator or an admin</li>
+    <li>Has a postCategory</li>
+    <li>Can be deleted or edited by the creator or an admin</li>
     
 </td>
 <td>
@@ -72,7 +72,7 @@
 
 </table>
 
-##Category
+##PostCategory
 <table>
 <tr> 
     <th>Responsibilities</th>
@@ -81,7 +81,7 @@
 <tr>
 <td>
     <li>Holds the name of the category</li>
-    <li>Can be created by admin or directly via database</li>
+    <li>Can be created by an admin or directly via database</li>
 </td>
 <td>
     <li>User</li>
@@ -91,7 +91,7 @@
 
 </table>
 
-##Image
+##ItemImage
 <table>
 <tr> 
     <th>Responsibilities</th>
@@ -127,6 +127,99 @@
 <td>
     <li>User</li>
     <li>Post</li>
+</td>
+</tr>
+
+</table>
+
+</table>
+
+##ShopCategory
+<table>
+<tr> 
+    <th>Responsibilities</th>
+    <th>Collaborators</th>
+</tr>
+<tr>
+<td>
+    <li>Holds the name of the category</li>
+    <li>Can be created by an admin or directly via database</li>
+</td>
+<td>
+    <li>User</li>
+    <li>Product</li>
+</td>
+</tr>
+
+</table>
+
+</table>
+
+##Product
+<table>
+<tr> 
+    <th>Responsibilities</th>
+    <th>Collaborators</th>
+</tr>
+<tr>
+<td>
+    <li>Has a productname</li>
+    <li>Holds the name of the category</li>
+    <li>Has a productcategory assigned like "clothing"</li>
+    <li>Has a description of the product</li>
+    <li>May contain an image showing the product</li>
+    <li>Has a price assigned to it</li>
+    <li>Can be created, edited and deleted by an admin</li>
+</td>
+<td>
+    <li>User</li>
+    <li>Order</li>
+</td>
+</tr>
+
+</table>
+
+</table>
+
+##ProductImage
+<table>
+<tr> 
+    <th>Responsibilities</th>
+    <th>Collaborators</th>
+</tr>
+<tr>
+<td>
+    <li>Can be uploaded by an admin from his files, must be of type .pgn or .jpeg</li>
+    <li>Belongs to a product</li>
+</td>
+<td>
+    <li>User</li>
+    <li>Product</li>
+</td>
+</tr>
+
+</table>
+
+</table>
+
+##Order
+<table>
+<tr> 
+    <th>Responsibilities</th>
+    <th>Collaborators</th>
+</tr>
+<tr>
+<td>
+    <li>Contains the address data of the ordering person</li>
+    <li>Only one product at a time is ordered</li>
+    <li>Contains the status of the delivery</li>
+    <li>May be cancelled by the ordering person</li>
+    <li>Admin is responsible for shipping</li>
+    <li>Has a field for the payment method</li>
+</td>
+<td>
+    <li>User</li>
+    <li>Product</li>
 </td>
 </tr>
 
