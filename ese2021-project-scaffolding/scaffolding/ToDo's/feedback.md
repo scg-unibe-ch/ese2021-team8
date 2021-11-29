@@ -1,8 +1,5 @@
 #Feedback des Assistenten
 ## Zu erledigen: 
-1. Werte für CSS-Properties (z.B. eine Farbe wie YB-Gelb), das vielerorts verwendet wird aber schlecht «vererbt» werden 
-kann, kann in CSS-Variablen gespeichert werden.
-
 3. AppModule: Module von AngularMaterial könnten in separatem AngularMaterialModule importiert werden, so muss dann 
 nur dieses AngularMaterialModule im AppModule importiert werden.
 4. Non-Null Assertion Operator für Objekte verwenden, die nicht zwingend «leer» instanziert werden müssen. Z.B. product 
@@ -29,5 +26,7 @@ Zeitpunkt kann man auch endlos viele Up- und Downvotes machen.
 App umfangreicher werden würde, müssten diese dann noch in Services ausgelagert werden, damit der Code wiederverwendet werden kann und nicht dupliziert werden muss.
 
 ## Erledigt:
+1. Werte für CSS-Properties (z.B. eine Farbe wie YB-Gelb), das vielerorts verwendet wird aber schlecht «vererbt» werden
+   kann, kann in CSS-Variablen gespeichert werden. **erlrdigt**
 2. In «index.html» können title und favicon der App/Webseite angepasst werden (beeinflusst im Browser den Titel
    und das Icon des Tabs) **erledigt**
