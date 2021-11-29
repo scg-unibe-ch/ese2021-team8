@@ -4,8 +4,8 @@ import {
     Sequelize,
     DataTypes,
 } from 'sequelize';
-import { Product } from './product.model';
-import { Order } from './order.model';
+import { Product } from '../../models/product.model';
+import { Order } from '../../models/order.model';
 
 export interface ShoppingCartAttributes {
     cartId: number;

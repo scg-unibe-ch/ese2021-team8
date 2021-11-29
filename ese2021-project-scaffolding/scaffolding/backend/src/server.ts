@@ -1,20 +1,15 @@
 import express, { Application , Request, Response } from 'express';
 import morgan from 'morgan';
-import { TodoItemController } from './deprecated/controllers/todoitem.controller';
-import { TodoListController } from './deprecated/controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
 import { PostCategoryController} from './controllers/postCategoryController';
 import { ShopCategoryController} from './controllers/shopCategoryController';
 import { ProductController } from './controllers/product.controller';
-import { ShoppingCartController } from './controllers/shoppingCart.controller';
+import { ShoppingCartController } from './deprecated/controllers/shoppingCart.controller';
 import { Sequelize } from 'sequelize';
-import { TodoList } from './deprecated/models/todolist.model';
-import { TodoItem } from './deprecated/models/todoitem.model';
 import { User } from './models/user.model';
 import { PostCategory } from './models/postCategory.model';
 import { ShopCategory } from './models/shopCategory.model';
-import { ShoppingCart } from './models/shoppingCart.model';
 
 import cors from 'cors';
 import {AdminController} from './controllers/admin.controller';
@@ -38,9 +33,7 @@ export class Server {
         this.server = this.configureServer();
         this.sequelize = this.configureSequelize();
 
-        TodoItem.initialize(this.sequelize); // creates the tables if they dont exist
-        TodoList.initialize(this.sequelize);
-        User.initialize(this.sequelize);
+        User.initialize(this.sequelize); // creates the tables if they dont exist
         ItemImage.initialize(this.sequelize);
         PostCategory.initialize(this.sequelize);
         ShopCategory.initialize(this.sequelize);
@@ -49,10 +42,8 @@ export class Server {
         ProductImage.initialize(this.sequelize);
         Product.initialize(this.sequelize);
         Order.initialize(this.sequelize);
-        ShoppingCart.initialize(this.sequelize);
 
-        TodoItem.createAssociations();
-        TodoList.createAssociations();
+
         Post.createAssociations();
         ItemImage.createAssociations();
         ProductImage.createAssociations();
@@ -85,8 +76,6 @@ export class Server {
             .use(cors())
             .use(express.json())                    // parses an incoming json to an object
             .use(morgan('tiny'))                    // logs incoming requests
-            .use('/todoitem', TodoItemController)   // any request on this path is forwarded to the TodoItemController
-            .use('/todolist', TodoListController)
             .use('/user', UserController)
             .use('/secured', SecuredController)
             .use('/admin', AdminController)
