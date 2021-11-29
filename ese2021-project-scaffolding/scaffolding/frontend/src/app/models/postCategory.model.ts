@@ -1,3 +1,4 @@
+
 export class PostCategory{
   constructor(
     public postCategoryId: number,
