@@ -9,3 +9,6 @@ mat-card{
 .chip-list{
   width: 100%;
 }
+#mat-select-value-1 > span > span{
+  display: none !important;
+}

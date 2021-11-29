@@ -19,11 +19,6 @@
       <button mat-menu-item class="dropdown" routerLink="/profile" >
         <span>Profile Page</span>
       </button>
-    <div *ngIf="isAdmin">
-      <button mat-menu-item class="dropdown" routerLink="/admin">
-        <span>Admin page</span>
-      </button>
-    </div>
       <button mat-menu-item class="dropdown" (click)="logout()"><mat-icon>exit_to_app</mat-icon> Log out</button>
   </mat-menu>
   </div>

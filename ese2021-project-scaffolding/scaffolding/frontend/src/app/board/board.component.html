@@ -1,13 +1,13 @@
 <body fxLayout="column" ngClass.gt-sm="bigScreen">
 <mat-card class="postCard" *ngIf="!displayPostTemplate && userService.getLoggedIn() && !userService.isAdmin()">
   <div class="postButton">
-    <button mat-raised-button (click)="clickCreatePost()">Create New Post</button>
+    <button mat-raised-button color="primary" (click)="clickCreatePost()">Create New Post</button>
   </div>
 </mat-card>
 
 <div *ngIf="displayPostTemplate">
   <mat-card>
-    <button mat-flat-button class="close" (click)="closePostTemplate()">X</button>
+    <button mat-flat-button class="close" (click)="closePostTemplate()"><mat-icon>close</mat-icon></button>
     <br>
     <mat-form-field appearance="fill" style="width: 60%;">
       <input matInput type="text" placeholder="Title*" name="title" [(ngModel)]="postTitle">
@@ -15,7 +15,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Select PostCategory</mat-label>
       <mat-select required [(ngModel)]="postCategory">
-        <mat-option *ngFor="let category of categories" [value]="category"  > {{category.postCategoryName}} </mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category" > {{category.postCategoryName}} </mat-option>
       </mat-select>
     </mat-form-field>
     <br>
@@ -35,7 +35,7 @@
     </mat-form-field>
     <br>
     <br>
-    <button mat-raised-button (click)="createPost()">Publish Post</button>
+    <button mat-flat-button color="primary" (click)="createPost()">Publish Post</button>
     <mat-error *ngIf="showError">Fill all required fields!</mat-error>
   </mat-card>
 </div>

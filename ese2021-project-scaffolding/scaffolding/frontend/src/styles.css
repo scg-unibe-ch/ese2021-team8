@@ -26,8 +26,8 @@ mat-ink-bar{
 }
 
 button{
-  background-color: var(--me-colorYellow) !important;
-  color:var(--me-colorBlack) !important;
+/*  background-color: var(--me-colorYellow) !important;
+  color:var(--me-colorBlack) !important;*/
 }
 
 input, textarea{
@@ -64,8 +64,4 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .bigScreen{
   margin-left: 15% !important;
   margin-right: 15% !important;
-}
-
-#mat-select-value-1 > span > span{
-  display: none !important;
 }

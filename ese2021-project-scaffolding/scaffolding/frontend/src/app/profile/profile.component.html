@@ -55,7 +55,7 @@
             <input matInput type="tel" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="user.phoneNumber">
           </mat-form-field>
           <br>
-          <button mat-button (click)="updateInfo()">Save</button>
+          <button mat-flat-button color="primary" (click)="updateInfo()">Save</button>
           <mat-error> {{ updateErrorMsg }} </mat-error>
           </mat-card>
         </div>
@@ -63,85 +63,3 @@
     </mat-drawer-content>
   </mat-drawer-container>
 </div>
-
-<!--
-<mat-tab-group>
-  <mat-tab label="My Profile">
-    <div>
-      <mat-card>
-        <button mat-flat-button color="warn" (click)="userComponent.logoutUser()" style="position: center">Logout</button>
-      </mat-card>
-    </div>
-    <mat-card>
-      <button *ngIf="!editInfo" mat-button (click)="editInfo = true">Update Profile Information</button> <br>
-      <div *ngIf="editInfo">
-        <mat-form-field>
-          <mat-label>First Name</mat-label>
-          <input matInput type="text"  [(ngModel)]="user.firstName" name="firstName" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Last Name</mat-label>
-          <input matInput type="text"  [(ngModel)]="user.lastName" name="lastName" required>
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <mat-label>Street</mat-label>
-          <input matInput type="text"  [(ngModel)]="street" name="street">
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>PLZ Ort</mat-label>
-          <input matInput type="text"  [(ngModel)]="city" name="city">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <input matInput type="email" placeholder="Email" name="email" [(ngModel)]="user.email" required>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput type="date" placeholder="Birthday" name="birthday" [(ngModel)]="user.birthday">
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-          <input matInput type="tel" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="user.phoneNumber">
-        </mat-form-field>
-        <br>
-        <button mat-button (click)="updateInfo()">Save</button>
-        <mat-error> {{ updateErrorMsg }} </mat-error>
-      </div>
-    </mat-card>
-
-
-  </mat-tab>
-  <mat-tab *ngIf="!this.userService.isAdmin()" label="My Orders">
-    <div *ngIf="orders.length==0">
-      <h4>No orders</h4>
-      <p>You can order items in the <a routerLink="/shop">Shop</a></p>
-    </div>
-    <div>
-      <mat-card>
-        <table>
-          <tr>
-            <th>Order Id</th>
-            <th>Item</th>
-            <th>Item Name</th>
-            <th>Price</th>
-            <th>Delivery Address</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-
-          <tr *ngFor="let order of orders">
-            <td>{{order.orderId}}</td>
-            <td>{{order.product.productId}}</td>
-            <td>{{order.product.title}}</td>
-            <td>{{order.product.price}}</td>
-            <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
-            <td>{{order.deliveryStatus}}</td>
-            <td><button mat-flat-button *ngIf="order.deliveryStatus === 'pending'" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
-            </td>
-          </tr>
-        </table>
-      </mat-card>
-    </div>
-  </mat-tab>
-</mat-tab-group>
--->

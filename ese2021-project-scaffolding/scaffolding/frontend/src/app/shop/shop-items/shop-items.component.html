@@ -23,10 +23,10 @@
         <div><h5>{{product.price}} CHF</h5></div>
       </mat-card-content>
   <div *ngIf="!this.userService.getLoggedIn()">
-  <button mat-fab (click)="router.navigate(['user'])" [matTooltip]="'log in to buy'">buy now</button>
+  <button mat-fab (click)="router.navigate(['user'])" [matTooltip]="'log in to buy'" color="primary">Buy Now</button>
   </div>
   <div *ngIf="this.userService.getLoggedIn()&&!this.userService.isAdmin()">
-    <button mat-fab (click)="openDialog()">buy now</button>
+    <button mat-fab (click)="openDialog()" color="primary">Buy Now</button>
   </div>
 </mat-card>
 
