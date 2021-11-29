@@ -22,7 +22,7 @@
         <td>{{order.product.price}} CHF</td>
         <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
         <td>{{order.deliveryStatus}}</td>
-        <td><button mat-flat-button *ngIf="order.deliveryStatus === 'pending'" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
+        <td><button mat-flat-button color="primary" *ngIf="order.deliveryStatus === 'pending'" (click)="cancelOrder(order.orderId)">CANCEL ORDER</button>
         </td>
       </tr>
     </table>

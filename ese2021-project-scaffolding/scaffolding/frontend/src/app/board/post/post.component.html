@@ -19,7 +19,7 @@
   <button *ngIf="downvoted" class="clicked" (click)="revertDownvote()">&#8681;</button>
   </div>
   <div *ngIf="!canVote">
-    <button mat-fab [matTooltip]= "this.userService.isAdmin() ? 'admins can\'t vote' : 'log in to vote'" (click)="redirect()"> score: {{post.votes}}</button>
+    <button mat-fab [matTooltip]= "this.userService.isAdmin() ? 'admins can\'t vote' : 'log in to vote'" (click)="redirect()" color="primary"> score: {{post.votes}}</button>
   </div>
 <div class="postContent">
   <mat-card-title>{{post.title}}  </mat-card-title>

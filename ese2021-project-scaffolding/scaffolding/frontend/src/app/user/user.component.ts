@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {PostComponent} from "../board/post/post.component";
 
 @Component({
   selector: 'app-user',
@@ -125,6 +126,7 @@ export class UserComponent implements OnInit{
   }
 
   logoutUser(): void {
+    this.toastr.show('Log out successful','');
     localStorage.removeItem('userId');
     localStorage.removeItem('userToken');
 
@@ -132,7 +134,6 @@ export class UserComponent implements OnInit{
     this.userService.setUser(undefined);
     this.userService.setAdmin(false);
     this.router.navigate(['home']).then();
-    this.toastr.show('Log out successful','');
 
   }
 

@@ -54,7 +54,7 @@ export class PostComponent implements OnInit {
     public userService: UserService,
     public router: Router
   ) {
-    userService.loggedIn$.subscribe((res) => {this.loggedIn = res;});
+    userService.loggedIn$.subscribe((res) => {this.loggedIn = res; this.whoCanVote(); this.whoCanEdit();});
     this.loggedIn = userService.getLoggedIn();
   }
 

@@ -21,7 +21,7 @@ import { MaterialModule } from "../material/material.module";
 import { ProfileComponent } from "./profile/profile.component";
 import { OrdersComponent } from './profile/orders/orders.component';
 import { ToastrModule } from 'ngx-toastr';
-
+import {ConfirmCancel} from './profile/orders/orders.component';
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -49,7 +49,8 @@ const routes: Routes = [
     ShopItemsComponent,
     CheckoutComponent,
     ProfileComponent,
-    OrdersComponent
+    OrdersComponent,
+    ConfirmCancel
   ],
     imports: [
         BrowserModule,
