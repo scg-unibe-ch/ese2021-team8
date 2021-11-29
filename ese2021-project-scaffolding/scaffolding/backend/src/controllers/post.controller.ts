@@ -120,6 +120,21 @@ postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
 });
 
 /**
+ * Gets 10 posts from the database. This method is not dependent on id,
+ * it takes 10 subsequent rows from the table. Should be used to minimize loading times
+ * by only showing some posts at a time.
+ * @param pageNumber: Declares which 10 posts the method fetches.
+ */
+postController.get('/page/:pageNumber',
+(req: Request, res: Response) => {
+    let pageRange: number;
+    pageRange = 10 * Number(req.params.pageNumber) - 10;
+    Post.findAll({offset: pageRange , limit: 10}).then(posts => res.send(posts))
+        .catch(err => res.status(500).send(err));
+}
+);
+
+/**
  * Gets all the posts created from a certain creator. Should be used to view posts in profile page.
  * User must be logged in.
  */
