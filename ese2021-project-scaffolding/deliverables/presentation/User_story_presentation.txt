@@ -1,0 +1,12 @@
+Heute ist der Championsleague-Match zwischen Manchester United und YB. 
+Website-Administrator Max hat für diesen Anlass spezielle Schals anfertigen lassen, welche er nun auf dem Shop anbieten möchte.
+Er erstellt das Product auf seiner Admin-Page. Ebenfalls erstellt er eine neue PostCategory "YB-ManU", um spezifisch über das Spiel sprechen zu lassen.
+Das Spiel hat mittlerweile angefangen. Alexa sitzt mit ihrem Sohn im Publikum. Sie schiesst einige Fotos, welche sie als gelungen erachtet.
+In der Pause erfährt sie von einem anderen Fan, dass YB eine neue Fan-Page besitzt.
+Nach dem Spiel registriert sie sich auf der Website und lädt einige ihrer Fotos als Post hoch. 
+Sie liket einige der Posts, welche über das Spiel sprechen. Ebenfalls kauft sie im Shop einer der speziellen Schals als Erinnerung für ihren Sohn.
+Sie lässt den Schal aber nicht an ihre hinterlegte Adresse senden, sondern an ihren Zweitwohnsitz, da es eine Überrasschung für ihren Sohn sein soll.
+Ebenfalls bestellt sie eine Mütze für ihren Mann, diese soll an ihre normale Adresse geschickt werden.
+Max muss währenddessen einige Posts von wütenden ManU-Fans löschen. Er sieht die Bestellung des Schals von Alexa, packt diesen ein, verschickt ihn
+und macht dann ein Statusupdate der Bestellung. Alexa bemerkt, dass ihr Mann die bestellte Mütze bereits besitzt. Daher storniert sie die Bestellung.
+Am Ende logt sich Alexa zufrieden aus.
