@@ -122,7 +122,7 @@ postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
 /**
  * Gets 10 posts from the database. This method is not dependent on id,
  * it takes 10 subsequent rows from the table. Should be used to minimize loading times
- * by only showing some posts at a time.
+ * by only showing some posts at a time. No access barrier
  * @param pageNumber: Declares which 10 posts the method fetches.
  */
 postController.get('/page/:pageNumber',
@@ -132,6 +132,19 @@ postController.get('/page/:pageNumber',
     Post.findAll({offset: pageRange , limit: 10}).then(posts => res.send(posts))
         .catch(err => res.status(500).send(err));
 }
+);
+
+/**
+ * Returns the number of posts existing in the database.
+ * Value is returned as String to avoid being interpreted as status.
+ * Might be used to determine how many pages are needed.
+ * No access barrier.
+ */
+postController.get('/amount',
+    (req: Request, res: Response) => {
+        Post.count().then(value => res.send(String(value)))
+            .catch(err => res.status(500).send(err));
+    }
 );
 
 /**
