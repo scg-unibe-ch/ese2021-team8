@@ -28,7 +28,8 @@ export class AdminTabComponent implements OnInit {
 
 
   itemDeleteMsg: string ="";
-  itemCreateMsg: string ="";
+  showProductCreateError: boolean = false;
+  productCreateMsg: string="";
   shopCategoryDeleteMsg: string ="";
   postCategoryDeleteMsg: string ="";
 
@@ -126,7 +127,14 @@ export class AdminTabComponent implements OnInit {
   }
 
   createProduct() {
-    if (this.productPicture != null) {
+    if (this.newProduct.title == '' || this.newProduct.price == null || this.shopCategory == this.emptyShopCategory) {
+      this.showProductCreateError = true;
+      this.productCreateMsg = "Please fill all the required fields"
+      return;
+    } else if (this.productPicture == null) {
+      this.productCreateMsg = "Add an image to publish product"
+      return;
+    } else {
       this.httpClient.post(environment.endpointURL + "product/", {
         title: this.newProduct.title,
         shopCategoryId: this.shopCategory.shopCategoryId,
@@ -145,15 +153,13 @@ export class AdminTabComponent implements OnInit {
         this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
           .subscribe(() => {
             console.log(this.products);
-            this.newProduct.title = this.newProduct.description = this.itemCreateMsg ="";
+            this.newProduct.title = this.newProduct.description = this.productCreateMsg ="";
             this.newProduct.price = 0;
             this.preview = null;
             this.shopCategory = this.emptyShopCategory;
 
           });
       });
-    } else {
-      this.itemCreateMsg = "Add an image to publish product"
     }
   }
 

@@ -35,7 +35,8 @@
       <mat-expansion-panel-header> Add a new product to the shop</mat-expansion-panel-header>
         <mat-card>
           <mat-form-field appearance="fill" style="width: 60%;">
-            <input required matInput type="text" placeholder="product title" name="title" [(ngModel)]="newProduct.title">
+            <mat-label>Product title</mat-label>
+            <input required matInput type="text" name="title" [(ngModel)]="newProduct.title">
           </mat-form-field>
           <br>
           <mat-form-field appearance="fill" style="width: 60%">
@@ -62,10 +63,10 @@
               <img src="{{preview}}" class="preview" alt="upload preview">
             </div>
           </mat-form-field>
-          {{itemCreateMsg}}
           <br>
           <br>
           <button mat-raised-button color="primary" (click)="createProduct()">Publish Product</button>
+          <mat-error *ngIf="showProductCreateError">{{productCreateMsg}}</mat-error>
         </mat-card>
       </mat-expansion-panel>
       <mat-expansion-panel>
