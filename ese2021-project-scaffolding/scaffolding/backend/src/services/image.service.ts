@@ -54,24 +54,42 @@ export class ImageService {
             })
             .catch(() => Promise.reject('could not fetch the image!'));
     }
-/*
-* Delete Image: method does not work yet
-* */
-    public removeImage(post: Post): Promise<ItemImage> {
-        return ItemImage.findOne({where: {postId: post.postId }}).then( found => {
-            if (!found) {
-                return Promise.reject('Picture not found');
-            } else {
-                // tslint:disable-next-line:no-shadowed-variable
-                const fs = require('fs');
-                const path = './src/public/uploads/' + found.fileName;
-                fs.unlink(path, (err) => {
-                    if (err) {
-                        return Promise.reject('Could not delete image');
+
+    public deleteItemImageFile(imageId: number): Promise<ItemImage> {
+            return ItemImage.findByPk(imageId)
+                .then(image => {
+                    if (!image) {
+                        return Promise.reject('image not found');
+                    } else {
+                        const fs = require('fs');
+                        const path = './src/public/uploads/' + image.fileName;
+                        fs.unlink(path, (err) => {
+                            if (err) { console.log('could not delete image');
+                            }
+                            return Promise.resolve(image);
+                        });
+                        return Promise.resolve(image);
                     }
-                });
-                return Promise.resolve(found);
-            }
-        });
+                })
+                .catch((err) => Promise.reject(err));
+    }
+
+    public deleteProductImageFile(imageId: number): Promise<ProductImage> {
+        return ProductImage.findByPk(imageId)
+            .then(image => {
+                if (!image) {
+                    return Promise.reject('image not found');
+                } else {
+                    const fs = require('fs');
+                    const path = './src/public/uploads/' + image.fileName;
+                    fs.unlink(path, (err) => {
+                        if (err) { console.log('could not delete image');
+                        }
+                        return Promise.resolve(image);
+                    });
+                    return Promise.resolve(image);
+                }
+            })
+            .catch((err) => Promise.reject(err));
     }
 }

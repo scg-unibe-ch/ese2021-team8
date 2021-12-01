@@ -43,16 +43,24 @@ postController.put('/:id', verifyToken, (req: Request, res: Response) => {
 });
 
 /**
- * Deletes a post. Needs the id of the post to be destroyed.
+ * Deletes a post and its image, if it has one. Needs the id of the post to be destroyed.
  * This is the delete-method used by the administrator. No limit to the post they can destroy.
  */
-postController.delete('/admin/:postid/:creator', checkAdmin, (req: Request, res: Response) => {
-    Post.findByPk(req.params.postid)
+postController.delete('/admin/:postId/:creator', checkAdmin, (req: Request, res: Response) => {
+    Post.findByPk(req.params.postId)
         .then(found => {
             if (found != null) {
-                found.destroy()
-                    .then(item => res.status(200).send({ deleted: item }))
-                    .catch(err => res.status(500).send(err));
+                if (found.itemImage) {
+                    ItemImage.findOne({where: {postId: req.params.postId}})
+                        .then(image => imageService.deleteItemImageFile(image.imageId))
+                        .then(() => found.destroy())
+                        .then(item => res.status(200).send({deleted: item}))
+                        .catch(err => res.status(500).send(err));
+                } else {
+                    found.destroy()
+                        .then(item => res.status(200).send({deleted: item}))
+                        .catch(err => res.status(500).send(err));
+                }
             } else {
                 res.sendStatus(404);
             }
@@ -61,15 +69,23 @@ postController.delete('/admin/:postid/:creator', checkAdmin, (req: Request, res:
 });
 
 /**
- * Deletes a post. Only the author of the post may delete it.
+ * Deletes a postand its image, if it has one. Only the author of the post may delete it.
 */
 postController.delete('/user/:postId/:userId', verifyToken, (req: Request, res: Response) => {
     Post.findByPk(req.params.postId)
         .then(found => {
             if (found != null && (found.creatorId === Number(req.params.userId))) {
-                found.destroy()
-                    .then(item => res.status(200).send({ deleted: item }))
-                    .catch(err => res.status(500).send(err));
+                if (found.itemImage) {
+                    ItemImage.findOne({where: {postId: req.params.postId}})
+                        .then(image => imageService.deleteItemImageFile(image.imageId))
+                        .then(() => found.destroy())
+                        .then(item => res.status(200).send({deleted: item}))
+                        .catch(err => res.status(500).send(err));
+                } else {
+                    found.destroy()
+                        .then(item => res.status(200).send({deleted: item}))
+                        .catch(err => res.status(500).send(err));
+                }
             } else {
                 res.sendStatus(404);
             }
@@ -107,7 +123,7 @@ postController.post('/uploadImage', verifyToken, upload.single('image'), (req, r
  * get the filename of an image. User must be logged in.
  */
 postController.get('/:id/imageById', verifyToken, (req: Request, res: Response) => {
-    imageService.getImageItem(Number(req.params.id)).then(products => res.send(products))
+    imageService.getImageItem(Number(req.params.id)).then(image => res.send(image))
         .catch(err => res.status(500).send(err));
 });
 
@@ -165,5 +181,17 @@ postController.get('/:postCategoryId',
         Post.findAll({where: {categoryId: req.params.categoryId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );
+
+/**
+ * Deletes an image file of a given post. This request is not used and serves for testing purpose only.
+ * Deletion of the file is included in the post deletion request.
+ *
+ * @params postId: Id of the post containing the picture to be deleted.
+ */
+postController.delete('/image/:postId', (req: Request, res: Response) => {
+    ItemImage.findOne({where: {postId: req.params.postId}})
+        .then(found => imageService.deleteItemImageFile(found.imageId)).then(image => res.send(image))
+        .catch(err => res.status(500).send(err));
+});
 
 export const PostController: Router = postController;

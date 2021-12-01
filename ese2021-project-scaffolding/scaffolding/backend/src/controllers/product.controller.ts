@@ -9,7 +9,7 @@ import {verifyToken} from '../middlewares/checkAuth';
 
 
 const productController: Router = express.Router();
-const itemService = new ImageService();
+const imageService = new ImageService();
 productController.use(express.static('public'));
 
 /**
@@ -48,9 +48,17 @@ productController.delete('/:id', checkAdmin, (req: Request, res: Response) => {
     Product.findByPk(req.params.id)
         .then(found => {
             if (found != null) {
-                found.destroy()
-                    .then(item => res.status(200).send({ deleted: item }))
-                    .catch(err => res.status(500).send(err));
+                if (found.productImage) {
+                    ProductImage.findOne({where: {productId: req.params.id}})
+                        .then(image => imageService.deleteProductImageFile(image.imageId))
+                        .then(() => found.destroy())
+                        .then(item => res.status(200).send({deleted: item}))
+                        .catch(err => res.status(500).send(err));
+                } else {
+                    found.destroy()
+                        .then(item => res.status(200).send({deleted: item}))
+                        .catch(err => res.status(500).send(err));
+                }
             } else {
                 res.sendStatus(404);
             }
@@ -80,7 +88,7 @@ productController.get('/:id',
  * upload image and add to a product. User needs to be logged in.
  */
 productController.post('/:id/image', verifyToken, (req: MulterRequest, res: Response) => {
-    itemService.addImageToProduct(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
+    imageService.addImageToProduct(req).then(created => res.send(created)).catch(err => res.status(500).send(err));
 });
 
 
@@ -88,7 +96,7 @@ productController.post('/:id/image', verifyToken, (req: MulterRequest, res: Resp
  * Get image by imageId. No access barrier.
  */
 productController.get('/:id/imageById', (req: Request, res: Response) => {
-    itemService.getImageItem(Number(req.params.id)).then(products => res.send(products))
+    imageService.getImageItem(Number(req.params.id)).then(products => res.send(products))
         .catch(err => res.status(500).send(err));
 });
 
