@@ -28,6 +28,7 @@ export class AdminTabComponent implements OnInit {
 
 
   itemDeleteMsg: string ="";
+  itemCreateMsg: string ="";
   shopCategoryDeleteMsg: string ="";
   postCategoryDeleteMsg: string ="";
 
@@ -125,30 +126,35 @@ export class AdminTabComponent implements OnInit {
   }
 
   createProduct() {
-    this.httpClient.post(environment.endpointURL + "product/", {
-      title: this.newProduct.title,
-      shopCategoryId: this.shopCategory.shopCategoryId,
-      description: this.newProduct.description,
-      price: this.newProduct.price,
-      productImage: true
+    if (this.productPicture != null) {
+      this.httpClient.post(environment.endpointURL + "product/", {
+        title: this.newProduct.title,
+        shopCategoryId: this.shopCategory.shopCategoryId,
+        description: this.newProduct.description,
+        price: this.newProduct.price,
+        productImage: true
 
-    }).subscribe((product: any) => {
-      this.products.unshift(
-        new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage));
+      }).subscribe((product: any) => {
+        this.products.unshift(
+          new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage));
 
-      const formData = new FormData();
-      // @ts-ignore
-      formData.append("image", this.productPicture);
+        const formData = new FormData();
+        // @ts-ignore
+        formData.append("image", this.productPicture);
 
-      this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
-        .subscribe(() => {
-          console.log(this.products);
-          this.newProduct.title = this.newProduct.description = "";
-          this.newProduct.price = 0;
-          this.preview = null;
-          this.shopCategory = this.emptyShopCategory;
-        });
-    });
+        this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
+          .subscribe(() => {
+            console.log(this.products);
+            this.newProduct.title = this.newProduct.description = this.itemCreateMsg ="";
+            this.newProduct.price = 0;
+            this.preview = null;
+            this.shopCategory = this.emptyShopCategory;
+
+          });
+      });
+    } else {
+      this.itemCreateMsg = "Add an image to publish product"
+    }
   }
 
   onFileChanged(event: any) {
