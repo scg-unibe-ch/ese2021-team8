@@ -75,58 +75,38 @@ export class BoardComponent implements OnInit {
   }
 
   /**
-   *This Methode checke if every Field that is required is filled. If not it change the showError to true. It
-   * is splittet in with Picture and without picture. The reason is, that it will be smaller with out a Picture and
-   * the Picture isn't a required field. The redundancy is because we need first to create the Post and then we can attache
-   * the File. The parameter itemImage need to be false if there is no Image, and True if there is.
+   *This Methode checks if every Field that is required is filled. If not it change the showError to true. It then creates
+   * a new post. If the post includes a picture it adds the picture to that post.
    */
   createPost(): void {
-    if(this.postTitle == '' || this.postCategory == this.emptyCategory || (this.postContent == '' && !this.hasPicture)){
+    if (this.postTitle == '' || this.postCategory == this.emptyCategory || (this.postContent == '' && !this.hasPicture)) {
       this.showError = true;
       return;
     }
-    //check if there is a Picture
-    if (this.hasPicture) {
-      this.httpClient.post(environment.endpointURL + "post", {
-        title: this.postTitle,
-        content: this.postContent,
-        creatorId: this.userService.getUser().userId,
-        categoryId: this.postCategory.postCategoryId,
-        date: new Date(),
-        votes: 0,
-        itemImage: true
-      }).subscribe((post: any) => {
-        const newPost = new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage);
-
+    this.httpClient.post(environment.endpointURL + "post", {
+      title: this.postTitle,
+      content: this.postContent,
+      creatorId: this.userService.getUser().userId,
+      categoryId: this.postCategory.postCategoryId,
+      date: new Date(),
+      votes: 0,
+      itemImage: this.hasPicture
+    }).subscribe((post: any) => {
+      const newPost = new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage);
+      if (post.itemImage) {
         const formData = new FormData();
         // @ts-ignore
         formData.append("image", this.selectedFile);
         //add the File to the Post
         this.httpClient.post(environment.endpointURL + "post/" + post.postId + "/image", formData)
           .subscribe(() => {
-            this.posts.unshift(newPost);
-            this.closePostTemplate();
           });
-      });
-    }
-    //check if there is no Picture
-    if(!this.hasPicture){
-      this.httpClient.post(environment.endpointURL + "post", {
-        title: this.postTitle,
-        content: this.postContent,
-        creatorId: this.userService.getUser().userId,
-        categoryId: this.postCategory.postCategoryId,
-        date: new Date(),
-        votes: 0,
-        itemImage: false
-      }).subscribe((post: any) => {
-        this.posts.unshift(
-          new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
-          this.closePostTemplate();
-      });
-    }
+      }
+      this.posts.unshift(newPost);
+      this.closePostTemplate();
+    });
+  }
 
-}
 
   /**
    * Ask the Backend for the Posts and show it.
@@ -154,7 +134,8 @@ export class BoardComponent implements OnInit {
       votes: post.votes,
       title: post.title,
       content: post.content,
-      categoryId: post.categoryId
+      categoryId: post.categoryId,
+      itemImage: post.itemImage
     }).subscribe(() => {
       //this.getPosts();
     });

@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {PostCategory} from "../../models/postCategory.model";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-post',
@@ -37,22 +38,28 @@ export class PostComponent implements OnInit {
 
   //to open edit window if a user clicks on 'edit post'
   editMode: boolean = false;
-
+  removeImage: boolean = false;
+  newPicture: boolean = false;
+  addPicture: boolean = false;
+  selectedFile = null;
 
   preview: string = "";
+  imgPreview: string = "";
+  errorMsg: string = "";
 
   //create a collapsed post if a post has more than 305 characters
   collapse: boolean = false;
   uncollapse: boolean = false;
 
-
   categoryName: string = "";
   img: any;
+  creator: string = "";
 
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
-    public router: Router
+    public router: Router,
+    private toastr: ToastrService
   ) {
     userService.loggedIn$.subscribe((res) => {this.loggedIn = res; this.whoCanVote(); this.whoCanEdit();});
     this.loggedIn = userService.getLoggedIn();
@@ -61,6 +68,7 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
     this.getCategoryName();
     this.whoCanVote();
+    this.getCreator();
     if(this.post.itemImage){
       this.getImage();
     }
@@ -101,6 +109,7 @@ export class PostComponent implements OnInit {
     this.httpClient.get(environment.endpointURL + "post/" + this.post.postId + "/imageByPost").subscribe(
       (res:any) =>{
         this.img = environment.endpointURL + "uploads/" + res.fileName;
+        this.imgPreview = this.img;
       }, () => {
         this.img = "";
       })
@@ -170,11 +179,52 @@ export class PostComponent implements OnInit {
   }
 
   discardEdits() {
+    this.getNewPosts.emit();
+    this.removeImage = false;
+    this.newPicture = false;
     this.editMode = false;
   }
 
   updatePost() {
-    this.sendUpdate.emit(this.post);
+    if(!this.validate()){
+      this.post.title == '' ? this.errorMsg = "please fill all required fields" : this.errorMsg = "post needs text content or image"
+      return;
+    }
+    if(this.removeImage) {
+      console.log("remove image");
+      this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(()=> this.sendUpdate.emit(this.post));
+    }
+    if(this.newPicture && this.selectedFile != null){
+      console.log("update image");
+      this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(() => {
+        const formData = new FormData();
+        // @ts-ignore
+        formData.append("image", this.selectedFile);
+        //add the File to the Post
+        console.log(formData);
+        this.httpClient.post(environment.endpointURL + "post/" + this.post.postId + "/image", formData)
+          .subscribe((res: any) =>  {
+            this.img = environment.endpointURL + "uploads/" + res.fileName;
+            this.sendUpdate.emit(this.post);
+          });
+      });
+    }
+    if(this.addPicture && this.selectedFile!=null) {
+      console.log("add image");
+      this.post.itemImage = true;
+      const formData = new FormData();
+      // @ts-ignore
+      formData.append("image", this.selectedFile);
+      //add the File to the Post
+      console.log(formData);
+      this.httpClient.post(environment.endpointURL + "post/" + this.post.postId + "/image", formData)
+        .subscribe((res: any) => {
+          this.img = environment.endpointURL + "uploads/" + res.fileName;
+          this.sendUpdate.emit(this.post);
+        });
+    }
+    else{
+    this.sendUpdate.emit(this.post);}
     this.editMode = false;
   }
 
@@ -193,9 +243,28 @@ export class PostComponent implements OnInit {
     }
   }
 
+  getCreator(){
+    this.httpClient.get(environment.endpointURL + "user/" + this.post.creatorId).subscribe((creator: any) => {
+      this.creator = creator.userName;
+    })
+  }
+
   redirect() {
     if(!this.loggedIn){
       this.router.navigate(['user']);
     }
+  }
+
+  onFileChanged(event: any) {
+    this.selectedFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.imgPreview = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  }
+
+  validate(): boolean{
+    return (this.post.title != '' &&( this.post.content!='' || (this.post.itemImage || this.selectedFile != null)));
   }
 }

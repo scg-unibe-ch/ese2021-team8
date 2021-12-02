@@ -183,14 +183,15 @@ postController.get('/:postCategoryId',
 );
 
 /**
- * Deletes an image file of a given post. This request is not used and serves for testing purpose only.
- * Deletion of the file is included in the post deletion request.
+ * Deletes an image file of a given post. Used to edit post.
  *
  * @params postId: Id of the post containing the picture to be deleted.
  */
 postController.delete('/image/:postId', (req: Request, res: Response) => {
     ItemImage.findOne({where: {postId: req.params.postId}})
-        .then(found => imageService.deleteItemImageFile(found.imageId)).then(image => res.send(image))
+        .then(found => {imageService.deleteItemImageFile(found.imageId).then(() => found.destroy())
+        .then(image => res.send(image));
+        })
         .catch(err => res.status(500).send(err));
 });
 

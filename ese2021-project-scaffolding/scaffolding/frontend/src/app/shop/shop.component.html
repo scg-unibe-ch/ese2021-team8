@@ -1,6 +1,6 @@
 <mat-form-field class="chip-list" appearance="fill">
   <mat-label>Search by category</mat-label>
-  <mat-select class="selectCategory" [(value)]="categoryId" (selectionChange)="selected(categoryId)">
+  <mat-select [(value)]="categoryId" (selectionChange)="selected(categoryId)">
     <mat-option *ngFor="let category of shopCategories" [value]="category.shopCategoryId">
       {{category.shopCategoryName}}
     </mat-option>

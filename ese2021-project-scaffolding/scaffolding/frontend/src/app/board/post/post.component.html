@@ -21,6 +21,7 @@
   <div *ngIf="!canVote">
     <button mat-fab [matTooltip]= "this.userService.isAdmin() ? 'admins can\'t vote' : 'log in to vote'" (click)="redirect()" color="primary"> score: {{post.votes}}</button>
   </div>
+
 <div class="postContent">
   <mat-card-title>{{post.title}}  </mat-card-title>
     <mat-chip-list>
@@ -42,6 +43,9 @@
   </mat-card-content>
   </div>
 </div>
+  <mat-card-footer fxHide.lt-md="true">
+    Created on {{post.date.toString().substr(0,10)}} by {{creator}}
+   </mat-card-footer>
 </mat-card>
 <mat-card *ngIf="editMode">
   <mat-form-field appearance="fill" style="width: 60%;">
@@ -56,7 +60,34 @@
   <br>
   <mat-form-field appearance="outline" style="width: 100%; height: 40%">
     <textarea matInput placeholder={{post.content}} style="width: 100%" rows="10" name="content" [(ngModel)]="post.content"></textarea>
+    <div *ngIf="!post.itemImage">
+      <input
+        style="display: none"
+        type="file" (change)="onFileChanged($event)"
+        #fileInput>
+      <button mat-icon-button (click)="addPicture=true; fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
+    </div>
   </mat-form-field>
+  <div *ngIf="post.itemImage">
+    <button mat-icon-button [matMenuTriggerFor]="imageOptions" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()"><mat-icon>cancel</mat-icon></button>
+    <mat-menu #imageOptions="matMenu">
+      <button mat-menu-item class="dropdown" (click)="removeImage = true; post.itemImage = false; imgPreview=''">
+        <span>Delete image from post</span>
+      </button>
+      <input
+        style="display: none"
+        type="file" (change)="onFileChanged($event)"
+        #fileInput>
+      <button mat-menu-item class="dropdown" (click)="newPicture = true; fileInput.click()">
+        <span>Upload different image</span>
+      </button>
+    </mat-menu>
+    <br>
+  </div>
+  <div>
+    <img class="preview" src="{{imgPreview}}" alt="post image">
+  </div>
+  <mat-error>{{errorMsg}}</mat-error>
   <button mat-flat-button color="primary" class="editButtons" (click)="updatePost()">Update Post</button>
   <button mat-flat-button class="editButtons" (click)="discardEdits()">Discard Changes</button>
 </mat-card>
