@@ -12,7 +12,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { BoardComponent } from './board/board.component';
-import { PostComponent } from './board/post/post.component';
+import {ConfirmDelete, PostComponent} from './board/post/post.component';
 import { AdminTabComponent } from './profile/admin-tab/admin-tab.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
@@ -50,7 +50,8 @@ const routes: Routes = [
     CheckoutComponent,
     ProfileComponent,
     OrdersComponent,
-    ConfirmCancel
+    ConfirmCancel,
+    ConfirmDelete
   ],
     imports: [
         BrowserModule,
