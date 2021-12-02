@@ -178,7 +178,8 @@ postController.get('/user/:creatorId', verifyToken,
  */
 postController.get('/:postCategoryId',
     (req: Request, res: Response) => {
-        Post.findAll({where: {categoryId: req.params.categoryId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
+        Post.findAll({where: {categoryId: req.params.postCategoryId}})
+            .then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );
 

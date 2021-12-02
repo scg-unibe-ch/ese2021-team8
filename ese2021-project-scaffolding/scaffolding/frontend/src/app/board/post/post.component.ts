@@ -21,7 +21,7 @@ export class PostComponent implements OnInit {
 
   @Output() sendUpdate = new EventEmitter<Post>();
   @Output() getNewPosts = new EventEmitter<Post>();
-
+  @Output() selectCategory = new EventEmitter<number>();
 
   loggedIn: boolean | undefined;
 
@@ -56,6 +56,7 @@ export class PostComponent implements OnInit {
   categoryName: string = "";
   img: any;
   creator: string = "";
+
 
   constructor(
     public httpClient: HttpClient,
@@ -276,6 +277,10 @@ export class PostComponent implements OnInit {
 
   validate(): boolean{
     return (this.post.title != '' &&( this.post.content!='' || (this.post.itemImage || this.selectedFile != null)));
+  }
+
+  selectSortCategory() {
+    this.selectCategory.emit(this.post.categoryId);
   }
 }
 @Component({

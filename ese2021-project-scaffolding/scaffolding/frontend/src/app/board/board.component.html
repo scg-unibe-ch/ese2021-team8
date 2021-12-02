@@ -39,11 +39,36 @@
     <mat-error *ngIf="showError">Fill all required fields!</mat-error>
   </mat-card>
 </div>
+
+<mat-form-field class="chip-list" appearance="fill">
+  <mat-label>Sort by category</mat-label>
+  <mat-select [(value)]="categoryId" (selectionChange)="selected(categoryId)">
+    <mat-option *ngFor="let category of categories" [value]="category.postCategoryId">
+      {{category.postCategoryName}}
+    </mat-option>
+  </mat-select>
+  <mat-chip-list>
+    <mat-chip
+      *ngFor="let category of selectedCategories"
+      [selectable]="true"
+      [removable]="true"
+      (removed)="remove(category)">
+      {{category.postCategoryName}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-list>
+</mat-form-field>
+<div *ngIf="posts.length==0">
+  Currently no posts under that category
+</div>
     <app-post
       *ngFor="let post of posts"
       [post]="post"
       [categories]="categories"
       (sendUpdate)="updatePost($event)"
       (getNewPosts)="getPosts()"
+      (selectCategory)="selected($event)"
     ></app-post>
 </body>

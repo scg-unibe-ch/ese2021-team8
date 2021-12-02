@@ -14,6 +14,8 @@ export class BoardComponent implements OnInit {
   //To show the Template
   displayPostTemplate: boolean = false;
 
+  categoryId: number=0;
+  selectedCategories: PostCategory[] = [];
 
   categories: PostCategory[] =[];
   emptyCategory = new PostCategory(0,'');
@@ -113,12 +115,23 @@ export class BoardComponent implements OnInit {
    */
   getPosts(): void{
     this.posts = [];
-    this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any)=>{
-      posts.forEach((post:any)=>{
-      this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));})
-      this.postTitle = this.postContent = '';
-      this.displayPostTemplate = false;
-    });
+    if(this.selectedCategories.length==0) {
+      this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
+        posts.forEach((post: any) => {
+          this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+        })
+        this.postTitle = this.postContent = '';
+        this.displayPostTemplate = false;
+      });
+    } else{
+      this.selectedCategories.forEach((category)=>{
+        this.httpClient.get(environment.endpointURL + "post/" + category.postCategoryId).subscribe((posts: any) => {
+          posts.forEach((post: any) =>{
+            this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+          });
+        });
+      });
+    }
   }
 
   /**
@@ -153,5 +166,30 @@ export class BoardComponent implements OnInit {
       this.preview = e.target.result;
     };
     reader.readAsDataURL(event.target.files[0]);
+  }
+
+  selected(postCategoryId: number) {
+    let selected = false;
+    this.selectedCategories.forEach((category)=>{
+      if(category.postCategoryId == postCategoryId){
+        selected = true;
+      }
+    });
+    if(!selected) {
+      this.httpClient.get(environment.endpointURL + "post/category/" + postCategoryId).subscribe((category: any) => {
+        this.selectedCategories.push(category);
+        this.getPosts();
+      });
+    }
+  }
+
+  remove(category: PostCategory) {
+    const index = this.selectedCategories.indexOf(category);
+
+    if(index >=0){
+      this.selectedCategories.splice(index, 1);
+      this.getPosts();
+    }
+
   }
 }

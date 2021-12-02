@@ -7,13 +7,6 @@
 body {
   margin-left: 30px !important;
   margin-right: 30px !important;
- /* background-color: var(--me-colorYellow);
-  color:var(--me-colorBlack);*/
-}
-
-.mat-toolbar {
- /* background-color: var(--me-colorBlack);
-  color: var(--me-colorYellow);*/
 }
 
 mat-ink-bar{
@@ -23,11 +16,6 @@ mat-ink-bar{
 .mat-card{
   margin: 20px 0;
   background-color: var(--me-colorGrey) !important;
-}
-
-button{
-/*  background-color: var(--me-colorYellow) !important;
-  color:var(--me-colorBlack) !important;*/
 }
 
 input, textarea{

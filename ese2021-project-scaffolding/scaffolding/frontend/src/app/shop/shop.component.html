@@ -17,7 +17,6 @@
       </button>
     </mat-chip>
   </mat-chip-list>
-
 </mat-form-field>
   <div *ngIf="products.length==0">
     Currently no products
@@ -26,20 +25,22 @@
     <div fxFlex="33">
       <app-shop-items [product] = products[3*i]
                       (getNewProducts)="getProducts()"
-                      (sendUpdate)="updateProduct($event)">
+                      (sendUpdate)="updateProduct($event)"
+                      (selectCategory) ="selected($event)">
       </app-shop-items>
     </div>
     <div fxFlex="33">
       <app-shop-items [product] = products[3*i+1]
                       (getNewProducts)="getProducts()"
-                      (sendUpdate)="updateProduct($event)">
+                      (sendUpdate)="updateProduct($event)"
+                      (selectCategory) ="selected($event)">
       </app-shop-items>
     </div>
     <div fxFlex="33">
       <app-shop-items [product]="products[3*i+2]"
                       (getNewProducts)="getProducts()"
-                      (sendUpdate)="updateProduct($event)">
-
+                      (sendUpdate)="updateProduct($event)"
+                      (selectCategory) ="selected($event)">
       </app-shop-items>
     </div>
   </div>

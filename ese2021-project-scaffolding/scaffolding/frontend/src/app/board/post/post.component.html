@@ -25,7 +25,7 @@
 <div class="postContent">
   <mat-card-title>{{post.title}}  </mat-card-title>
     <mat-chip-list>
-      <mat-chip>{{categoryName}}</mat-chip>
+      <mat-chip (click)="selectSortCategory()">{{categoryName}}</mat-chip>
     </mat-chip-list>
   <mat-card-content *ngIf="!collapse">
     {{post.content}} <br>

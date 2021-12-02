@@ -18,6 +18,7 @@ export class ShopItemsComponent implements OnInit {
   @Input() product: Product = new Product(0,"",0, "", 0, true);
   @Output() getNewProducts = new EventEmitter<Product>();
   @Output() sendUpdate = new EventEmitter<Product>();
+  @Output() selectCategory = new EventEmitter<number>();
   @Input() categories: ShopCategory[] =[];
 
 
@@ -90,4 +91,8 @@ export class ShopItemsComponent implements OnInit {
         this.categoryName = "undefined category";
       })
   }
+
+  selectSortCategory(){
+    this.selectCategory.emit(this.product.shopCategoryId);
+}
 }
