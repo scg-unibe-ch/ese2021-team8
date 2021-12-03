@@ -1,5 +1,4 @@
-
-<mat-card *ngIf="post != undefined && !editMode" >
+<mat-card *ngIf="post != undefined && !editMode">
   <button mat-icon-button *ngIf="canEdit" class="edit" [matMenuTriggerFor]="edit" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
     <mat-icon>settings</mat-icon></button>
   <mat-menu #edit="matMenu">
@@ -10,8 +9,12 @@
       <span>Delete Post</span>
     </button>
   </mat-menu>
-
-  <div class="likeButtons" *ngIf="canVote">
+  <div *ngIf="profileView">
+    <mat-card-title>{{post.title}}</mat-card-title>
+    <mat-card-content>{{post.content.substr(0,50)}}</mat-card-content>
+  </div>
+  <div *ngIf="!profileView">
+  <div class="likeButtons" *ngIf="canVote && !profileView">
   <button *ngIf="!upvoted" class="unclicked" [disabled]="downvoted" (click)="upvote()"  > &#8679;</button>
   <button *ngIf="upvoted" class="clicked" (click)="revertUpvote()"> &#8679;</button>
     {{post.votes}}
@@ -27,26 +30,33 @@
     <mat-chip-list>
       <mat-chip (click)="selectSortCategory()">{{categoryName}}</mat-chip>
     </mat-chip-list>
-  <mat-card-content *ngIf="!collapse">
-    {{post.content}} <br>
-    <div *ngIf="post.itemImage">
-    <img class="imagePost" src="{{img}}" alt="post image">
-    </div>
-    <div *ngIf="uncollapse">
-      <button mat-icon-button  (click)="(collapse=!collapse) && (uncollapse = false)"><mat-icon>expand_less</mat-icon></button>
-    </div>
-  </mat-card-content>
-  <div *ngIf="collapse">
-  <mat-card-content >
-    {{preview}}
+
+    <mat-card-content >
+      <div *ngIf="collapse">
+      {{preview}}
       <button mat-icon-button (click)="collapse=!collapse; uncollapse=true"><mat-icon>expand_more</mat-icon></button>
-  </mat-card-content>
-  </div>
+        <div *ngIf="post.itemImage">
+          <img class="imagePost" src="{{img}}" alt="post image">
+        </div>
+      </div>
+      <div *ngIf="!collapse">
+        {{post.content}} <br>
+      <div *ngIf="uncollapse">
+          <button mat-icon-button  (click)="(collapse=!collapse) && (uncollapse = false)"><mat-icon>expand_less</mat-icon></button>
+        <div *ngIf="post.itemImage">
+          <img class="imagePost" src="{{img}}" alt="post image">
+        </div>
+      </div>
+      </div>
+      </mat-card-content>
 </div>
   <mat-card-footer fxHide.lt-md="true">
     Created on {{post.date.toString().substr(0,10)}} by {{creator}}
    </mat-card-footer>
+  </div>
 </mat-card>
+
+
 <mat-card *ngIf="editMode">
   <mat-form-field appearance="fill" style="width: 60%;">
     <input matInput type="text" placeholder= {{post.title}} name="title" [(ngModel)]="post.title">
@@ -84,7 +94,7 @@
     </mat-menu>
     <br>
   </div>
-  <div>
+  <div *ngIf="imgPreview!=''">
     <img class="preview" src="{{imgPreview}}" alt="post image">
   </div>
   <mat-error>{{errorMsg}}</mat-error>

@@ -97,7 +97,6 @@ export class UserComponent implements OnInit{
         this.street = this.city = '',
       this.userToRegister.phoneNumber = 0;
       this.registerErrorMsg = '';
-      this.toastr.show('Login successful', '');
     }, (res: any) => {
       this.registerErrorMsg = res.error.message;
     });
@@ -120,6 +119,7 @@ export class UserComponent implements OnInit{
                           res.user.email, res.user.address, res.user.birthday, res.user.phoneNumber));
       this.userService.setAdmin(res.user.admin);
       this.router.navigate(['home']).then();
+      this.toastr.show('Logged in as ' + res.user.userName);
       }, (res: any) => {
       this.loginErrorMsg = res.error.message;
     });

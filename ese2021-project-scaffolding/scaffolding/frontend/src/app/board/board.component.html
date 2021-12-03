@@ -67,7 +67,6 @@
       *ngFor="let post of posts"
       [post]="post"
       [categories]="categories"
-      (sendUpdate)="updatePost($event)"
       (getNewPosts)="getPosts()"
       (selectCategory)="selected($event)"
     ></app-post>

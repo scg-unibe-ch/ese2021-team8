@@ -30,7 +30,7 @@ export class ProfileComponent implements OnInit {
   hideOnSm: boolean = true;
 
   userPosts: Post[] = [];
-
+  userId: number;
   constructor(private httpClient: HttpClient,
               public userService: UserService,
               public router: Router,
@@ -46,14 +46,14 @@ export class ProfileComponent implements OnInit {
     });
     this.user= userService.getUser();
     this.userComponent= new UserComponent(httpClient,userService,router, toastr);
+    this.userId = Number(localStorage.getItem('userId'));
+    if(this.userId != null){
+      this.getUserPosts();
+    }
+
   }
 
   ngOnInit(): void {
-    let userId = Number(localStorage.getItem('userId'));
-    if(userId != null){
-      this.getUserPosts(userId);
-    }
-    console.log(this.router.url);
 
   }
 
@@ -82,11 +82,11 @@ export class ProfileComponent implements OnInit {
     return user.firstName !='' && user.lastName !='' && user.email!='' && user.username !='' && user.password!='';
   }
 
-  private getUserPosts(id: number) {
+  getUserPosts() {
     this.userPosts = [];
-    this.httpClient.get(environment.endpointURL + "post/user/" + id).subscribe((posts:any) =>{
+    this.httpClient.get(environment.endpointURL + "post/user/" + this.userId).subscribe((posts:any) =>{
       posts.forEach((post:any)=>{
-        this.userPosts.push(new Post(post.postId,post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes,post.itemImage));
+        this.userPosts.unshift(new Post(post.postId,post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes,post.itemImage));
       });
     });
   }

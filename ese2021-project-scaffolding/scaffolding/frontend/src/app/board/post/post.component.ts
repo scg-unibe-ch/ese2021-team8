@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ConfirmCancel} from "../../profile/orders/orders.component";
+import {CategoryService} from "../../services/category.service";
 
 @Component({
   selector: 'app-post',
@@ -18,6 +19,7 @@ export class PostComponent implements OnInit {
 
   @Input() categories!: PostCategory[];
   @Input() post!: Post;
+  @Input() profileView!: boolean;
 
   @Output() sendUpdate = new EventEmitter<Post>();
   @Output() getNewPosts = new EventEmitter<Post>();
@@ -63,10 +65,14 @@ export class PostComponent implements OnInit {
     public userService: UserService,
     public router: Router,
     private toastr: ToastrService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    public categoryService: CategoryService
   ) {
     userService.loggedIn$.subscribe((res) => {this.loggedIn = res; this.whoCanVote(); this.whoCanEdit();});
     this.loggedIn = userService.getLoggedIn();
+
+    categoryService.categories$.subscribe(res => this.categories = res);
+    this.categories = categoryService.getCategories();
   }
 
   ngOnInit(): void {
@@ -195,36 +201,31 @@ export class PostComponent implements OnInit {
       return;
     }
     if(this.removeImage) {
-      console.log("remove image");
-      this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(()=> this.sendUpdate.emit(this.post));
+      this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(()=> this.categoryService.updatePost(this.post));
     }
     if(this.newPicture && this.selectedFile != null){
-      console.log("update image");
       this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(() => {
         const formData = new FormData();
         // @ts-ignore
         formData.append("image", this.selectedFile);
         //add the File to the Post
-        console.log(formData);
         this.httpClient.post(environment.endpointURL + "post/" + this.post.postId + "/image", formData)
           .subscribe((res: any) =>  {
             this.img = environment.endpointURL + "uploads/" + res.fileName;
-            this.sendUpdate.emit(this.post);
+            this.categoryService.updatePost(this.post);
           });
       });
     }
     if(this.addPicture && this.selectedFile!=null) {
-      console.log("add image");
       this.post.itemImage = true;
       const formData = new FormData();
       // @ts-ignore
       formData.append("image", this.selectedFile);
       //add the File to the Post
-      console.log(formData);
       this.httpClient.post(environment.endpointURL + "post/" + this.post.postId + "/image", formData)
         .subscribe((res: any) => {
           this.img = environment.endpointURL + "uploads/" + res.fileName;
-          this.sendUpdate.emit(this.post);
+          this.categoryService.updatePost(this.post);
         });
     }
     else{
@@ -235,8 +236,8 @@ export class PostComponent implements OnInit {
 
   deletePost(): void{
     const dialogRef = this.dialog.open(ConfirmDelete);
-    dialogRef.afterClosed().subscribe((cancel) => {
-      if(cancel){
+    dialogRef.afterClosed().subscribe((doit) => {
+      if(doit){
         if (this.userService.isAdmin()) {
           this.httpClient.delete(environment.endpointURL + "post/admin/" + this.post.postId  + "/" +this.post.creatorId)
             .subscribe((()=>{

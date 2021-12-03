@@ -4,6 +4,9 @@
       <nav mat-tab-nav-bar *ngIf="userService.isAdmin()">
         <a mat-tab-link routerLink="./admin">Admin Tab</a>
       </nav>
+      <nav mat-tab-nav-bar fxLayout="row" *ngIf="!userService.isAdmin()">
+        <a mat-tab-link (click)="editInfo = false; router.navigate(['profile'])">My posts</a> <br>
+      </nav>
       <nav mat-tab-nav-bar fxLayout="row">
       <a mat-tab-link (click)="editInfo = true; router.navigate(['profile'])">Update Profile Information</a> <br>
         <button type="button" mat-icon-button (click)="hideOnSm = !hideOnSm" fxHide.gt-xs="true">
@@ -24,8 +27,19 @@
       </button>
      <h3>Hello {{user.username}} !</h3>
       <br>
+        <div *ngIf="router.url=='/profile' && !editInfo">
+          <div *ngIf="userPosts.length ==0 ">
+            You have not made any posts yet! Use the Create Post button on the <a routerLink="/home">Home Page</a> to create your first post.
+          </div>
+          <app-post
+          *ngFor="let post of userPosts"
+          [post]="post"
+          (getNewPosts)="getUserPosts()"
+          [profileView] = true
+          ></app-post>
+        </div>
         <div *ngIf="editInfo && router.url=='/profile'" >
-          <mat-card>
+          <mat-card class="userPosts">
           <mat-form-field>
             <mat-label>First Name</mat-label>
             <input matInput type="text"  [(ngModel)]="user.firstName" name="firstName" required>
