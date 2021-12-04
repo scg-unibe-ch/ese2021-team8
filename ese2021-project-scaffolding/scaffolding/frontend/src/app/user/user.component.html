@@ -42,10 +42,10 @@
   </mat-form-field>
   <br>
   <mat-form-field>
-    <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToRegister.username" required>
+    <input matInput type="text" placeholder="User Name" name="nameToLogin" [(ngModel)]="userToRegister.username" required>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password" required>
+    <input matInput type="password" placeholder="Password" name="passwordToLogin" [(ngModel)]="userToRegister.password" required>
   </mat-form-field>
 
   <mat-error *ngIf="!passwordHasLength">
