@@ -7,6 +7,8 @@ import {ShopCategory} from "../../models/shopCategory.model";
 import {Order} from "../../models/order.model";
 import {Sort} from "@angular/material/sort";
 import {UserService} from "../../services/user.service";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {ConfirmCancel} from "../orders/orders.component";
 
 @Component({
   selector: 'app-admin-tab',
@@ -51,7 +53,8 @@ export class AdminTabComponent implements OnInit {
 
 
   constructor(private httpClient: HttpClient,
-              public userService: UserService)
+              public userService: UserService,
+              public dialog: MatDialog)
   { }
 
   ngOnInit(): void {
@@ -210,23 +213,31 @@ export class AdminTabComponent implements OnInit {
   }
 
   shipOrder(id: number) {
-    this.httpClient.put(environment.endpointURL + "order/" + id, {
-      deliveryStatus: 'shipped/delivered'
-    }).subscribe((res: any) => {
-      this.httpClient.get( environment.endpointURL + "product/" + res.productId).subscribe((product:any) =>{
-        let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
-        this.doneOrders.unshift(new Order(res.orderId, res.userId, res.firstName, res.lastName, res.address, res.paymentMethod, res.deliveryStatus, orderProduct));
-        let index = -1;
-        this.toDoOrders.forEach((order) => {
-          if (order.orderId == res.orderId) {
-            index = this.toDoOrders.indexOf(order);
-            return;
-          }
+    const dialogRef = this.dialog.open(ConfirmShipment);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.httpClient.put(environment.endpointURL + "order/" + id, {
+          deliveryStatus: 'shipped/delivered'
+        }).subscribe((res: any) => {
+          this.httpClient.get(environment.endpointURL + "product/" + res.productId).subscribe((product: any) => {
+            let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
+            this.doneOrders.unshift(new Order(res.orderId, res.userId, res.firstName, res.lastName, res.address, res.paymentMethod, res.deliveryStatus, orderProduct));
+            let index = -1;
+            this.toDoOrders.forEach((order) => {
+              if (order.orderId == res.orderId) {
+                index = this.toDoOrders.indexOf(order);
+                return;
+              }
+            });
+            if (index > -1) {
+              this.toDoOrders.splice(index, 1);
+            }
+          });
+          this.getOrders();
         });
-        if (index > -1) {
-          this.toDoOrders.splice(index, 1);
-        }
-      });
+      } else {
+        return;
+      }
     });
   }
 
@@ -272,3 +283,27 @@ export class AdminTabComponent implements OnInit {
 function compare(a : any, b: any, isAsc: any) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  template: '<h2>Do you want to mark this order as shipped?</h2>' +
+    '<button mat-flat-button color="warn" style="  margin: 5px; position: center;" (click)="shipOrder()">Yes</button>' +
+    ' <button mat-flat-button color="accent" style="  margin: 5px; position: center;" class="cancelButtons" (click)="dontShipOrder()">No</button>',
+})
+
+export class ConfirmShipment {
+
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmShipment>) { }
+
+
+  shipOrder(): void {
+    this.dialogRef.close(true);
+  }
+
+  dontShipOrder(): void{
+    this.dialogRef.close(false);
+  }
+
+}
+
