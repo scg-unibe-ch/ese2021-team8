@@ -21,7 +21,8 @@ import { MaterialModule } from "../material/material.module";
 import { ProfileComponent } from "./profile/profile.component";
 import { OrdersComponent } from './profile/orders/orders.component';
 import { ToastrModule } from 'ngx-toastr';
-import {ConfirmCancel} from './profile/orders/orders.component';
+import { ConfirmCancel} from './profile/orders/orders.component';
+import { ConfirmShipment } from "./profile/admin-tab/admin-tab.component";
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -51,6 +52,7 @@ const routes: Routes = [
     ProfileComponent,
     OrdersComponent,
     ConfirmCancel,
+    ConfirmShipment,
     ConfirmDelete
   ],
     imports: [
