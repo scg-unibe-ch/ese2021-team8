@@ -69,7 +69,7 @@ postController.delete('/admin/:postId/:creator', checkAdmin, (req: Request, res:
 });
 
 /**
- * Deletes a postand its image, if it has one. Only the author of the post may delete it.
+ * Deletes a post and its image, if it has one. Only the author of the post may delete it.
 */
 postController.delete('/user/:postId/:userId', verifyToken, (req: Request, res: Response) => {
     Post.findByPk(req.params.postId)
@@ -142,6 +142,7 @@ postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
  * Should be used to minimize loading times
  * by only showing some posts at a time. No access barrier.
  * @param pageNumber: Declares which 10 posts the method fetches.
+ * For example pageNumber '1' is posts 1-10.
  */
 postController.get('/page/:pageNumber',
 (req: Request, res: Response) => {
@@ -178,11 +179,25 @@ postController.get('/user/:creatorId', verifyToken,
 );
 
 /**
+ * Returns the number of posts created by a certain user.
+ * Value is returned as String to avoid being interpreted as status.
+ * Might be used to determine how many pages are needed.
+ * User must be logged in.
+ */
+postController.get('/amount/:creatorId', verifyToken,
+    (req: Request, res: Response) => {
+        Post.count({where: {creatorId: req.params.creatorId}}).then(value => res.send(String(value)))
+            .catch(err => res.status(500).send(err));
+    }
+);
+
+/**
  * Gets 10 posts created from a certain creator.
  * Table is reversed, so newest posts will be fetched first.
  * Should be used to view posts in profile page.
  * User must be logged in.
  * @param pageNumber: Declares which 10 posts the method fetches.
+ * For example pageNumber '1' is posts 1-10.
  */
 postController.get('/user/:creatorId/:pageNumber', verifyToken,
     (req: Request, res: Response) => {
