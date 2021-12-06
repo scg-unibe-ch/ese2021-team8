@@ -1,0 +1,9 @@
+- Meetings and code-sessions together help to avoid missunderstandings and time-consuming errors.
+- Break down exercises into smaller parts and use the specialization of each teammember.
+- Use manual testing and specialized tools like Selenium and Postman to test the freshly implemented code and find the root of errors.
+- Try to make small implementations and check if the changes work. Don't just work an afternoon on something that does not work in the end.
+- You do not need to know everything, you just need to know where to find knowledge.
+- Understand the code that was written before. Whether it is the code given to you or the code written by your teammates. Comments help with that, too.
+- Have a logic behind method names, class distributions and path declaration from front- to backend. This helps understanding the code
+and makes it easier to implement new code.
+- Have and never lose the fun. :)
