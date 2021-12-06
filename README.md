@@ -25,3 +25,8 @@ As an User you can buy something from the Shop
 
 #### Profile Page 
 As User 
+
+
+
+![Sprache](https://img.shields.io/badge/-English-red)
+/crates/l/:crate/:version
