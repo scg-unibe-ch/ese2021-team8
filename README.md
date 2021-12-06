@@ -15,26 +15,6 @@ Now you should have access to the website. "http://localhost:4200/home"
 For the backend you have access on the address "http://localhost:3000"
 More infos in the ReadMe files in the backand and frontend Folder
 
-## Functions
-
-#### Registration
-
-You can create a account, required fields are marked with a *
-
-#### Login
-
-This is a loggin
-
-#### Post 
-As logged in user you can create a post.
-
-#### Shop 
-As an User you can buy something from the Shop 
-
-#### Profile Page 
-As User 
-
-
 
 ![Sprache](https://img.shields.io/badge/Language-English-red)
 ![UniBern](https://img.shields.io/badge/Organization-UniBern-green)
