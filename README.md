@@ -17,8 +17,6 @@ More infos in the ReadMe files in the backand and frontend Folder
 
 ## Functions
 
-Test
-
 #### Registration
 
 You can create a account, required fields are marked with a *
