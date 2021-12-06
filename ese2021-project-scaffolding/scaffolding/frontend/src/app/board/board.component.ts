@@ -4,6 +4,7 @@ import {PostCategory} from "../models/postCategory.model";
 import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
+import {PostService} from "../services/post.service";
 
 @Component({
   selector: 'app-post-template',
@@ -36,11 +37,12 @@ export class BoardComponent implements OnInit {
   //Say if a Post have a picture or not
   hasPicture = false;
 
-
   constructor(
     public httpClient: HttpClient,
-    public userService: UserService
-  ) {}
+    public userService: UserService,
+    public postServices: PostService
+  ) {
+  }
 
   ngOnInit(): void {
     this.readCategories();
@@ -116,9 +118,9 @@ export class BoardComponent implements OnInit {
   getPosts(): void{
     this.posts = [];
     if(this.selectedCategories.length==0) {
-      this.httpClient.get(environment.endpointURL + "post").subscribe((posts: any) => {
+      this.httpClient.get(environment.endpointURL + "post/page/" + 1).subscribe((posts: any) => {
         posts.forEach((post: any) => {
-          this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+          this.posts.push(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
         })
         this.postTitle = this.postContent = '';
         this.displayPostTemplate = false;
@@ -190,6 +192,15 @@ export class BoardComponent implements OnInit {
       this.selectedCategories.splice(index, 1);
       this.getPosts();
     }
+  }
 
+  loadMore(){
+    this.httpClient.get(environment.endpointURL + "post/page/" + (this.postServices.getCurrentPage()+1)).subscribe((posts:any)=>{
+      posts.forEach((post:any)=>{
+        this.posts.push(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+      });
+    });
+    this.postServices.increasePage();
+    console.log("all: " + this.postServices.getPages() + "\ncurrent: " + this.postServices.getCurrentPage());
   }
 }

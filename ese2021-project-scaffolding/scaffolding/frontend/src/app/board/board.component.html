@@ -42,7 +42,7 @@
 
 <mat-form-field class="chip-list" appearance="fill">
   <mat-label>Sort by category</mat-label>
-  <mat-select [(value)]="categoryId" (selectionChange)="selected(categoryId)">
+  <mat-select [(value)]="categoryId" (selectionChange)="selected(categoryId)" class="selectCategory">
     <mat-option *ngFor="let category of categories" [value]="category.postCategoryId">
       {{category.postCategoryName}}
     </mat-option>
@@ -70,4 +70,5 @@
       (getNewPosts)="getPosts()"
       (selectCategory)="selected($event)"
     ></app-post>
+<button *ngIf="!(postServices.getCurrentPage()==postServices.getPages())" (click)="loadMore()">Load More</button>
 </body>
