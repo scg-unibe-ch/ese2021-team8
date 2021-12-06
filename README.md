@@ -36,8 +36,11 @@ As User
 
 
 
-![Sprache](https://img.shields.io/badge/language-English-red)
-![UniBern](https://img.shields.io/badge/organization-UniBern-green)
+![Sprache](https://img.shields.io/badge/Language-English-red)
+![UniBern](https://img.shields.io/badge/Organization-UniBern-green)
 ![HTML](https://img.shields.io/badge/-HTML-blue)
 ![CSS](https://img.shields.io/badge/-CSS-blue)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-blue)
+![Angular](https://img.shields.io/badge/-Angular-blue)
+![NodeJS](https://img.shields.io/badge/-NodeJS-blue)
+![Testet with Selenium + Python](https://img.shields.io/badge/Testet-Selenium%20%2B%20Python-blue)
