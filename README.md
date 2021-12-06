@@ -28,5 +28,8 @@ As User
 
 
 
-![Sprache](https://img.shields.io/badge/-English-red)
-/crates/l/:crate/:version
+![Sprache](https://img.shields.io/badge/language-English-red)
+![UniBern](https://img.shields.io/badge/organization-UniBern-green)
+![HTML](https://img.shields.io/badge/-HTML-blue)
+![CSS](https://img.shields.io/badge/-CSS-blue)
+![TypeScript](https://img.shields.io/badge/-TypeScript-blue)
