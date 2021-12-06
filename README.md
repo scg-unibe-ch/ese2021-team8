@@ -13,8 +13,10 @@ To start you need to enter "npm install" in the folder backend and frontend.
 After this type in "npm run dev" in both folders.
 Now you should have access to the website. "http://localhost:4200/home"
 For the backend you have access on the address "http://localhost:3000"
+More infos in the ReadMe files in the backand and frontend Folder
 
 ###Functions
+Test
 
 ####Registration
 
