@@ -1,0 +1,7 @@
+- Meetings and code-sessions together help to avoid missunderstandings and time-consuming errors.
+- Break down exercises into smaller parts and use the specialization of each teammember.
+- Use manual testing and specialized tools like Selenium and Postman to test the freshly implemented code and find the root of errors.
+- You do not need to know everything, you just need to know where to find knowledge.
+- 
+-
+- Have and never lose the fun. :)
