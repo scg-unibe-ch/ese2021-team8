@@ -137,15 +137,18 @@ postController.get('/:postId/imageByPost', (req: Request, res: Response) => {
 
 /**
  * Gets 10 posts from the database. This method is not dependent on id,
- * it takes 10 subsequent rows from the table. Should be used to minimize loading times
- * by only showing some posts at a time. No access barrier
+ * it takes 10 subsequent rows from the table.
+ * Table is reversed, so newest posts will be fetched first.
+ * Should be used to minimize loading times
+ * by only showing some posts at a time. No access barrier.
  * @param pageNumber: Declares which 10 posts the method fetches.
  */
 postController.get('/page/:pageNumber',
 (req: Request, res: Response) => {
     let pageRange: number;
     pageRange = 10 * Number(req.params.pageNumber) - 10;
-    Post.findAll({offset: pageRange , limit: 10}).then(posts => res.send(posts))
+    Post.findAll({order: [['createdAt', 'DESC']]
+        , offset: pageRange , limit: 10}).then(posts => res.send(posts))
         .catch(err => res.status(500).send(err));
 }
 );
@@ -169,7 +172,25 @@ postController.get('/amount',
  */
 postController.get('/user/:creatorId', verifyToken,
     (req: Request, res: Response) => {
-        Post.findAll({where: {creatorId: req.params.creatorId}}).then(posts => res.send(posts)).catch(err => res.status(500).send(err));
+        Post.findAll({where: {creatorId: req.params.creatorId}}).then(posts => res.send(posts))
+            .catch(err => res.status(500).send(err));
+    }
+);
+
+/**
+ * Gets 10 posts created from a certain creator.
+ * Table is reversed, so newest posts will be fetched first.
+ * Should be used to view posts in profile page.
+ * User must be logged in.
+ * @param pageNumber: Declares which 10 posts the method fetches.
+ */
+postController.get('/user/:creatorId/:pageNumber', verifyToken,
+    (req: Request, res: Response) => {
+        let pageRange: number;
+        pageRange = 10 * Number(req.params.pageNumber) - 10;
+        Post.findAll({order: [['createdAt', 'DESC']], where: {creatorId: req.params.creatorId}
+            , offset: pageRange , limit: 10}).then(posts => res.send(posts))
+            .catch(err => res.status(500).send(err));
     }
 );
 
