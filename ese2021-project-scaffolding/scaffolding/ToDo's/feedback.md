@@ -16,8 +16,8 @@ Falls «user» nicht existiert wird auch nicht auf seine userId Property zugegri
 7. Bemerkungen/Verbesserungsvorschläge der IDEs beachten
 8. Ablauf von Registrierung und Login könnte noch verbessert werden: Mehr User-Feedback geben; nach Registrierung gleich 
 einloggen; sobald eingeloggt auf Home weiterleiten etc.
-9. Für besseres UserFeedback können Packages wie ngx-toastr verwendet werden
-10. Registrierung mit leerer E-Mail ist zurzeit noch möglich. Gleiches gilt für leeren Usernamen.
+
+
 11. Bug: Post erstellen mit Titel, Text und Bild aber ohne Kategorie hängt sich auf und läuft nicht weiter. Zu diesem 
 Zeitpunkt kann man auch endlos viele Up- und Downvotes machen.
 12. PostComponent relativ umfangreich/komplex. Bei einer anderen Struktur der Seite hätte man separate Components für 
@@ -30,3 +30,6 @@ App umfangreicher werden würde, müssten diese dann noch in Services ausgelager
    kann, kann in CSS-Variablen gespeichert werden. **erlrdigt**
 2. In «index.html» können title und favicon der App/Webseite angepasst werden (beeinflusst im Browser den Titel
    und das Icon des Tabs) **erledigt**
+3. Für TypeScript gibt es TypeDoc (ähnlich wie JavaDoc bei Java). **erledigt wo nötig**
+4. 9. Für besseres UserFeedback können Packages wie ngx-toastr verwendet werden **erledigt**
+5. 10. Registrierung mit leerer E-Mail ist zurzeit noch möglich. Gleiches gilt für leeren Usernamen. **erledigt**
