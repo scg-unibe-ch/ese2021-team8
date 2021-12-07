@@ -7,8 +7,8 @@ import {PostCategory} from "../../models/postCategory.model";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {ConfirmCancel} from "../../profile/orders/orders.component";
-import {CategoryService} from "../../services/category.service";
+import {PostService} from "../../services/post.service";
+
 
 @Component({
   selector: 'app-post',
@@ -17,15 +17,14 @@ import {CategoryService} from "../../services/category.service";
 })
 export class PostComponent implements OnInit {
 
-  @Input() categories!: PostCategory[];
   @Input() post!: Post;
   @Input() profileView!: boolean;
 
-  @Output() sendUpdate = new EventEmitter<Post>();
   @Output() getNewPosts = new EventEmitter<Post>();
   @Output() selectCategory = new EventEmitter<number>();
 
   loggedIn: boolean | undefined;
+  categories: PostCategory[];
 
   upvotes: number[] = [];
   downvotes: number[] = [];
@@ -42,18 +41,20 @@ export class PostComponent implements OnInit {
 
   //to open edit window if a user clicks on 'edit post'
   editMode: boolean = false;
+
+  //indicate if the image of a post has been edited
   removeImage: boolean = false;
   newPicture: boolean = false;
   addPicture: boolean = false;
   selectedFile = null;
 
-  preview: string = "";
   imgPreview: string = "";
   errorMsg: string = "";
 
   //create a collapsed post if a post has more than 305 characters
   collapse: boolean = false;
   uncollapse: boolean = false;
+  preview: string = "";
 
   categoryName: string = "";
   img: any;
@@ -66,13 +67,13 @@ export class PostComponent implements OnInit {
     public router: Router,
     private toastr: ToastrService,
     public dialog: MatDialog,
-    public categoryService: CategoryService
+    public postService: PostService
   ) {
     userService.loggedIn$.subscribe((res) => {this.loggedIn = res; this.whoCanVote(); this.whoCanEdit();});
     this.loggedIn = userService.getLoggedIn();
 
-    categoryService.categories$.subscribe(res => this.categories = res);
-    this.categories = categoryService.getCategories();
+    postService.categories$.subscribe(res => this.categories = res);
+    this.categories = postService.getCategories();
   }
 
   ngOnInit(): void {
@@ -124,6 +125,7 @@ export class PostComponent implements OnInit {
         this.img = "";
       })
   }
+
   getUpvotes(): void{
     this.httpClient.get(environment.endpointURL + "like/upvotes/" + this.post.postId ).subscribe((posts: any)=>{
       posts.forEach((id:any)=> {
@@ -152,7 +154,7 @@ export class PostComponent implements OnInit {
     }).subscribe();
      this.getUpvotes();
      this.upvoted = this.upvotes.includes(this.userService.getUser().userId);
-     this.sendUpdate.emit(this.post);
+     this.postService.updatePost(this.post);
   }
 
   downvote() {
@@ -163,7 +165,7 @@ export class PostComponent implements OnInit {
       downvoted: true,
     }).subscribe();
     this.getDownvotes();
-    this.sendUpdate.emit(this.post)
+    this.postService.updatePost(this.post)
   }
 
   revertUpvote() {
@@ -172,7 +174,7 @@ export class PostComponent implements OnInit {
         this.upvoted = false;
       });
     this.post.votes--;
-    this.sendUpdate.emit(this.post)
+    this.postService.updatePost(this.post)
   }
 
   revertDownvote() {
@@ -181,17 +183,14 @@ export class PostComponent implements OnInit {
         this.downvoted = false;
       });
     this.post.votes++;
-    this.sendUpdate.emit(this.post);
-  }
-
-  editPost():void{
-    this.editMode = true;
+    this.postService.updatePost(this.post);
   }
 
   discardEdits() {
     this.getNewPosts.emit();
     this.removeImage = false;
     this.newPicture = false;
+    this.addPicture = false;
     this.editMode = false;
   }
 
@@ -201,7 +200,7 @@ export class PostComponent implements OnInit {
       return;
     }
     if(this.removeImage) {
-      this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(()=> this.categoryService.updatePost(this.post));
+      this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(()=> this.postService.updatePost(this.post));
     }
     if(this.newPicture && this.selectedFile != null){
       this.httpClient.delete(environment.endpointURL + "post/image/" + this.post.postId).subscribe(() => {
@@ -212,7 +211,7 @@ export class PostComponent implements OnInit {
         this.httpClient.post(environment.endpointURL + "post/" + this.post.postId + "/image", formData)
           .subscribe((res: any) =>  {
             this.img = environment.endpointURL + "uploads/" + res.fileName;
-            this.categoryService.updatePost(this.post);
+            this.postService.updatePost(this.post);
           });
       });
     }
@@ -225,11 +224,12 @@ export class PostComponent implements OnInit {
       this.httpClient.post(environment.endpointURL + "post/" + this.post.postId + "/image", formData)
         .subscribe((res: any) => {
           this.img = environment.endpointURL + "uploads/" + res.fileName;
-          this.categoryService.updatePost(this.post);
+          this.postService.updatePost(this.post);
         });
     }
     else{
-    this.sendUpdate.emit(this.post);}
+      this.postService.updatePost(this.post);
+    }
     this.editMode = false;
     this.toastr.show("Post was updated");
   }
@@ -261,12 +261,6 @@ export class PostComponent implements OnInit {
     })
   }
 
-  redirect() {
-    if(!this.loggedIn){
-      this.router.navigate(['user']);
-    }
-  }
-
   onFileChanged(event: any) {
     this.selectedFile = event.target.files[0];
     const reader = new FileReader();
@@ -284,6 +278,8 @@ export class PostComponent implements OnInit {
     this.selectCategory.emit(this.post.categoryId);
   }
 }
+
+// dialog template to confirm deletion of post
 @Component({
   selector: 'delete-post-confirm',
   template: '<h2>Do you really want to delete this post?</h2>' +

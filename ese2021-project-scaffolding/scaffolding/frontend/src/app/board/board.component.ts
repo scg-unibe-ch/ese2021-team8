@@ -12,13 +12,14 @@ import {PostService} from "../services/post.service";
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  //To show the Template
+
+  //display the template to create a new post
   displayPostTemplate: boolean = false;
 
+  //post categories to select for new post or sort by
   categoryId: number=0;
   selectedCategories: PostCategory[] = [];
-
-  categories: PostCategory[] =[];
+  categories: PostCategory[];
   emptyCategory = new PostCategory(0,'');
 
   // this Vars are used in the posts
@@ -28,13 +29,14 @@ export class BoardComponent implements OnInit {
   postContent: string = '';
   postPicture: string = '';
   selectedFile = null;
-  //show the scr pfad
+
+  //scr to show a preview of image to be uploaded with a post
   preview = null;
 
   // is true if the User not fill all required fields and show a missing "Error"
   showError: boolean = false;
 
-  //Say if a Post have a picture or not
+  //indicate if a Post have a picture or not
   hasPicture = false;
 
   constructor(
@@ -42,15 +44,36 @@ export class BoardComponent implements OnInit {
     public userService: UserService,
     public postServices: PostService
   ) {
+    postServices.categories$.subscribe(res => this.categories = res);
+    this.categories = postServices.getCategories();
   }
 
   ngOnInit(): void {
-    this.readCategories();
     this.getPosts();
   }
 
-  clickCreatePost(): void {
-    this.displayPostTemplate = true;
+  /**
+   * Ask the Backend for the Posts and show it.
+   */
+  getPosts(): void{
+    this.posts = [];
+    if(this.selectedCategories.length==0) {
+      this.httpClient.get(environment.endpointURL + "post/page/" + 1).subscribe((posts: any) => {
+        posts.forEach((post: any) => {
+          this.posts.push(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+        })
+        this.postTitle = this.postContent = '';
+        this.displayPostTemplate = false;
+      });
+    } else{
+      this.selectedCategories.forEach((category)=>{
+        this.httpClient.get(environment.endpointURL + "post/" + category.postCategoryId).subscribe((posts: any) => {
+          posts.forEach((post: any) =>{
+            this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
+          });
+        });
+      });
+    }
   }
 
   /**
@@ -65,17 +88,6 @@ export class BoardComponent implements OnInit {
     this.selectedFile = null;
     this.showError = false;
     this.hasPicture = false;
-  }
-
-  /**
-   *
-   */
-  readCategories(): void{
-    this.httpClient.get(environment.endpointURL + "post/category").subscribe((categories:any) => {
-      categories.forEach((category: any) => {
-        this.categories.push(category);
-      });
-    });
   }
 
   /**
@@ -111,51 +123,6 @@ export class BoardComponent implements OnInit {
     });
   }
 
-
-  /**
-   * Ask the Backend for the Posts and show it.
-   */
-  getPosts(): void{
-    this.posts = [];
-    if(this.selectedCategories.length==0) {
-      this.httpClient.get(environment.endpointURL + "post/page/" + 1).subscribe((posts: any) => {
-        posts.forEach((post: any) => {
-          this.posts.push(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
-        })
-        this.postTitle = this.postContent = '';
-        this.displayPostTemplate = false;
-      });
-    } else{
-      this.selectedCategories.forEach((category)=>{
-        this.httpClient.get(environment.endpointURL + "post/" + category.postCategoryId).subscribe((posts: any) => {
-          posts.forEach((post: any) =>{
-            this.posts.unshift(new Post(post.postId, post.title, post.categoryId, post.content, post.creatorId, post.date, post.votes, post.itemImage));
-          });
-        });
-      });
-    }
-  }
-
-  /**
-   * With this Methode the Admin can update/change a Post.
-   *
-   * @param post.votes: number
-   *        post.title: Sting
-   *        post.content: String
-   *        post.categoryId: number
-   */
-  updatePost(post: Post): void {
-    this.httpClient.put(environment.endpointURL + "post/" + post.postId, {
-      votes: post.votes,
-      title: post.title,
-      content: post.content,
-      categoryId: post.categoryId,
-      itemImage: post.itemImage
-    }).subscribe(() => {
-      //this.getPosts();
-    });
-  }
-
   /**
    *  Read the File and add it to the Post
    * @param event:is the File that is attached
@@ -170,6 +137,9 @@ export class BoardComponent implements OnInit {
     reader.readAsDataURL(event.target.files[0]);
   }
 
+  /**
+   * get selected Category to sort posts by category
+   * */
   selected(postCategoryId: number) {
     let selected = false;
     this.selectedCategories.forEach((category)=>{

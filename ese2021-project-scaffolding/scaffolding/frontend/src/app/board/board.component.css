@@ -23,6 +23,6 @@ button{
   background-color: #dddddd !important;
 }
 
-::ng-deep.mat-select-value-text{
+.selectCategory ::ng-deep.mat-select-value-text{
   display: none;
 }

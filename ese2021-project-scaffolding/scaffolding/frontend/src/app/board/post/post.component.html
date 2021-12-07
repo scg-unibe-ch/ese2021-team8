@@ -2,7 +2,7 @@
   <button mat-icon-button *ngIf="canEdit" class="edit" [matMenuTriggerFor]="edit" #menuTrigger="matMenuTrigger" (click)="menuTrigger.openMenu()">
     <mat-icon>settings</mat-icon></button>
   <mat-menu #edit="matMenu">
-    <button mat-menu-item class="dropdown" (click)="editPost()">
+    <button mat-menu-item class="dropdown" (click)="editMode=true">
       <span>Edit Post</span>
     </button>
     <button mat-menu-item class="dropdown" (click)="deletePost()">
@@ -22,7 +22,7 @@
   <button *ngIf="downvoted" class="clicked" (click)="revertDownvote()">&#8681;</button>
   </div>
   <div *ngIf="!canVote">
-    <button mat-fab [matTooltip]= "this.userService.isAdmin() ? 'admins can\'t vote' : 'log in to vote'" (click)="redirect()" color="primary"> score: {{post.votes}}</button>
+    <button mat-fab color="primary" [matTooltip]= "this.userService.isAdmin() ? 'admins can\'t vote' : 'log in to vote'" (click)="!loggedIn && router.navigate(['/user'])"> score: {{post.votes}}</button>
   </div>
 
 <div class="postContent">
@@ -31,7 +31,7 @@
       <mat-chip (click)="selectSortCategory()">{{categoryName}}</mat-chip>
     </mat-chip-list>
 
-    <mat-card-content >
+    <mat-card-content>
       <div *ngIf="collapse">
       {{preview}}
       <button mat-icon-button (click)="collapse=!collapse; uncollapse=true"><mat-icon>expand_more</mat-icon></button>
@@ -41,6 +41,9 @@
       </div>
       <div *ngIf="!collapse">
         {{post.content}} <br>
+      <div *ngIf="post.itemImage">
+        <img class="imagePost" src="{{img}}" alt="post image">
+      </div>
       <div *ngIf="uncollapse">
           <button mat-icon-button  (click)="(collapse=!collapse) && (uncollapse = false)"><mat-icon>expand_less</mat-icon></button>
         <div *ngIf="post.itemImage">

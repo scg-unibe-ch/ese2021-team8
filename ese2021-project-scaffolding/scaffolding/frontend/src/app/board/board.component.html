@@ -1,7 +1,7 @@
 <body fxLayout="column" ngClass.gt-sm="bigScreen">
 <mat-card class="postCard" *ngIf="!displayPostTemplate && userService.getLoggedIn() && !userService.isAdmin()">
   <div class="postButton">
-    <button mat-raised-button color="primary" (click)="clickCreatePost()">Create New Post</button>
+    <button mat-raised-button color="primary" (click)="displayPostTemplate=true">Create New Post</button>
   </div>
 </mat-card>
 
@@ -66,7 +66,6 @@
     <app-post
       *ngFor="let post of posts"
       [post]="post"
-      [categories]="categories"
       (getNewPosts)="getPosts()"
       (selectCategory)="selected($event)"
     ></app-post>
