@@ -7,8 +7,8 @@ import {ShopCategory} from "../../models/shopCategory.model";
 import {Order} from "../../models/order.model";
 import {Sort} from "@angular/material/sort";
 import {UserService} from "../../services/user.service";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {ConfirmCancel} from "../orders/orders.component";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationComponent} from "../../confirmation/confirmation.component";
 
 @Component({
   selector: 'app-admin-tab',
@@ -39,7 +39,7 @@ export class AdminTabComponent implements OnInit {
   postCategoryCreateMsg: string ="";
 
   newProduct: Product = new Product(0, "", 0, "", 0, false);
-  toDelete: Product =  new Product(0, "", 0, "", 0, false);
+  toDelete: Product | undefined //=  new Product(0, "", 0, "", 0, false);
 
   products: Product[] = [];
 
@@ -184,13 +184,21 @@ export class AdminTabComponent implements OnInit {
   }
 
   deleteItem() {
-    this.httpClient.delete(environment.endpointURL + "product/" + this.toDelete.productId).subscribe(() => {
-        this.itemDeleteMsg = "Deleted item \" " + this.toDelete.title + "\"";
-        this.getProducts();
-      }, (() => {
-        this.itemDeleteMsg = "could not delete item";
-      })
-    );
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'delete this item (' + this.toDelete?.title + ') from the shop'}});
+    dialogRef.afterClosed().subscribe((result) =>{
+      if(result){
+        this.httpClient.delete(environment.endpointURL + "product/" + this.toDelete?.productId).subscribe(() => {
+            this.itemDeleteMsg = "Deleted item \" " + this.toDelete?.title + "\"";
+            this.getProducts();
+          }, (() => {
+            this.itemDeleteMsg = "could not delete item";
+          })
+        );
+      }
+      else{
+        this.toDelete = undefined;
+      }
+    });
   }
 
   getOrders(): void {
@@ -213,7 +221,7 @@ export class AdminTabComponent implements OnInit {
   }
 
   shipOrder(id: number) {
-    const dialogRef = this.dialog.open(ConfirmShipment);
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'mark this order as shipped'}});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.httpClient.put(environment.endpointURL + "order/" + id, {
@@ -282,28 +290,5 @@ export class AdminTabComponent implements OnInit {
 
 function compare(a : any, b: any, isAsc: any) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  template: '<h2>Do you want to mark this order as shipped?</h2>' +
-    '<button mat-flat-button color="warn" style="  margin: 5px; position: center;" (click)="shipOrder()">Yes</button>' +
-    ' <button mat-flat-button color="accent" style="  margin: 5px; position: center;" class="cancelButtons" (click)="dontShipOrder()">No</button>',
-})
-
-export class ConfirmShipment {
-
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmShipment>) { }
-
-
-  shipOrder(): void {
-    this.dialogRef.close(true);
-  }
-
-  dontShipOrder(): void{
-    this.dialogRef.close(false);
-  }
-
 }
 

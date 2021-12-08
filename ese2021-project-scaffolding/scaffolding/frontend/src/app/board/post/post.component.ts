@@ -6,8 +6,9 @@ import {environment} from "../../../environments/environment";
 import {PostCategory} from "../../models/postCategory.model";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {PostService} from "../../services/post.service";
+import {ConfirmationComponent} from "../../confirmation/confirmation.component";
 
 
 @Component({
@@ -235,7 +236,9 @@ export class PostComponent implements OnInit {
   }
 
   deletePost(): void{
-    const dialogRef = this.dialog.open(ConfirmDelete);
+    const dialogRef = this.dialog.open(ConfirmationComponent, {
+      data: {question: 'delete this post'}
+    });
     dialogRef.afterClosed().subscribe((doit) => {
       if(doit){
         if (this.userService.isAdmin()) {
@@ -277,28 +280,4 @@ export class PostComponent implements OnInit {
   selectSortCategory() {
     this.selectCategory.emit(this.post.categoryId);
   }
-}
-
-// dialog template to confirm deletion of post
-@Component({
-  selector: 'delete-post-confirm',
-  template: '<h2>Do you really want to delete this post?</h2>' +
-    '<button mat-flat-button color="warn" style="  margin: 5px; position: center;" (click)="delete()">Yes</button>' +
-    ' <button mat-flat-button color="accent" style="  margin: 5px; position: center;" (click)="dont()">No</button>',
-})
-
-export class ConfirmDelete {
-
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmDelete>) { }
-
-
-  delete(): void {
-    this.dialogRef.close(true);
-  }
-
-  dont(): void{
-    this.dialogRef.close(false);
-  }
-
 }

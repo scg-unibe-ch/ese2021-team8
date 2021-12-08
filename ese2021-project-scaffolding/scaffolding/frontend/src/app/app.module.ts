@@ -5,14 +5,12 @@ import { RouterModule, Routes} from '@angular/router'
 import { AppComponent } from './app.component';
 import {ExtendedModule, FlexModule} from "@angular/flex-layout";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TodoListComponent } from '../deprecated/todo-list/todo-list.component';
-import { TodoItemComponent } from '../deprecated/todo-list/todo-item/todo-item.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserComponent } from './user/user.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { BoardComponent } from './board/board.component';
-import {ConfirmDelete, PostComponent} from './board/post/post.component';
+import { PostComponent} from './board/post/post.component';
 import { AdminTabComponent } from './profile/admin-tab/admin-tab.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShopItemsComponent } from './shop/shop-items/shop-items.component';
@@ -21,8 +19,7 @@ import { MaterialModule } from "../material/material.module";
 import { ProfileComponent } from "./profile/profile.component";
 import { OrdersComponent } from './profile/orders/orders.component';
 import { ToastrModule } from 'ngx-toastr';
-import { ConfirmCancel} from './profile/orders/orders.component';
-import { ConfirmShipment } from "./profile/admin-tab/admin-tab.component";
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
 const routes: Routes = [
   {path: 'home', component: BoardComponent },
@@ -40,8 +37,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    TodoListComponent,
-    TodoItemComponent,
     UserComponent,
     BoardComponent,
     PostComponent,
@@ -51,9 +46,7 @@ const routes: Routes = [
     CheckoutComponent,
     ProfileComponent,
     OrdersComponent,
-    ConfirmCancel,
-    ConfirmShipment,
-    ConfirmDelete
+    ConfirmationComponent
   ],
     imports: [
         BrowserModule,

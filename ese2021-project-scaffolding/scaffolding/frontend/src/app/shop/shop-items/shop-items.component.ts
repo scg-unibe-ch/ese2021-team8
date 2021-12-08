@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CheckoutComponent} from "../checkout/checkout.component";
 import {ShopCategory} from "../../models/shopCategory.model";
+import {ConfirmationComponent} from "../../confirmation/confirmation.component";
 
 @Component({
   selector: 'app-shop-items',
@@ -54,12 +55,8 @@ export class ShopItemsComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(CheckoutComponent, {
+    this.dialog.open(CheckoutComponent, {
       data: {product: this.product},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
     });
   }
 
@@ -68,10 +65,15 @@ export class ShopItemsComponent implements OnInit {
   }
 
   deleteProduct(){
-    this.httpClient.delete( environment.endpointURL + "product/" + this.product.productId).subscribe((res:any)=> {
-      this.getNewProducts.emit();
-    }
-    );
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'remove this product ('+ this.product.title + ') from the shop'}});
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.httpClient.delete( environment.endpointURL + "product/" + this.product.productId).subscribe(()=> {
+          this.getNewProducts.emit();
+      });
+     }
+    });
   }
 
   discardEdits() {
@@ -94,5 +96,5 @@ export class ShopItemsComponent implements OnInit {
 
   selectSortCategory(){
     this.selectCategory.emit(this.product.shopCategoryId);
-}
+  }
 }

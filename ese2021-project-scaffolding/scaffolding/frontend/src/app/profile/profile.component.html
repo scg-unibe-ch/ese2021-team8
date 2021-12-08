@@ -26,8 +26,7 @@
         <mat-icon>menu</mat-icon>
       </button>
      <h3>Hello {{user.username}} !</h3>
-      <br>
-        <div *ngIf="router.url=='/profile' && !editInfo">
+        <div *ngIf="router.url=='/profile' && !editInfo && !userService.isAdmin()">
           <div *ngIf="userPosts.length ==0 ">
             You have not made any posts yet! Use the Create Post button on the <a routerLink="/home">Home Page</a> to create your first post.
           </div>

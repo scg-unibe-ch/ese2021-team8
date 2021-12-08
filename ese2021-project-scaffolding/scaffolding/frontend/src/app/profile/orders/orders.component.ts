@@ -4,9 +4,9 @@ import {Product} from "../../models/product.model";
 import {Order} from "../../models/order.model";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CheckoutComponent} from "../../shop/checkout/checkout.component";
+import {MatDialog} from "@angular/material/dialog";
 import {ToastrService} from "ngx-toastr";
+import {ConfirmationComponent} from "../../confirmation/confirmation.component";
 
 @Component({
   selector: 'app-orders',
@@ -51,7 +51,7 @@ export class OrdersComponent implements OnInit {
   }
 
   cancelOrder(id: number): void{
-    const dialogRef = this.dialog.open(ConfirmCancel);
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'cancel this order'}});
     dialogRef.afterClosed().subscribe(result =>{
       if(result){
         this.httpClient.put(environment.endpointURL + "order/" + id, {
@@ -65,27 +65,4 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
-}
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  template: '<h2>Do you really want to cancel this order?</h2>' +
-    '<button mat-flat-button color="warn" style="  margin: 5px; position: center;" (click)="cancelOrder()">Yes, cancel</button>' +
-    ' <button mat-flat-button color="accent" style="  margin: 5px; position: center;" class="cancelButtons" (click)="dontCancel()">No</button>',
-})
-
-export class ConfirmCancel {
-
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmCancel>) { }
-
-
-  cancelOrder(): void {
-    this.dialogRef.close(true);
-  }
-
-  dontCancel(): void{
-    this.dialogRef.close(false);
-  }
-
 }
