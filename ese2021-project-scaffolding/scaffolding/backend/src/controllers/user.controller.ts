@@ -19,6 +19,13 @@ userController.post('/login',
     }
 );
 
+userController.put('/:userId/changePassword', verifyToken,
+    (req: Request, res: Response) => {
+        userService.changePassword(req.params.userId, req.body)
+            .then(changed => res.send(changed))
+            .catch(err => res.status(500).send(err));
+    });
+
 /**
  * Let's the user update his userdata, preferably on his profile page.
  */

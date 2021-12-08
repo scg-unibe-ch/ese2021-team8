@@ -25,6 +25,11 @@ export class ProfileComponent implements OnInit {
   updateErrorMsg: string = '';
   editInfo: boolean = false;
 
+  changePassword: boolean = false;
+  oldPassword: string = '';
+  newPassword: string = '';
+  passwordErrorMsg: string = '';
+
   userComponent: UserComponent;
 
   hideOnSm: boolean = true;
@@ -78,6 +83,44 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  updatePassword() {
+    if (this.oldPassword == '' || this.newPassword == '') {
+      this.passwordErrorMsg = 'Please fill all the required fields!';
+    } else {
+      let passwordHasLength = this.userComponent.checkPasswordLength(this.newPassword);
+      let passwordHasLower = this.userComponent.checkPasswordLower(this.newPassword);
+      let passwordHasUpper = this.userComponent.checkPasswordUpper(this.newPassword);
+      let passwordHasNumber = this.userComponent.checkPasswordNumber(this.newPassword);
+      let passwordHasSpecial = this.userComponent.checkPasswordSpecial(this.newPassword);
+
+      let passwordOkay = passwordHasLength
+        && passwordHasLower
+        && passwordHasUpper
+        && passwordHasNumber
+        && passwordHasSpecial;
+
+      if(passwordOkay) {
+        this.httpClient.put(environment.endpointURL + "user/" + this.userId + '/changePassword', {
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword
+        }).subscribe(() => {
+          this.passwordErrorMsg = this.oldPassword = this.newPassword = '';
+          this.changePassword = false;
+          this.toastr.show('Password changed');
+        }, (res: any) => {
+          this.passwordErrorMsg = res.error.message;
+        })
+      } else {
+        this.passwordErrorMsg = '';
+        if(!passwordHasLength) { this.passwordErrorMsg = 'Password must have at least 8 characters!'}
+        if(!passwordHasLower) { this.passwordErrorMsg += '\n Password must have at least one lowercase letter!' }
+        if(!passwordHasUpper) { this.passwordErrorMsg += '\n Password must have at least one capital letter!' }
+        if(!passwordHasNumber) { this.passwordErrorMsg += '\n Password must have at least one number!' }
+        if(!passwordHasSpecial) { this.passwordErrorMsg += '\n Password must have at least one of the following special characters: / + * ç % & ( ) = £ ! ? @' }
+        }
+      }
+    }
+
   validate(user: User) :boolean{
     return user.firstName !='' && user.lastName !='' && user.email!='' && user.username !='' && user.password!='';
   }
@@ -90,6 +133,5 @@ export class ProfileComponent implements OnInit {
       });
     });
   }
-
 }
 
