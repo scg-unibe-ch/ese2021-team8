@@ -56,17 +56,6 @@ export class ShopComponent implements OnInit {
     return new Array(i);
   }
 
-  updateProduct(product: Product) {
-    this.httpClient.put(environment.endpointURL + "product/" + product.productId, {
-      title: product.title,
-      description: product.description,
-      shopCategoryId: product.shopCategoryId,
-      price: product.price
-    }).subscribe(()=> {
-        this.getProducts();
-      });
-  }
-
   selected(shopCategoryId: number) {
     let selected = false;
     this.selectedCategories.forEach((category)=>{

@@ -10,6 +10,6 @@ mat-card{
   width: 100%;
 }
 
-::ng-deep .mat-select-value-text{
+.selectCategory ::ng-deep .mat-select-value-text{
   color: transparent;
 }

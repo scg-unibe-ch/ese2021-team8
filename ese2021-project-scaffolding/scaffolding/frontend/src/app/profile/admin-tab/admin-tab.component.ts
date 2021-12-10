@@ -9,6 +9,7 @@ import {Sort} from "@angular/material/sort";
 import {UserService} from "../../services/user.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmationComponent} from "../../confirmation/confirmation.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-admin-tab',
@@ -54,7 +55,8 @@ export class AdminTabComponent implements OnInit {
 
   constructor(private httpClient: HttpClient,
               public userService: UserService,
-              public dialog: MatDialog)
+              public dialog: MatDialog,
+              public toastr: ToastrService)
   { }
 
   ngOnInit(): void {
@@ -66,6 +68,10 @@ export class AdminTabComponent implements OnInit {
 
 
   createPostCategory(){
+    if(this.newPostCategory==""){
+      this.postCategoryCreateMsg = "Please enter category name";
+      return;
+    }
     this.httpClient.post(environment.endpointURL + "post/category", {
       postCategoryName: this.newPostCategory
     }).subscribe( () => {
@@ -80,6 +86,10 @@ export class AdminTabComponent implements OnInit {
   }
 
   createShopCategory(){
+    if(this.newShopCategory==""){
+      this.shopCategoryCreateMsg = "Please enter category name";
+      return;
+    }
     this.httpClient.post(environment.endpointURL + "shop/category", {
       shopCategoryName: this.newShopCategory
     }).subscribe( () => {
@@ -95,12 +105,13 @@ export class AdminTabComponent implements OnInit {
 
 
   readCategories(): void{
-    this.postCategories = [];
+   this.postCategories = [];
     this.httpClient.get(environment.endpointURL + "post/category").subscribe((categories:any) => {
       categories.forEach((category: any) => {
         this.postCategories.push(category);
       });
     });
+
     this.shopCategories = [];
     this.httpClient.get(environment.endpointURL + "shop/category").subscribe((categories:any) => {
       categories.forEach((category:any) => {
@@ -112,6 +123,7 @@ export class AdminTabComponent implements OnInit {
   deletePostCategory(): void{
     this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldPostCategory.postCategoryId).subscribe(()=>{
       this.postCategoryDeleteMsg = "Deleted category \" " + this.oldPostCategory.postCategoryName + "\"";
+      this.oldPostCategory = new PostCategory(0,"");
       this.readCategories();
       }, (()=>{
       this.postCategoryDeleteMsg = "could not delete category";
@@ -122,6 +134,7 @@ export class AdminTabComponent implements OnInit {
   deleteShopCategory(): void {
     this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe(() => {
         this.shopCategoryDeleteMsg = "Deleted category \" " + this.oldShopCategory.shopCategoryName + "\"";
+        this.oldShopCategory = new ShopCategory(0,"");
         this.readCategories();
       }, (() => {
         this.shopCategoryDeleteMsg = "could not delete category";
@@ -155,15 +168,21 @@ export class AdminTabComponent implements OnInit {
 
         this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
           .subscribe(() => {
-            console.log(this.products);
+            this.toastr.show("new product (" + this.newProduct.title + ") was created");
             this.newProduct.title = this.newProduct.description = this.productCreateMsg ="";
             this.newProduct.price = 0;
             this.preview = null;
             this.shopCategory = this.emptyShopCategory;
-
           });
       });
     }
+  }
+  discard() {
+    this.newProduct.title = this.newProduct.description = "";
+    this.newProduct.price = 0;
+    this.shopCategory = this.emptyShopCategory;
+    this.preview = null;
+    this.productPicture = null;
   }
 
   onFileChanged(event: any) {
@@ -184,6 +203,10 @@ export class AdminTabComponent implements OnInit {
   }
 
   deleteItem() {
+    if(this.toDelete == undefined){
+      this.itemDeleteMsg = "please select item you want to delete";
+      return;
+    }
     const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'delete this item (' + this.toDelete?.title + ') from the shop'}});
     dialogRef.afterClosed().subscribe((result) =>{
       if(result){

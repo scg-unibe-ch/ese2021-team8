@@ -65,7 +65,8 @@
           </mat-form-field>
           <br>
           <br>
-          <button mat-raised-button color="primary" (click)="createProduct()">Publish Product</button>
+          <button mat-flat-button color="primary" (click)="createProduct()" class="createButton">Publish Product</button>
+          <button mat-flat-button (click)="discard()" class="createButton">Discard</button>
           <mat-error *ngIf="showProductCreateError">{{productCreateMsg}}</mat-error>
         </mat-card>
       </mat-expansion-panel>

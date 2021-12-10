@@ -16,9 +16,9 @@ import {ConfirmationComponent} from "../../confirmation/confirmation.component";
 })
 export class ShopItemsComponent implements OnInit {
 
-  @Input() product: Product = new Product(0,"",0, "", 0, true);
+  @Input() product!: Product;
   @Output() getNewProducts = new EventEmitter<Product>();
-  @Output() sendUpdate = new EventEmitter<Product>();
+
   @Output() selectCategory = new EventEmitter<number>();
   @Input() categories: ShopCategory[] =[];
 
@@ -81,8 +81,18 @@ export class ShopItemsComponent implements OnInit {
   }
 
   updateProduct() {
-    this.sendUpdate.emit(this.product);
-    this.editMode = false;
+      this.httpClient.put(environment.endpointURL + "product/" + this.product.productId, {
+        title: this.product.title,
+        description: this.product.description,
+        shopCategoryId: this.product.shopCategoryId,
+        price: this.product.price
+      }).subscribe(()=> {
+        this.getCategoryName();
+        this.getImage();
+        this.editMode=false;
+      });
+
+
   }
 
   getCategoryName(): void{

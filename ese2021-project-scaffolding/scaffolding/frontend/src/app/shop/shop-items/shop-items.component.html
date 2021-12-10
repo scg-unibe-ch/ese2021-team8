@@ -39,7 +39,8 @@
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>{{categoryName}}</mat-label>
-    <mat-select required [(ngModel)]="categoryName">
+    <mat-select required [(ngModel)]="product.shopCategoryId">
+      <mat-option *ngFor="let category of categories" [value]="category.shopCategoryId">{{category.shopCategoryName}}</mat-option>
     </mat-select>
   </mat-form-field>
   <br>
@@ -51,7 +52,7 @@
     <mat-label>price</mat-label>
     <input matInput type="number" placeholder="{{product.price}}" name="price" [(ngModel)]="product.price">
   </mat-form-field>
-  <button mat-button (click)="updateProduct()">Update Product</button>
+  <button mat-flat-button color="primary" (click)="updateProduct()">Update Product</button>
 </mat-card>
 
 
