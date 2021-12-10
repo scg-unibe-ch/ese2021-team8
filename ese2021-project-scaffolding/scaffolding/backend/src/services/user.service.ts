@@ -38,7 +38,7 @@ export class UserService {
                         user.update({
                             password: user.password
                         }).then(updated => Promise.resolve(updated))
-                            // Bug: The promise value is empty when resolved, but this is not relevant for the current usage of the function.
+                // Bug: The promise value is empty when resolved, but this is not relevant for the current usage of the function.
                             .catch(() => Promise.reject({ message: 'Could not reset password' }));
                     } else {
                         return Promise.reject({ message: 'Password incorrect' });

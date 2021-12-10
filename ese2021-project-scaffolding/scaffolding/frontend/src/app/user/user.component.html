@@ -1,5 +1,6 @@
-<div *ngIf="!loggedIn">
-  <mat-card>
+<body ngClass.gt-sm="bigScreen">
+<div *ngIf="!register">
+  <mat-card class="login">
    <h3>Login</h3>
     <mat-form-field>
       <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToLogin.username">
@@ -10,8 +11,9 @@
     <button mat-flat-button color="primary" (click)="loginUser()">Login</button>
     <mat-error>{{ loginErrorMsg }}</mat-error>
   </mat-card>
+  No account yet? <button mat-flat-button (click)="register=true">Sign up</button>
 </div>
-<div *ngIf="!loggedIn">
+<div *ngIf="register">
 <mat-card>
   <h3>Register</h3>
   <mat-form-field>
@@ -45,29 +47,27 @@
     <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToRegister.username" required>
   </mat-form-field>
   <mat-form-field>
-    <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password" required>
+    <input matInput (keyup)="checkRequirements()" type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password" required>
   </mat-form-field>
+  <br>
+  Password requirements: <br>
+  <mat-icon *ngIf="!passwordHasLength">close</mat-icon> <mat-icon *ngIf="passwordHasLength">check</mat-icon>
+  at least 8 characters <br>
+  <mat-icon *ngIf="!passwordHasUpper">close</mat-icon><mat-icon *ngIf="passwordHasUpper">check</mat-icon>
+  capital letter <br>
+  <mat-icon *ngIf="!passwordHasLower">close</mat-icon><mat-icon *ngIf="passwordHasLower">check</mat-icon>
+  lowercase letter <br>
+  <mat-icon *ngIf="!passwordHasSpecial">close</mat-icon><mat-icon *ngIf="passwordHasSpecial">check</mat-icon>
+   / + * ç % & ( ) = £ ! ? @ <br>
+  <mat-icon *ngIf="!passwordHasNumber">close</mat-icon><mat-icon *ngIf="passwordHasNumber">check</mat-icon>
+  number <br> <br>
 
-  <mat-error *ngIf="!passwordHasLength">
-    Password must have at least 8 characters!
-  </mat-error>
-  <mat-error *ngIf="!passwordHasUpper">
-    Password must have at least one capital letter!
-  </mat-error>
-  <mat-error *ngIf="!passwordHasLower">
-    Password must have at least one lowercase letter!
-  </mat-error>
-
-  <mat-error *ngIf="!passwordHasSpecial">
-    Password must have at least one of the following special characters: / + * ç % & ( ) = £ ! ? @
-  </mat-error>
-
-  <mat-error *ngIf="!passwordHasNumber">
-    Password must have at least one number!
-  </mat-error>
 
 
   <button mat-flat-button color="primary" (click)="registerUser()">Register</button>
  <mat-error>{{ registerErrorMsg }}</mat-error>
 </mat-card>
+  Already have an account? <button mat-flat-button (click)="register=false">Log In</button>
 </div>
+<div style="padding: 10px"></div>
+</body>

@@ -5,7 +5,6 @@ import { environment } from '../../environments/environment';
 import { UserService } from '../services/user.service';
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
-import {PostComponent} from "../board/post/post.component";
 
 @Component({
   selector: 'app-user',
@@ -16,6 +15,8 @@ import {PostComponent} from "../board/post/post.component";
 export class UserComponent implements OnInit{
 
   loggedIn: boolean | undefined;
+  register: boolean = false;
+
   user: User = this.userService.getUser();
 
   userToRegister: User = new User(0, '', '','','','','','',0);
@@ -66,11 +67,6 @@ export class UserComponent implements OnInit{
     if(!this.validate(this.userToRegister)){
       this.registerErrorMsg = 'Please fill all required fields';
     }
-    this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
-    this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
-    this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
-    this.passwordHasNumber = this.checkPasswordNumber(this.userToRegister.password);
-    this.passwordHasSpecial = this.checkPasswordSpecial(this.userToRegister.password);
 
     let passwordOkay = this.passwordHasLength
                           && this.passwordHasLower
@@ -135,6 +131,14 @@ export class UserComponent implements OnInit{
     this.userService.setAdmin(false);
     this.router.navigate(['home']).then();
 
+  }
+
+  checkRequirements(){
+    this.passwordHasLength = this.checkPasswordLength(this.userToRegister.password);
+    this.passwordHasLower = this.checkPasswordLower(this.userToRegister.password);
+    this.passwordHasUpper = this.checkPasswordUpper(this.userToRegister.password);
+    this.passwordHasNumber = this.checkPasswordNumber(this.userToRegister.password);
+    this.passwordHasSpecial = this.checkPasswordSpecial(this.userToRegister.password);
   }
 
   //Autor @Ramona
