@@ -4,11 +4,11 @@
 
 ## introduction
 
-This is the website of team 8. It offers the basic structure of a YB fan shop.
-It includes a login function, a post function and a webshop.
+This is the website of the team 8. It offers a basic structure of a YB fan shop.
+It includes a login function, a post function and a web-shop.
 
 ## How to Start the Website
-
+You will need Angular and NodeJS.
 To start you need to enter "npm install" in both the backend- and frontend-folder.
 After this type in "npm run dev" in both folders.
 Now you should have access to the website. "http://localhost:4200/home"
