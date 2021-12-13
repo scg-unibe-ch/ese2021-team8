@@ -2,51 +2,54 @@
 <div *ngIf="!register">
   <mat-card class="login">
    <h3>Login</h3>
-    <mat-form-field>
+    <form (ngSubmit)="loginUser()">
+    <mat-form-field color="accent">
       <input matInput type="text" placeholder="User Name/Email" name="name" [(ngModel)]="userToLogin.username">
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field color="accent">
       <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userToLogin.password">
     </mat-form-field>
-    <button mat-flat-button color="primary" (click)="loginUser()">Login</button>
+    <button mat-flat-button color="primary" type="submit">Login</button>
     <mat-error>{{ loginErrorMsg }}</mat-error>
+    </form>
   </mat-card>
   No account yet? <button mat-flat-button (click)="register=true">Sign up</button>
 </div>
 <div *ngIf="register">
 <mat-card>
   <h3>Register</h3>
-  <mat-form-field>
+  <form (ngSubmit)="registerUser()">
+  <mat-form-field color="accent">
     <input matInput type="text" placeholder="First Name" name="firstName" [(ngModel)]="userToRegister.firstName" required>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="text" placeholder="Last Name" name="lastName" [(ngModel)]="userToRegister.lastName" required>
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="email" placeholder="Email" name="email" [(ngModel)]="userToRegister.email" required>
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="text" placeholder="Strasse" name="address" [(ngModel)]="street">
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="text" placeholder="PLZ und Ort " name="address" [(ngModel)]="city">
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="date" placeholder="Birthday" name="birthday" [(ngModel)]="userToRegister.birthday">
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="tel" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="userToRegister.phoneNumber">
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput type="text" placeholder="User Name" name="name" [(ngModel)]="userToRegister.username" required>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <input matInput (keyup)="checkRequirements()" type="password" placeholder="Password" name="password" [(ngModel)]="userToRegister.password" required>
   </mat-form-field>
   <br>
@@ -62,10 +65,9 @@
   <mat-icon *ngIf="!passwordHasNumber">close</mat-icon><mat-icon *ngIf="passwordHasNumber">check</mat-icon>
   number <br> <br>
 
-
-
-  <button mat-flat-button color="primary" (click)="registerUser()">Register</button>
+  <button mat-flat-button color="primary" type="submit">Register</button>
  <mat-error>{{ registerErrorMsg }}</mat-error>
+  </form>
 </mat-card>
   Already have an account? <button mat-flat-button (click)="register=false">Log In</button>
 </div>

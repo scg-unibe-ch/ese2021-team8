@@ -45,46 +45,51 @@
         </div>
         <div *ngIf="editInfo && router.url=='/profile'" >
           <mat-card class="userPosts">
-          <mat-form-field>
+            <mat-card-title>Update Profile Information</mat-card-title>
+            <br>
+            <mat-card-content>
+          <mat-form-field color="accent">
             <mat-label>First Name</mat-label>
             <input matInput type="text"  [(ngModel)]="user.firstName" name="firstName" required>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>Last Name</mat-label>
             <input matInput type="text"  [(ngModel)]="user.lastName" name="lastName" required>
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>Street</mat-label>
             <input matInput type="text"  [(ngModel)]="street" name="street">
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>PLZ Ort</mat-label>
             <input matInput type="text"  [(ngModel)]="city" name="city">
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput type="email" placeholder="Email" name="email" [(ngModel)]="user.email" required>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput type="date" placeholder="Birthday" name="birthday" [(ngModel)]="user.birthday">
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput type="tel" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="user.phoneNumber">
           </mat-form-field>
           <br>
           <button mat-flat-button color="primary" (click)="updateInfo()">Save</button>
           <mat-error> {{ updateErrorMsg }} </mat-error>
+            </mat-card-content>
           </mat-card>
         </div>
       <div *ngIf="changePassword && router.url=='/profile'" >
         <mat-card class="userPosts">
-          <mat-form-field>
+          <mat-card-title>Change Password</mat-card-title>
+          <mat-form-field color="accent">
             <mat-label>Old password</mat-label>
             <input matInput type="password"  [(ngModel)]="this.oldPassword" name="currentPassword" required>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>New password</mat-label>
             <input matInput type="password"  [(ngModel)]="this.newPassword" name="newPassword" required>
           </mat-form-field>

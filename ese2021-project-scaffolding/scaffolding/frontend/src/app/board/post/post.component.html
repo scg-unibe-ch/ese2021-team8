@@ -62,17 +62,17 @@
 
 
 <mat-card *ngIf="editMode">
-  <mat-form-field appearance="fill" style="width: 60%;">
+  <mat-form-field color="accent" appearance="fill" style="width: 60%;">
     <input matInput type="text" placeholder= {{post.title}} name="title" [(ngModel)]="post.title">
   </mat-form-field>
-  <mat-form-field appearance="fill">
+  <mat-form-field color="accent" appearance="fill">
     <mat-label>Category</mat-label>
     <mat-select required [(ngModel)]="post.categoryId">
       <mat-option *ngFor="let category of categories" [value]="category.postCategoryId"> {{category.postCategoryName}} </mat-option>
     </mat-select>
   </mat-form-field>
   <br>
-  <mat-form-field appearance="outline" style="width: 100%; height: 40%">
+  <mat-form-field color="accent" appearance="outline" style="width: 100%; height: 40%">
     <textarea matInput maxlength="1000" placeholder={{post.content}} style="width: 100%" rows="10" name="content" [(ngModel)]="post.content"></textarea>
     <div *ngIf="!post.itemImage">
       <input

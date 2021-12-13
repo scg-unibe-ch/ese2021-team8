@@ -3,25 +3,25 @@
   <mat-card-title>Checkout</mat-card-title>
   <button mat-flat-button class="close" [mat-dialog-close]="true"><mat-icon>close</mat-icon></button>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-label>First Name</mat-label>
     <input matInput type="text"  [(ngModel)]="firstName" name="firstName" required>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-label>Last Name</mat-label>
     <input matInput type="text"  [(ngModel)]="lastName" name="lastName" required>
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-label>Street</mat-label>
     <input matInput type="text"  [(ngModel)]="street" name="street" required>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-label>PLZ Ort</mat-label>
     <input matInput type="text"  [(ngModel)]="city" name="city" required>
   </mat-form-field>
   <br>
-  <mat-form-field>
+  <mat-form-field color="accent">
     <mat-label>Payment Method</mat-label>
   <select matNativeControl required>
     <option value="0">Payment via invoice</option>

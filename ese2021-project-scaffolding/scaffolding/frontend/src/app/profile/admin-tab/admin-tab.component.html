@@ -7,7 +7,7 @@
          Create a new post category
         </mat-expansion-panel-header>
         <mat-card>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput placeholder="New PostCategory Name" [(ngModel)]="newPostCategory">
           </mat-form-field>
           <button mat-flat-button color="primary" (click)="createPostCategory()">Create New PostCategory</button>
@@ -17,7 +17,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>Delete an existing post category</mat-expansion-panel-header>
         <mat-card>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Select PostCategory</mat-label>
             <mat-select  [(ngModel)]="oldPostCategory">
               <mat-option *ngFor="let category of postCategories" [value]="category" > {{category.postCategoryName}} </mat-option>
@@ -34,24 +34,24 @@
       <mat-expansion-panel>
       <mat-expansion-panel-header> Add a new product to the shop</mat-expansion-panel-header>
         <mat-card>
-          <mat-form-field appearance="fill" style="width: 60%;">
+          <mat-form-field color="accent" appearance="fill" style="width: 60%;">
             <mat-label>Product title</mat-label>
             <input required matInput type="text" name="title" [(ngModel)]="newProduct.title">
           </mat-form-field>
           <br>
-          <mat-form-field appearance="fill" style="width: 60%">
+          <mat-form-field color="accent" appearance="fill" style="width: 60%">
             <mat-label>Select Category</mat-label>
             <mat-select required [(ngModel)]="shopCategory">
               <mat-option *ngFor="let shopCategory of shopCategories" [value]="shopCategory"  > {{shopCategory.shopCategoryName}} </mat-option>
             </mat-select>
           </mat-form-field>
           <br>
-          <mat-form-field appearance="fill" style="width: 60%;">
+          <mat-form-field color="accent" appearance="fill" style="width: 60%;">
             <mat-label>price</mat-label>
             <input required matInput type="number" name="price" [(ngModel)]="newProduct.price">
           </mat-form-field>
           <br>
-          <mat-form-field appearance="outline" style="width: 100%; height: 40%">
+          <mat-form-field color="accent" appearance="outline" style="width: 100%; height: 40%">
         <textarea matInput placeholder="product description" style="width: 100%" rows="10" name="description" [(ngModel)]="newProduct.description">
         </textarea>
             <input
@@ -73,7 +73,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>Delete an existing shop item</mat-expansion-panel-header>
         <mat-card >
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Select Item</mat-label>
             <mat-select [(ngModel)]="toDelete">
               <mat-option *ngFor="let product of products" [value]="product" > {{product.productId}} - {{product.title}} </mat-option>
@@ -86,7 +86,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>Create a new shop category</mat-expansion-panel-header>
         <mat-card>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput placeholder="New ShopCategory Name" [(ngModel)]="newShopCategory">
           </mat-form-field>
           <button mat-flat-button color="primary" (click)="createShopCategory()">Create New ShopCategory</button>
@@ -96,7 +96,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header>Delete an existing shop category</mat-expansion-panel-header>
           <mat-card>
-          <mat-form-field appearance="fill">
+          <mat-form-field color="accent" appearance="fill">
             <mat-label>Select ShopCategory</mat-label>
             <mat-select  [(ngModel)]="oldShopCategory">
               <mat-option *ngFor="let category of shopCategories" [value]="category" > {{category.shopCategoryName}} </mat-option>

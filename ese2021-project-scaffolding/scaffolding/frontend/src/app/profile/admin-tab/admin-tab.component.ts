@@ -126,7 +126,7 @@ export class AdminTabComponent implements OnInit {
       this.oldPostCategory = new PostCategory(0,"");
       this.readCategories();
       }, (()=>{
-      this.postCategoryDeleteMsg = "could not delete category";
+      this.postCategoryDeleteMsg = "could not delete category because there are existing posts under that category";
       })
     );
   }
@@ -137,7 +137,7 @@ export class AdminTabComponent implements OnInit {
         this.oldShopCategory = new ShopCategory(0,"");
         this.readCategories();
       }, (() => {
-        this.shopCategoryDeleteMsg = "could not delete category";
+        this.shopCategoryDeleteMsg = "could not delete category because there are exiting items/orders that use this category";
       })
     );
   }
