@@ -2,7 +2,7 @@
   <h4>No orders</h4>
   <p>You can order items in the <a routerLink="/shop">Shop</a></p>
 </div>
-<div>
+<div *ngIf="orders.length>0">
   <mat-card>
     <table>
       <tr>

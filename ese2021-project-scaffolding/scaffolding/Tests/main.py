@@ -4,7 +4,7 @@ import page
 import time
 
 class WebseitTester(unittest.TestCase):
-    """This is a test Case for the Website YB Fan Community """
+    """This is a test Case for the Website YB Fan Community where the User Nora is logged in at the beginning """
 
     def setUp(self):
         self.driver = webdriver.Chrome("C:\Program Files (x86)\chromedriver.exe")

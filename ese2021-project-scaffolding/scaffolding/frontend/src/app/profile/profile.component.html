@@ -4,8 +4,17 @@
       <nav mat-tab-nav-bar *ngIf="userService.isAdmin()">
         <a mat-tab-link routerLink="./admin">Admin Tab</a>
       </nav>
+      <nav mat-tab-nav-bar fxLayout="row" *ngIf="!userService.isAdmin()">
+        <a mat-tab-link (click)="editInfo = changePassword = false; router.navigate(['profile'])">My posts</a> <br>
+      </nav>
       <nav mat-tab-nav-bar fxLayout="row">
-      <a mat-tab-link (click)="editInfo = true; router.navigate(['profile'])">Update Profile Information</a> <br>
+      <a mat-tab-link (click)="editInfo = true; changePassword = false; router.navigate(['profile'])">Update Profile Information</a> <br>
+        <button type="button" mat-icon-button (click)="hideOnSm = !hideOnSm" fxHide.gt-xs="true">
+          <mat-icon>close</mat-icon>
+        </button>
+      </nav>
+      <nav mat-tab-nav-bar fxLayout="row">
+        <a mat-tab-link (click)="changePassword = true; editInfo = false; router.navigate(['profile'])">Change Password</a> <br>
         <button type="button" mat-icon-button (click)="hideOnSm = !hideOnSm" fxHide.gt-xs="true">
           <mat-icon>close</mat-icon>
         </button>
@@ -23,42 +32,71 @@
         <mat-icon>menu</mat-icon>
       </button>
      <h3>Hello {{user.username}} !</h3>
-      <br>
+        <div *ngIf="router.url=='/profile' && !editInfo && !changePassword && !userService.isAdmin()">
+          <div *ngIf="userPosts.length ==0 ">
+            You have not made any posts yet! Use the Create Post button on the <a routerLink="/home">Home Page</a> to create your first post.
+          </div>
+          <app-post
+          *ngFor="let post of userPosts"
+          [post]="post"
+          (getNewPosts)="getUserPosts()"
+          [profileView] = true
+          ></app-post>
+        </div>
         <div *ngIf="editInfo && router.url=='/profile'" >
-          <mat-card>
-          <mat-form-field>
+          <mat-card class="userPosts">
+            <mat-card-title>Update Profile Information</mat-card-title>
+            <br>
+            <mat-card-content>
+          <mat-form-field color="accent">
             <mat-label>First Name</mat-label>
             <input matInput type="text"  [(ngModel)]="user.firstName" name="firstName" required>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>Last Name</mat-label>
             <input matInput type="text"  [(ngModel)]="user.lastName" name="lastName" required>
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>Street</mat-label>
             <input matInput type="text"  [(ngModel)]="street" name="street">
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <mat-label>PLZ Ort</mat-label>
             <input matInput type="text"  [(ngModel)]="city" name="city">
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput type="email" placeholder="Email" name="email" [(ngModel)]="user.email" required>
           </mat-form-field>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput type="date" placeholder="Birthday" name="birthday" [(ngModel)]="user.birthday">
           </mat-form-field>
           <br>
-          <mat-form-field>
+          <mat-form-field color="accent">
             <input matInput type="tel" placeholder="Phone Number" name="phoneNumber" [(ngModel)]="user.phoneNumber">
           </mat-form-field>
           <br>
           <button mat-flat-button color="primary" (click)="updateInfo()">Save</button>
           <mat-error> {{ updateErrorMsg }} </mat-error>
+            </mat-card-content>
           </mat-card>
         </div>
+      <div *ngIf="changePassword && router.url=='/profile'" >
+        <mat-card class="userPosts">
+          <mat-card-title>Change Password</mat-card-title>
+          <mat-form-field color="accent">
+            <mat-label>Old password</mat-label>
+            <input matInput type="password"  [(ngModel)]="this.oldPassword" name="currentPassword" required>
+          </mat-form-field>
+          <mat-form-field color="accent">
+            <mat-label>New password</mat-label>
+            <input matInput type="password"  [(ngModel)]="this.newPassword" name="newPassword" required>
+          </mat-form-field>
+          <button mat-flat-button color="primary" (click)="updatePassword()">Save</button>
+          <p class="error-with-breaks"> {{passwordErrorMsg}}</p>
+        </mat-card>
+      </div>
       <router-outlet></router-outlet>
     </mat-drawer-content>
   </mat-drawer-container>

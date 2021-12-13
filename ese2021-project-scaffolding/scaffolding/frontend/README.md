@@ -25,12 +25,12 @@ The secured endpoint can be accessed by logged-in users (either normal user or a
 The database comes with two pre-existing users that you can use:
 ````
 DEFAULT USER
-Username: Alice
-Password: 123
+Username: Nora
+Password: notSecure12!
 
 ADMIN USER
-Username: Bob
-Password: 321
+Username: Tom
+Password: notSecure12!
 ````
 
 ## Podcast

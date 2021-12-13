@@ -5,3 +5,7 @@ mat-tab-group{
 mat-card{
   margin: 15px !important;
 }
+
+.createButton{
+  margin: 2px;
+}

@@ -9,6 +9,7 @@ mat-card{
 .chip-list{
   width: 100%;
 }
-#mat-select-value-1 > span > span{
-  display: none !important;
+
+.selectCategory ::ng-deep .mat-select-value-text{
+  color: transparent;
 }

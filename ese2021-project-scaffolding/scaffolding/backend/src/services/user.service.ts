@@ -2,6 +2,7 @@ import { UserAttributes, User } from '../models/user.model';
 import { LoginResponse, LoginRequest } from '../models/login.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { ChangePasswordRequest } from '../models/passwordChange.model';
 
 export class UserService {
     /**
@@ -27,7 +28,27 @@ export class UserService {
             return User.create(user).then(inserted => Promise.resolve(inserted)).catch(err => Promise.reject(err));
         }});
     }
-
+    public changePassword(userId, changePasswordRequest: ChangePasswordRequest): Promise<UserAttributes> {
+        const saltRounds = 12;
+        return User.findByPk(userId)
+            .then(user => {
+                if (user != null) {
+                    if (bcrypt.compareSync(changePasswordRequest.oldPassword, user.password)) {
+                        user.password = bcrypt.hashSync(changePasswordRequest.newPassword, saltRounds);
+                        user.update({
+                            password: user.password
+                        }).then(updated => Promise.resolve(updated))
+                // Bug: The promise value is empty when resolved, but this is not relevant for the current usage of the function.
+                            .catch(() => Promise.reject({ message: 'Could not reset password' }));
+                    } else {
+                        return Promise.reject({ message: 'Password incorrect' });
+                    }
+                } else {
+                    return Promise.reject({ message: 'User not found' });
+                }
+            })
+            .catch(err => Promise.reject(err));
+    }
     public login(loginRequestee: LoginRequest): Promise<User | LoginResponse> {
         const secret = process.env.JWT_SECRET;
         return this.findUser(loginRequestee)

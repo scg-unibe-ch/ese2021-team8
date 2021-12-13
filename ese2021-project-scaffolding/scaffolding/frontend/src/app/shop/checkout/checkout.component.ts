@@ -49,11 +49,6 @@ export class CheckoutComponent implements OnInit {
 
   makeOrder() {
       if(this.isValid()){
-        this.invalid = false;
-      } else{
-        this.invalid = true;
-        return;
-      }
       this.httpClient.post(environment.endpointURL + "order",{
         userId: this.user.userId,
         firstName: this.firstName,
@@ -69,9 +64,19 @@ export class CheckoutComponent implements OnInit {
       }));
     this.toastr.show('All orders are visible in your profile','Order completed!');
     this.dialogRef.close();
+      }
+      else{
+        this.invalid = true;
+      }
   }
 
   isValid(): boolean{
-    return !(this.firstName == '' || this.lastName == '' || this.city == '' || this.street == '')
+    if (!(this.firstName == '' || this.lastName == '' || this.city == '' || this.street == '')){
+      return true;
+    }
+    else{
+      this.invalid = true;
+      return false;
+    }
   }
 }
