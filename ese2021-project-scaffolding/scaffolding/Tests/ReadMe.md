@@ -5,7 +5,9 @@
 ## How you use it: 
 
 First you need to have Python 3 and Selenium installed.
-To Install Python you can take a look at: https://www.computerwoche.de/a/wie-sie-python-richtig-installieren,3548847
+To Install Python you can take a look at:
+
+https://www.computerwoche.de/a/wie-sie-python-richtig-installieren,3548847
 
 Second you need Selenium installed:
 
