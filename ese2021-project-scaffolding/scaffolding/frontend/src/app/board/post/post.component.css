@@ -61,3 +61,8 @@
   max-height: 130px;
   max-width: 130px;
 }
+
+.imageUpload{
+  display: none;
+}
+

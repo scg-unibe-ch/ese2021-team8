@@ -5,6 +5,8 @@ import {environment} from "../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../services/user.service";
 import {PostService} from "../services/post.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationComponent} from "../confirmation/confirmation.component";
 
 @Component({
   selector: 'app-post-template',
@@ -34,7 +36,7 @@ export class BoardComponent implements OnInit {
   preview = null;
 
   // is true if the User not fill all required fields and show a missing "Error"
-  showError: boolean = false;
+  showError: string = "";
 
   //indicate if a Post have a picture or not
   hasPicture = false;
@@ -42,7 +44,8 @@ export class BoardComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     public userService: UserService,
-    public postServices: PostService
+    public postServices: PostService,
+    public dialog: MatDialog
   ) {
     postServices.categories$.subscribe(res => this.categories = res);
     this.categories = postServices.getCategories();
@@ -77,7 +80,7 @@ export class BoardComponent implements OnInit {
   }
 
   /**
-   * This Methode close the Templates and empty the vars
+   * This Method closes the Template and resets the vars
    */
   closePostTemplate() {
     this.displayPostTemplate = false;
@@ -86,19 +89,23 @@ export class BoardComponent implements OnInit {
     this.postCategory = this.emptyCategory;
     this.preview = null;
     this.selectedFile = null;
-    this.showError = false;
+    this.showError = "";
     this.hasPicture = false;
   }
 
   /**
-   *This Methode checks if every Field that is required is filled. If not it change the showError to true. It then creates
+   *Checks if every Field that is required is filled. If not it changes the showError message. It then creates
    * a new post. If the post includes a picture it adds the picture to that post.
    */
   createPost(): void {
-    if (this.postTitle == '' || this.postCategory == this.emptyCategory || (this.postContent == '' && !this.hasPicture)) {
-      this.showError = true;
+    if (this.postTitle == '' || this.postCategory == this.emptyCategory ){
+      this.showError = 'please fill all required fields';
       return;
     }
+    else if(this.postContent == '' && !this.hasPicture ){
+        this.showError = 'post needs text content or image';
+        return;
+      }
     this.httpClient.post(environment.endpointURL + "post", {
       title: this.postTitle,
       content: this.postContent,
@@ -125,7 +132,7 @@ export class BoardComponent implements OnInit {
 
   /**
    *  Read the File and add it to the Post
-   * @param event:is the File that is attached
+   * @param event: the File that is attached
    */
   onFileChanged(event: any) {
     this.hasPicture = true;
@@ -155,15 +162,19 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  /**
+   * remove category from selected
+   * */
   remove(category: PostCategory) {
     const index = this.selectedCategories.indexOf(category);
-
     if(index >=0){
       this.selectedCategories.splice(index, 1);
       this.getPosts();
     }
   }
-
+  /**
+   * load more posts
+   * */
   loadMore(){
     this.httpClient.get(environment.endpointURL + "post/page/" + (this.postServices.getCurrentPage()+1)).subscribe((posts:any)=>{
       posts.forEach((post:any)=>{
@@ -171,6 +182,18 @@ export class BoardComponent implements OnInit {
       });
     });
     this.postServices.increasePage();
-    console.log("all: " + this.postServices.getPages() + "\ncurrent: " + this.postServices.getCurrentPage());
+  }
+
+  /**
+   * remove Image from post upload
+   * */
+  removeImage() {
+    const dialogRef = this.dialog.open(ConfirmationComponent,{ data: { question: 'remove the image from this post'} });
+    dialogRef.afterClosed().subscribe((result) =>{
+      if(result){
+        this.hasPicture= false;
+        this.selectedFile = null;
+      }
+    });
   }
 }

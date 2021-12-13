@@ -23,20 +23,23 @@
       <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content_field" [(ngModel)]="postContent">
 
       </textarea>
+      <div *ngIf="!hasPicture">
       <input
-        style="display: none"
+        class="imageUpload"
         type="file" (change)="onFileChanged($event)"
         #fileInput>
       <button mat-icon-button class="upload" (click)="fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
-      <br>
+      </div>
       <div *ngIf="hasPicture">
+      <button mat-icon-button (click)="removeImage()"><mat-icon>cancel</mat-icon></button>
+        <br>
         <img src="{{preview}}" class="preview">
       </div>
     </mat-form-field>
     <br>
     <br>
     <button mat-flat-button color="primary" (click)="createPost()">Publish Post</button>
-    <mat-error *ngIf="showError">Fill all required fields!</mat-error>
+    <mat-error>{{showError}}</mat-error>
   </mat-card>
 </div>
 
@@ -69,5 +72,5 @@
       (getNewPosts)="getPosts()"
       (selectCategory)="selected($event)"
     ></app-post>
-<button *ngIf="!(postServices.getCurrentPage()==postServices.getPages())" (click)="loadMore()">Load More</button>
+<button mat-flat-button class="loadMore" *ngIf="!(postServices.getCurrentPage()==postServices.getPages()) && !(posts.length==0)" (click)="loadMore()">Load More</button>
 </body>

@@ -26,3 +26,14 @@ button{
 .selectCategory ::ng-deep.mat-select-value-text{
   display: none;
 }
+
+.loadMore{
+  width: 100%;
+}
+
+.imageUpload{
+  display: none;
+}
+.mat-icon-button{
+  padding: 0;
+}

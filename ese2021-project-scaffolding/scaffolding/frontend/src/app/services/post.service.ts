@@ -48,10 +48,6 @@ export class PostService {
     }).subscribe();
   }
 
-  addCategory(category: PostCategory){
-    this.categories.push(category);
-  }
-
   constructor(private httpClient: HttpClient) {
     this.currentPage = 1;
     this.httpClient.get(environment.endpointURL + "post/amount").subscribe(res => this.pages = Math.ceil(Number(res)/10));

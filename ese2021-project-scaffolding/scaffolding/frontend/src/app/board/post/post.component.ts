@@ -34,7 +34,7 @@ export class PostComponent implements OnInit {
   upvoted: boolean | undefined;
   downvoted: boolean = false;
 
-  //to display edit option if a user is logged in and created this post
+  //to display edit option if a user is logged in and created this post or is an admin
   canEdit: undefined | boolean;
 
   //to display up/downvote buttons if user is logged in and not an admin

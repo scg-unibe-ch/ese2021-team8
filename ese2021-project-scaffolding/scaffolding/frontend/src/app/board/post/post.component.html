@@ -75,7 +75,7 @@
     <textarea matInput placeholder={{post.content}} style="width: 100%" rows="10" name="content" [(ngModel)]="post.content"></textarea>
     <div *ngIf="!post.itemImage">
       <input
-        style="display: none"
+        class="imageUpload"
         type="file" (change)="onFileChanged($event)"
         #fileInput>
       <button mat-icon-button (click)="addPicture=true; fileInput.click()"><mat-icon>image</mat-icon> upload image </button>
