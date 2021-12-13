@@ -1,4 +1,4 @@
-- Meetings and code-sessions together help to avoid missunderstandings and time-consuming errors.
+- Meetings and coding-sessions together help to avoid missunderstandings and time-consuming errors.
 - Break down exercises into smaller parts and use the specialization of each teammember.
 - Use manual testing and specialized tools like Selenium and Postman to test the freshly implemented code and find the root of errors.
 - Try to make small implementations and check if the changes work. Don't just work an afternoon on something that does not work in the end.
@@ -10,10 +10,10 @@
 
 
 
-- Dokumentation is really important
-- Testing the Frontend is difficult and need a lot of time
-- Organisation and communication is a key component, if you need help, fist search but if you have too much trouble ask someone
-    who can help you
-- Take care that you keep the big picture in mind
-- Try it, if it dosn't work, try an other way
-- But you have to keep track of who does what
+- Documentation is really important.
+- Testing the frontend is difficult and needs a lot of time
+- Organisation and communication is a key component. if you need help, try to find information yourself first but if you still
+    have trouble afterwards, ask someone who can help you
+- Take care that you keep the big picture in mind.
+- Try it, if it dosn't work, try it another way.
+- Keep track of who does what.
