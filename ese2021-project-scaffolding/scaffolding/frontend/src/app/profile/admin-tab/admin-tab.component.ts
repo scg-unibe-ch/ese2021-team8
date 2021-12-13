@@ -195,6 +195,7 @@ export class AdminTabComponent implements OnInit {
   }
 
   getProducts() {
+    this.products = [];
     this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) => {
       products.forEach((product: any) => {
         this.products.push(product);

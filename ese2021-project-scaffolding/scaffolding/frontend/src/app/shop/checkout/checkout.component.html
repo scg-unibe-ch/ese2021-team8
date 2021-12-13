@@ -28,7 +28,7 @@
   </select>
   </mat-form-field>
   <br>
-  <button mat-flat-button color="primary" (click)="confirmation = true">BUY NOW</button>
+  <button mat-flat-button color="primary" (click)="confirmation = isValid()">BUY NOW</button>
   <mat-error *ngIf="invalid">Fill all required fields!</mat-error>
   </mat-card>
 </div>

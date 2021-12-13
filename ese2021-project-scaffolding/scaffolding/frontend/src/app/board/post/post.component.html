@@ -32,24 +32,25 @@
     </mat-chip-list>
 
     <mat-card-content>
-      <div *ngIf="collapse">
-      {{preview}}
-      <button mat-icon-button (click)="collapse=!collapse; uncollapse=true"><mat-icon>expand_more</mat-icon></button>
-        <div *ngIf="post.itemImage">
-          <img class="imagePost" src="{{img}}" alt="post image">
-        </div>
-      </div>
-      <div *ngIf="!collapse">
+      <div *ngIf="!collapse"> <!-- regular post that doesn't collapse -->
         {{post.content}} <br>
-      <div *ngIf="post.itemImage">
-        <img class="imagePost" src="{{img}}" alt="post image">
-      </div>
-      <div *ngIf="uncollapse">
-          <button mat-icon-button  (click)="(collapse=!collapse) && (uncollapse = false)"><mat-icon>expand_less</mat-icon></button>
         <div *ngIf="post.itemImage">
           <img class="imagePost" src="{{img}}" alt="post image">
         </div>
       </div>
+      <div *ngIf="collapse&&!uncollapse"> <!-- long post collapsed (only show preview and image if available)-->
+      {{preview}}
+      <button mat-icon-button (click)="uncollapse=true"><mat-icon>expand_more</mat-icon></button>
+        <div *ngIf="post.itemImage">
+          <img class="imagePost" src="{{img}}" alt="post image">
+        </div>
+      </div>
+      <div *ngIf="uncollapse"> <!-- show full long post-->
+        {{post.content}}
+          <button mat-icon-button  (click)="uncollapse = false"><mat-icon>expand_less</mat-icon></button>
+        <div *ngIf="post.itemImage">
+          <img class="imagePost" src="{{img}}" alt="post image">
+        </div>
       </div>
       </mat-card-content>
 </div>
@@ -72,7 +73,7 @@
   </mat-form-field>
   <br>
   <mat-form-field appearance="outline" style="width: 100%; height: 40%">
-    <textarea matInput placeholder={{post.content}} style="width: 100%" rows="10" name="content" [(ngModel)]="post.content"></textarea>
+    <textarea matInput maxlength="1000" placeholder={{post.content}} style="width: 100%" rows="10" name="content" [(ngModel)]="post.content"></textarea>
     <div *ngIf="!post.itemImage">
       <input
         class="imageUpload"

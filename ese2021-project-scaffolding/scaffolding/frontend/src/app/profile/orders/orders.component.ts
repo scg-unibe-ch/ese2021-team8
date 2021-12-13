@@ -34,20 +34,26 @@ export class OrdersComponent implements OnInit {
 
   getOrders(): void{
     this.orders = [];
-    let i = 0;
     this.httpClient.get(environment.endpointURL + "order/user/" + this.userId).subscribe((orders:any) => {
       orders.forEach((order:any) => {
         this.httpClient.get(environment.endpointURL + "product/" + order.productId).subscribe((product: any) =>{
           let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
           this.orders.unshift(new Order(order.orderId, order.userId, order.firstName, order.lastName, order.address, order.paymentMethod, order.deliveryStatus, orderProduct));
+          this.sortOrders();
           this.httpClient.get(environment.endpointURL + "product/" + product.productId + "/imageByProduct").subscribe(
             (res: any) => {
               this.orderImages[product.productId] = environment.endpointURL + "uploads/" + res.fileName;
-              i++;
             });
         });
       });
     }, () => {});
+  }
+
+  sortOrders(){
+    let sorted = this.orders.sort((a, b) =>{
+      return compare(a.orderId, b.orderId, false);
+    });
+    this.orders = sorted;
   }
 
   cancelOrder(id: number): void{
@@ -65,4 +71,7 @@ export class OrdersComponent implements OnInit {
       }
     });
   }
+}
+function compare(a : any, b: any, isAsc: any) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

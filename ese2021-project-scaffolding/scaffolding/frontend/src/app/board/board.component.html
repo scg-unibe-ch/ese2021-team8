@@ -20,7 +20,7 @@
     </mat-form-field>
     <br>
     <mat-form-field appearance="outline" style="width: 100%; height: 40%">
-      <textarea matInput placeholder="Post Text" style="width: 100%" rows="10" name="content_field" [(ngModel)]="postContent">
+      <textarea maxlength="1000" matInput placeholder="Post Text" style="width: 100%" rows="10" name="content_field" [(ngModel)]="postContent">
 
       </textarea>
       <div *ngIf="!hasPicture">
