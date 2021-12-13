@@ -5,5 +5,15 @@
 - You do not need to know everything, you just need to know where to find knowledge.
 - Understand the code that was written before. Whether it is the code given to you or the code written by your teammates. Comments help with that, too.
 - Have a logic behind method names, class distributions and path declaration from front- to backend. This helps understanding the code
-and makes it easier to implement new code.
+    and makes it easier to implement new code.
 - Have and never lose the fun. :)
+
+
+
+- Dokumentation is really important
+- Testing the Frontend is difficult and need a lot of time
+- Organisation and communication is a key component, if you need help, fist search but if you have too much trouble ask someone
+    who can help you
+- Take care that you keep the big picture in mind
+- Try it, if it dosn't work, try an other way
+- But you have to keep track of who does what
