@@ -30,7 +30,7 @@ export class AdminTabComponent implements OnInit {
   shopCategory: ShopCategory = this.emptyShopCategory;
 
 
-  itemDeleteMsg: string ="";
+  itemRemoveMsg: string ="";
   showProductCreateError: boolean = false;
   productCreateMsg: string="";
   shopCategoryDeleteMsg: string ="";
@@ -40,7 +40,7 @@ export class AdminTabComponent implements OnInit {
   postCategoryCreateMsg: string ="";
 
   newProduct: Product = new Product(0, "", 0, "", 0, false);
-  toDelete: Product | undefined //=  new Product(0, "", 0, "", 0, false);
+  toRemove: Product | undefined //=  new Product(0, "", 0, "", 0, false);
 
   products: Product[] = [];
 
@@ -196,31 +196,31 @@ export class AdminTabComponent implements OnInit {
 
   getProducts() {
     this.products = [];
-    this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) => {
+    this.httpClient.get(environment.endpointURL + "product/inUse").subscribe((products: any) => {
       products.forEach((product: any) => {
         this.products.push(product);
       });
     })
   }
 
-  deleteItem() {
-    if(this.toDelete == undefined){
-      this.itemDeleteMsg = "please select item you want to delete";
+  removeItem() {
+    if(this.toRemove == undefined){
+      this.itemRemoveMsg = "please select item you want to remove";
       return;
     }
-    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'delete this item (' + this.toDelete?.title + ') from the shop'}});
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'remove this item (' + this.toRemove?.title + ') from the shop'}});
     dialogRef.afterClosed().subscribe((result) =>{
       if(result){
-        this.httpClient.delete(environment.endpointURL + "product/" + this.toDelete?.productId).subscribe(() => {
-            this.itemDeleteMsg = "Deleted item \" " + this.toDelete?.title + "\"";
+        this.httpClient.put(environment.endpointURL + "product/remove/" + this.toRemove?.productId, {}).subscribe(() => {
+            this.itemRemoveMsg = "Removed item \" " + this.toRemove?.title + "\"";
             this.getProducts();
           }, (() => {
-            this.itemDeleteMsg = "could not delete item";
+            this.itemRemoveMsg = "could not remove item";
           })
         );
       }
       else{
-        this.toDelete = undefined;
+        this.toRemove = undefined;
       }
     });
   }

@@ -41,6 +41,24 @@ productController.put('/:id', checkAdmin, (req: Request, res: Response) => {
 });
 
 /**
+ * Sets the 'inUse' field of the specified product to false. This means it will no longer be shown in the shop but will
+ * continue to exist in the database.
+ */
+productController.put('/remove/:id', checkAdmin, (req: Request, res: Response) => {
+    Product.findByPk(req.params.id)
+        .then(found => {
+            if (found != null) {
+                found.update( { inUse: false }).then(updated => {
+                    res.status(200).send(updated);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(err => res.status(500).send(err));
+});
+
+/**
  * Deletes a product. Needs the id of the product to be destroyed.
  * This is the delete-method can only be used by admins.
  */
@@ -68,11 +86,11 @@ productController.delete('/:id', checkAdmin, (req: Request, res: Response) => {
 
 
 /**
- * Reads all existing Products. No access barrier.
+ * Reads all existing Products that are still in use. No access barrier.
  */
-productController.get('/',
+productController.get('/inUse',
     (req: Request, res: Response) => {
-        Product.findAll().then(products => res.send(products)).catch(err => res.status(500).send(err));
+        Product.findAll({where: {inUse: true}}).then(products => res.send(products)).catch(err => res.status(500).send(err));
     }
 );
 
@@ -111,11 +129,13 @@ productController.get('/:id/imageByProduct', (req: Request, res: Response) => {
 
 
 /**
- * Gets all the products from a certain category. No access barrier.
+ * Gets all the products of a certain category that are still in use. No access barrier.
  */
-productController.get('/:postCategoryId/byCategory',
+productController.get('/inUse/:postCategoryId/byCategory',
     (req: Request, res: Response) => {
-        Product.findAll({where: {shopCategoryId: req.params.postCategoryId}})
+        Product.findAll({where: {
+            shopCategoryId: req.params.postCategoryId,
+                inUse: true}})
             .then(posts => res.send(posts)).catch(err => res.status(500).send(err));
     }
 );

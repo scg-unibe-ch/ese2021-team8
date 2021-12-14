@@ -9,6 +9,7 @@ export interface ProductAttributes {
     description: string;
     price: number;
     productImage: boolean;
+    inUse: boolean;
 }
 
 export interface ProductCreationAttributes extends Optional<ProductAttributes, 'productId'> {}
@@ -20,6 +21,7 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
     description!: string;
     price!: number;
     productImage!: boolean;
+    inUse!: boolean;
 
     public static initialize(sequelize: Sequelize) {
         Product.init({
@@ -50,6 +52,11 @@ export class Product extends Model<ProductAttributes, ProductCreationAttributes>
             productImage: {
                 type: DataTypes.BOOLEAN,
                 allowNull: true
+            },
+            inUse: {
+                type: DataTypes.BOOLEAN,
+                allowNull: true,
+                defaultValue: true
             }
 
         },

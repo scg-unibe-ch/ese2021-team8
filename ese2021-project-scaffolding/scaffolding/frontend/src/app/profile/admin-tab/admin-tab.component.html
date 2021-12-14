@@ -71,16 +71,16 @@
         </mat-card>
       </mat-expansion-panel>
       <mat-expansion-panel>
-        <mat-expansion-panel-header>Delete an existing shop item</mat-expansion-panel-header>
+        <mat-expansion-panel-header>Remove an existing shop item</mat-expansion-panel-header>
         <mat-card >
           <mat-form-field color="accent" appearance="fill">
             <mat-label>Select Item</mat-label>
-            <mat-select [(ngModel)]="toDelete">
+            <mat-select [(ngModel)]="toRemove">
               <mat-option *ngFor="let product of products" [value]="product" > {{product.productId}} - {{product.title}} </mat-option>
             </mat-select>
           </mat-form-field>
-          <button mat-flat-button color="primary" (click)="deleteItem()">Delete Item</button>
-          <br>{{itemDeleteMsg}}
+          <button mat-flat-button color="primary" (click)="removeItem()">Remove Item</button>
+          <br>{{itemRemoveMsg}}
         </mat-card>
       </mat-expansion-panel>
       <mat-expansion-panel>

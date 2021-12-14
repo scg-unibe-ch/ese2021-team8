@@ -64,12 +64,12 @@ export class ShopItemsComponent implements OnInit {
     this.editMode = true;
   }
 
-  deleteProduct(){
+  removeProduct(){
     const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'remove this product ('+ this.product.title + ') from the shop'}});
 
     dialogRef.afterClosed().subscribe((result) => {
       if(result){
-        this.httpClient.delete( environment.endpointURL + "product/" + this.product.productId).subscribe(()=> {
+        this.httpClient.put( environment.endpointURL + "product/remove/" + this.product.productId, {}).subscribe(()=> {
           this.getNewProducts.emit();
       });
      }
