@@ -66,7 +66,6 @@ export class AdminTabComponent implements OnInit {
 
   }
 
-
   createPostCategory(){
     if(this.newPostCategory==""){
       this.postCategoryCreateMsg = "Please enter category name";
@@ -102,7 +101,6 @@ export class AdminTabComponent implements OnInit {
       })
     );
   }
-
 
   readCategories(): void{
    this.postCategories = [];
@@ -227,6 +225,8 @@ export class AdminTabComponent implements OnInit {
 
   getOrders(): void {
     this.orders =[];
+    this.toDoOrders = [];
+    this.doneOrders = [];
     let newOrder: Order;
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
@@ -240,7 +240,10 @@ export class AdminTabComponent implements OnInit {
             this.doneOrders.push(newOrder);
           }
         });
-      })
+      });
+      this.orders.sort((a, b) =>{
+        return compare(a.orderId, b.orderId, false);
+      });
     });
   }
 
