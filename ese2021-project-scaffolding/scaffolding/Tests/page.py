@@ -1,5 +1,7 @@
 from element import BasePageElement
 from locator import MainPageLocators
+import time
+
 
 
 class SearchTextElement(BasePageElement):
@@ -7,7 +9,7 @@ class SearchTextElement(BasePageElement):
 
     #The locator for search box where search string is entered
     locator = 'name'
-class PasswordElement(BasePageElement):
+class PasswordLoginElement(BasePageElement):
     """This class gets the search text from the specified locator"""
 
     #The locator for search box where search string is entered
@@ -19,6 +21,23 @@ class TitleElement(BasePageElement):
 class PostTextElement(BasePageElement):
 
     locator = 'content_field'
+    
+class FirstNameElement(BasePageElement):
+
+    locator = 'firstName'
+class LastNameElement(BasePageElement):
+
+    locator = 'lastName'
+class EmailElement(BasePageElement):
+
+    locator = 'email'
+class UsernameNameElement(BasePageElement):
+
+    locator = 'nameToLogin'
+    
+class PasswordregistrElement(BasePageElement):
+
+    locator = 'passwordToLogin'
 
 
 
@@ -35,9 +54,13 @@ class MainPage(BasePage):
 
     #Declares a variable that will contain the retrieved text
     search_text_element = SearchTextElement()
-    search_password_element = PasswordElement()
+    search_passwordLogin_element = PasswordLoginElement()
     search_title_element = TitleElement()
     search_postText_element = PostTextElement()
+    search_First_name_element = FirstNameElement()
+    search_Last_name_element = LastNameElement()
+    search_Email_element = EmailElement()
+    search_Username_element = UsernameNameElement()
     
     #checkers:
     def is_title_matches(self):
@@ -49,7 +72,7 @@ class MainPage(BasePage):
     def is_title_matches(self):
         """Verifies that the hardcoded text "YB Fan Community" appears in page title"""
 
-        return "YB Fan Community" in self.driver.title
+        return "YB-Fan-Community" in self.driver.title
 
     def click_Login_button(self):
        
@@ -57,12 +80,12 @@ class MainPage(BasePage):
         element.click()
         
     def click_REGISTRER_Button(self):
-        element2 = self.driver.find_element(*MainPageLocators.REGISTRER_Button)
-        element2.click
+        element = self.driver.find_element(*MainPageLocators.REGISTRER_Button)
+        element.click
         
     def click_UpVote_Button(self):
-        element3= self.driver.find_element(*MainPageLocators.UpVote_Button)
-        element3.click
+        element= self.driver.find_element(*MainPageLocators.UpVote_Button)
+        element.click
         
     def click_DownVote_Button(self):
         element= self.driver.find_element(*MainPageLocators.DownVote_Button)
@@ -70,6 +93,14 @@ class MainPage(BasePage):
         
     def click_Home_Button(self):
         element = self.driver.find_element(*MainPageLocators.Home_Button)
+        element.click
+        
+    def click_Menu_Button(self):
+        element = self.driver.find_element(*MainPageLocators.Menu_Button)
+        element.click
+        
+    def click_LoggoutInMenu_Button(self):
+        element = self.driver.find_element(*MainPageLocators.LoggoutInMenu_Button)
         element.click
         
     def click_Loggout_Button(self):
@@ -95,7 +126,19 @@ class MainPage(BasePage):
        
         element = self.driver.find_element(*MainPageLocators.PublishPost_Button)
         element.click()
-    
+     
+    def click_Buy(self):
+        element = self.driver.find_element(*MainPageLocators.Buy_Now)
+        element.click()
+        time.sleep(5)
+        element2 = self.driver.find_element(*MainPageLocators.Buy_Now_inCheckout)
+        element2.click()
+        time.sleep(1)
+        element3 = self.driver.find_element(*MainPageLocators.Buy_Now_Bestätigung)
+        element3.click()
+        time.sleep(1)
+        
+        
         
 class SearchResultsPage(BasePage):
     """Search results page action methods come here"""
