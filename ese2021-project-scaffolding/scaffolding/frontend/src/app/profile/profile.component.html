@@ -5,7 +5,7 @@
         <a mat-tab-link routerLink="./admin">Admin Tab</a>
       </nav>
       <nav mat-tab-nav-bar fxLayout="row" *ngIf="!userService.isAdmin()">
-        <a mat-tab-link (click)="editInfo = changePassword = false; router.navigate(['profile'])">My posts</a> <br>
+        <a mat-tab-link (click)="editInfo = changePassword = false; router.navigate(['profile'])">My Posts</a> <br>
       </nav>
       <nav mat-tab-nav-bar fxLayout="row">
       <a mat-tab-link (click)="editInfo = true; changePassword = false; router.navigate(['profile'])">Update Profile Information</a> <br>
@@ -32,7 +32,7 @@
         <mat-icon>menu</mat-icon>
       </button>
      <h3>Hello {{user.username}} !</h3>
-        <div *ngIf="router.url=='/profile' && !editInfo && !changePassword && !userService.isAdmin()">
+        <div *ngIf="router.url=='/profile' && !editInfo && !changePassword && !userService.isAdmin()" style="width: 80%">
           <div *ngIf="userPosts.length ==0 ">
             You have not made any posts yet! Use the Create Post button on the <a routerLink="/home">Home Page</a> to create your first post.
           </div>

@@ -64,7 +64,7 @@ export class ProfileComponent implements OnInit {
 
   updateInfo() {
     if(this.validate(this.user)){
-      this.httpClient.put(environment.endpointURL + "user/" + this.userService.getUser(),{
+      this.httpClient.put(environment.endpointURL + "user/" + this.userService.getUser().userId,{
         firstName: this.user?.firstName,
         lastName: this.user?.username,
         address: this.street + ';' + this.city,
@@ -72,8 +72,8 @@ export class ProfileComponent implements OnInit {
         phoneNumber: this.user.phoneNumber,
         email: this.user.email
       }).subscribe(()=>{
+        this.toastr.show('Profile info was updated');
         this.updateErrorMsg = '';
-        this.editInfo = false;
       },(res:any)=>{
         this.updateErrorMsg= res.error.message;
       });

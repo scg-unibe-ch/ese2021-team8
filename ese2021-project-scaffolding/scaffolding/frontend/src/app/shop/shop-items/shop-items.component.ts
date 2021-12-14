@@ -37,10 +37,13 @@ export class ShopItemsComponent implements OnInit {
   ngOnInit(): void {
     if(this.product != null) {
       this.getImage();
-      this.getCategoryName()
+      this.getCategoryName();
     }
   }
 
+  ngOnChanges(){
+    this.ngOnInit();
+  }
   getImage(): void {
     this.httpClient.get(environment.endpointURL + "product/" + this.product.productId + "/imageByProduct").subscribe(
       (res:any) =>{
