@@ -23,4 +23,4 @@ More infos in the ReadMe files in the backand and frontend Folder
 ![TypeScript](https://img.shields.io/badge/-TypeScript-blue)
 ![Angular](https://img.shields.io/badge/-Angular-blue)
 ![NodeJS](https://img.shields.io/badge/-NodeJS-blue)
-![Tested with Selenium + Python](https://img.shields.io/badge/Testet-Selenium%20%2B%20Python-blue)
+![Tested with Selenium IDE + Python](https://img.shields.io/badge/Testet-Selenium_IDE%20%2B%20Python-blue)
