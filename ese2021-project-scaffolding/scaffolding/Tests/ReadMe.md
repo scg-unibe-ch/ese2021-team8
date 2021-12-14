@@ -3,8 +3,10 @@
 # With Selenium IDE
 
 You can add Selenium IDE on your Chrome and can test it with this. This Cases are slower, it can "check" the
-website faster and it's easier. You can import the test cases with "Open an existing project" there are two cases with Tests
-for a logged in user and for a not logged in user that test, if all functions are visible.
+website faster and it's easier. You can import the test cases with "Open an existing project". In The Test suites,
+you have two test suites, one for a logged-in user and for a not-logged-in user, this tests checke if all functions are visible.
+There work on Firefox or Chrome.
+
 
 # Python with Selenium
 
