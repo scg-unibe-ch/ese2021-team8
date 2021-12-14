@@ -1,6 +1,6 @@
 <mat-form-field class="chip-list" appearance="fill">
   <mat-label>Search by category</mat-label>
-  <mat-select class="selectCategory" [(value)]="categoryId" (selectionChange)="selected(categoryId)">
+  <mat-select [(value)]="categoryId" (selectionChange)="selected(categoryId)" class="selectCategory">
     <mat-option *ngFor="let category of shopCategories" [value]="category.shopCategoryId">
       {{category.shopCategoryName}}
     </mat-option>
@@ -17,7 +17,6 @@
       </button>
     </mat-chip>
   </mat-chip-list>
-
 </mat-form-field>
   <div *ngIf="products.length==0">
     Currently no products
@@ -25,21 +24,23 @@
   <div *ngFor="let n of counter(products.length);let i = index"  fxLayout="column" fxLayout.gt-xs="row">
     <div fxFlex="33">
       <app-shop-items [product] = products[3*i]
+                      [categories]="shopCategories"
                       (getNewProducts)="getProducts()"
-                      (sendUpdate)="updateProduct($event)">
+                      (selectCategory) ="selected($event)">
       </app-shop-items>
     </div>
     <div fxFlex="33">
       <app-shop-items [product] = products[3*i+1]
+                      [categories]="shopCategories"
                       (getNewProducts)="getProducts()"
-                      (sendUpdate)="updateProduct($event)">
+                      (selectCategory) ="selected($event)">
       </app-shop-items>
     </div>
     <div fxFlex="33">
       <app-shop-items [product]="products[3*i+2]"
+                      [categories]="shopCategories"
                       (getNewProducts)="getProducts()"
-                      (sendUpdate)="updateProduct($event)">
-
+                      (selectCategory) ="selected($event)">
       </app-shop-items>
     </div>
   </div>

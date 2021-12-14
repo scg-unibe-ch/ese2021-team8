@@ -27,3 +27,8 @@ mat-drawer-content {
 mat-drawer{
   background-color: #fed200;
 }
+
+p.error-with-breaks {
+  white-space: pre-wrap;
+  color: #f44336;;
+}

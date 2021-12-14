@@ -30,14 +30,14 @@ export class ShopComponent implements OnInit {
   getProducts(): void{
     this.products =[];
     if(this.selectedCategories.length==0){
-    this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) => {
+    this.httpClient.get(environment.endpointURL + "product/inUse").subscribe((products: any) => {
       products.forEach((product: any) => {
         this.products.unshift(new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage));
       });
     });
     }else{
       this.selectedCategories.forEach((category)=>{
-        this.httpClient.get(environment.endpointURL + "product/" + category.shopCategoryId + "/byCategory" ).subscribe((products: any) => {
+        this.httpClient.get(environment.endpointURL + "product/inUse/" + category.shopCategoryId + "/byCategory" ).subscribe((products: any) => {
           products.forEach((product: any) =>{
             this.products.unshift(new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage));
           });
@@ -54,17 +54,6 @@ export class ShopComponent implements OnInit {
   }
   counter(i: number) {
     return new Array(i);
-  }
-
-  updateProduct(product: Product) {
-    this.httpClient.put(environment.endpointURL + "product/" + product.productId, {
-      title: product.title,
-      description: product.description,
-      shopCategoryId: product.shopCategoryId,
-      price: product.price
-    }).subscribe(()=> {
-        this.getProducts();
-      });
   }
 
   selected(shopCategoryId: number) {

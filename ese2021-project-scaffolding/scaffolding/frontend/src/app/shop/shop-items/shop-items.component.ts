@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {CheckoutComponent} from "../checkout/checkout.component";
 import {ShopCategory} from "../../models/shopCategory.model";
+import {ConfirmationComponent} from "../../confirmation/confirmation.component";
 
 @Component({
   selector: 'app-shop-items',
@@ -15,9 +16,10 @@ import {ShopCategory} from "../../models/shopCategory.model";
 })
 export class ShopItemsComponent implements OnInit {
 
-  @Input() product: Product = new Product(0,"",0, "", 0, true);
+  @Input() product!: Product;
   @Output() getNewProducts = new EventEmitter<Product>();
-  @Output() sendUpdate = new EventEmitter<Product>();
+
+  @Output() selectCategory = new EventEmitter<number>();
   @Input() categories: ShopCategory[] =[];
 
 
@@ -35,10 +37,13 @@ export class ShopItemsComponent implements OnInit {
   ngOnInit(): void {
     if(this.product != null) {
       this.getImage();
-      this.getCategoryName()
+      this.getCategoryName();
     }
   }
 
+  ngOnChanges(){
+    this.ngOnInit();
+  }
   getImage(): void {
     this.httpClient.get(environment.endpointURL + "product/" + this.product.productId + "/imageByProduct").subscribe(
       (res:any) =>{
@@ -53,12 +58,8 @@ export class ShopItemsComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(CheckoutComponent, {
+    this.dialog.open(CheckoutComponent, {
       data: {product: this.product},
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-
     });
   }
 
@@ -66,11 +67,16 @@ export class ShopItemsComponent implements OnInit {
     this.editMode = true;
   }
 
-  deleteProduct(){
-    this.httpClient.delete( environment.endpointURL + "product/" + this.product.productId).subscribe((res:any)=> {
-      this.getNewProducts.emit();
-    }
-    );
+  removeProduct(){
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'remove this product ('+ this.product.title + ') from the shop'}});
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if(result){
+        this.httpClient.put( environment.endpointURL + "product/remove/" + this.product.productId, {}).subscribe(()=> {
+          this.getNewProducts.emit();
+      });
+     }
+    });
   }
 
   discardEdits() {
@@ -78,8 +84,18 @@ export class ShopItemsComponent implements OnInit {
   }
 
   updateProduct() {
-    this.sendUpdate.emit(this.product);
-    this.editMode = false;
+      this.httpClient.put(environment.endpointURL + "product/" + this.product.productId, {
+        title: this.product.title,
+        description: this.product.description,
+        shopCategoryId: this.product.shopCategoryId,
+        price: this.product.price
+      }).subscribe(()=> {
+        this.getCategoryName();
+        this.getImage();
+        this.editMode=false;
+      });
+
+
   }
 
   getCategoryName(): void{
@@ -89,5 +105,9 @@ export class ShopItemsComponent implements OnInit {
       }, () => {
         this.categoryName = "undefined category";
       })
+  }
+
+  selectSortCategory(){
+    this.selectCategory.emit(this.product.shopCategoryId);
   }
 }

@@ -19,6 +19,13 @@ userController.post('/login',
     }
 );
 
+userController.put('/:userId/changePassword', verifyToken,
+    (req: Request, res: Response) => {
+        userService.changePassword(req.params.userId, req.body)
+            .then(changed => res.send(changed))
+            .catch(err => res.status(500).send(err));
+    });
+
 /**
  * Let's the user update his userdata, preferably on his profile page.
  */
@@ -47,10 +54,10 @@ userController.get('/', checkAdmin, // you can add middleware on specific reques
 );
 
 /**
- * Gets the user from the database with a certain id. The user must be logged in and
- * the method should mainly be used to access the users own data.
+ * Gets the user from the database with a certain id. No access barrier because it is used to
+ * get the username of a creator of a post.
  */
-userController.get('/:id', verifyToken,
+userController.get('/:id',
     (req: Request, res: Response) => {
     userService.findUserWithId(Number(req.params.id))
         .then(result => res.send(result)).catch(err => res.status(500).send(err));

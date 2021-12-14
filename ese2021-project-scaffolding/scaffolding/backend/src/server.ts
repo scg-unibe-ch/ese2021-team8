@@ -5,7 +5,6 @@ import { SecuredController } from './controllers/secured.controller';
 import { PostCategoryController} from './controllers/postCategoryController';
 import { ShopCategoryController} from './controllers/shopCategoryController';
 import { ProductController } from './controllers/product.controller';
-import { ShoppingCartController } from './deprecated/controllers/shoppingCart.controller';
 import { Sequelize } from 'sequelize';
 import { User } from './models/user.model';
 import { PostCategory } from './models/postCategory.model';
@@ -84,7 +83,6 @@ export class Server {
             .use('/post' , PostController)
             .use('/like', LikeController)
             .use('/product', ProductController)
-            .use('/cart', ShoppingCartController)
             .use('/order', OrderController)
             .options('*', cors(options))
             .use(express.static('./src/public'))

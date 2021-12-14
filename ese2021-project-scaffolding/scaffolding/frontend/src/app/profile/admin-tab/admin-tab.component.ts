@@ -7,6 +7,9 @@ import {ShopCategory} from "../../models/shopCategory.model";
 import {Order} from "../../models/order.model";
 import {Sort} from "@angular/material/sort";
 import {UserService} from "../../services/user.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationComponent} from "../../confirmation/confirmation.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-admin-tab',
@@ -27,7 +30,7 @@ export class AdminTabComponent implements OnInit {
   shopCategory: ShopCategory = this.emptyShopCategory;
 
 
-  itemDeleteMsg: string ="";
+  itemRemoveMsg: string ="";
   showProductCreateError: boolean = false;
   productCreateMsg: string="";
   shopCategoryDeleteMsg: string ="";
@@ -37,7 +40,7 @@ export class AdminTabComponent implements OnInit {
   postCategoryCreateMsg: string ="";
 
   newProduct: Product = new Product(0, "", 0, "", 0, false);
-  toDelete: Product =  new Product(0, "", 0, "", 0, false);
+  toRemove: Product | undefined //=  new Product(0, "", 0, "", 0, false);
 
   products: Product[] = [];
 
@@ -51,7 +54,9 @@ export class AdminTabComponent implements OnInit {
 
 
   constructor(private httpClient: HttpClient,
-              public userService: UserService)
+              public userService: UserService,
+              public dialog: MatDialog,
+              public toastr: ToastrService)
   { }
 
   ngOnInit(): void {
@@ -61,8 +66,11 @@ export class AdminTabComponent implements OnInit {
 
   }
 
-
   createPostCategory(){
+    if(this.newPostCategory==""){
+      this.postCategoryCreateMsg = "Please enter category name";
+      return;
+    }
     this.httpClient.post(environment.endpointURL + "post/category", {
       postCategoryName: this.newPostCategory
     }).subscribe( () => {
@@ -77,6 +85,10 @@ export class AdminTabComponent implements OnInit {
   }
 
   createShopCategory(){
+    if(this.newShopCategory==""){
+      this.shopCategoryCreateMsg = "Please enter category name";
+      return;
+    }
     this.httpClient.post(environment.endpointURL + "shop/category", {
       shopCategoryName: this.newShopCategory
     }).subscribe( () => {
@@ -90,14 +102,14 @@ export class AdminTabComponent implements OnInit {
     );
   }
 
-
   readCategories(): void{
-    this.postCategories = [];
+   this.postCategories = [];
     this.httpClient.get(environment.endpointURL + "post/category").subscribe((categories:any) => {
       categories.forEach((category: any) => {
         this.postCategories.push(category);
       });
     });
+
     this.shopCategories = [];
     this.httpClient.get(environment.endpointURL + "shop/category").subscribe((categories:any) => {
       categories.forEach((category:any) => {
@@ -109,9 +121,10 @@ export class AdminTabComponent implements OnInit {
   deletePostCategory(): void{
     this.httpClient.delete(environment.endpointURL + "post/category/" + this.oldPostCategory.postCategoryId).subscribe(()=>{
       this.postCategoryDeleteMsg = "Deleted category \" " + this.oldPostCategory.postCategoryName + "\"";
+      this.oldPostCategory = new PostCategory(0,"");
       this.readCategories();
       }, (()=>{
-      this.postCategoryDeleteMsg = "could not delete category";
+      this.postCategoryDeleteMsg = "could not delete category because there are existing posts under that category";
       })
     );
   }
@@ -119,9 +132,10 @@ export class AdminTabComponent implements OnInit {
   deleteShopCategory(): void {
     this.httpClient.delete(environment.endpointURL + "shop/category/" + this.oldShopCategory.shopCategoryId).subscribe(() => {
         this.shopCategoryDeleteMsg = "Deleted category \" " + this.oldShopCategory.shopCategoryName + "\"";
+        this.oldShopCategory = new ShopCategory(0,"");
         this.readCategories();
       }, (() => {
-        this.shopCategoryDeleteMsg = "could not delete category";
+        this.shopCategoryDeleteMsg = "could not delete category because there are exiting items/orders that use this category";
       })
     );
   }
@@ -152,15 +166,21 @@ export class AdminTabComponent implements OnInit {
 
         this.httpClient.post(environment.endpointURL + "product/" + product.productId + "/image", formData)
           .subscribe(() => {
-            console.log(this.products);
+            this.toastr.show("new product (" + this.newProduct.title + ") was created");
             this.newProduct.title = this.newProduct.description = this.productCreateMsg ="";
             this.newProduct.price = 0;
             this.preview = null;
             this.shopCategory = this.emptyShopCategory;
-
           });
       });
     }
+  }
+  discard() {
+    this.newProduct.title = this.newProduct.description = "";
+    this.newProduct.price = 0;
+    this.shopCategory = this.emptyShopCategory;
+    this.preview = null;
+    this.productPicture = null;
   }
 
   onFileChanged(event: any) {
@@ -173,25 +193,40 @@ export class AdminTabComponent implements OnInit {
   }
 
   getProducts() {
-    this.httpClient.get(environment.endpointURL + "product").subscribe((products: any) => {
+    this.products = [];
+    this.httpClient.get(environment.endpointURL + "product/inUse").subscribe((products: any) => {
       products.forEach((product: any) => {
         this.products.push(product);
       });
     })
   }
 
-  deleteItem() {
-    this.httpClient.delete(environment.endpointURL + "product/" + this.toDelete.productId).subscribe(() => {
-        this.itemDeleteMsg = "Deleted item \" " + this.toDelete.title + "\"";
-        this.getProducts();
-      }, (() => {
-        this.itemDeleteMsg = "could not delete item";
-      })
-    );
+  removeItem() {
+    if(this.toRemove == undefined){
+      this.itemRemoveMsg = "please select item you want to remove";
+      return;
+    }
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'remove this item (' + this.toRemove?.title + ') from the shop'}});
+    dialogRef.afterClosed().subscribe((result) =>{
+      if(result){
+        this.httpClient.put(environment.endpointURL + "product/remove/" + this.toRemove?.productId, {}).subscribe(() => {
+            this.itemRemoveMsg = "Removed item \" " + this.toRemove?.title + "\"";
+            this.getProducts();
+          }, (() => {
+            this.itemRemoveMsg = "could not remove item";
+          })
+        );
+      }
+      else{
+        this.toRemove = undefined;
+      }
+    });
   }
 
   getOrders(): void {
     this.orders =[];
+    this.toDoOrders = [];
+    this.doneOrders = [];
     let newOrder: Order;
     this.httpClient.get(environment.endpointURL + "order").subscribe((orders: any) => {
       orders.forEach((order: any) => {
@@ -205,28 +240,39 @@ export class AdminTabComponent implements OnInit {
             this.doneOrders.push(newOrder);
           }
         });
-      })
+      });
+      this.orders.sort((a, b) =>{
+        return compare(a.orderId, b.orderId, false);
+      });
     });
   }
 
   shipOrder(id: number) {
-    this.httpClient.put(environment.endpointURL + "order/" + id, {
-      deliveryStatus: 'shipped/delivered'
-    }).subscribe((res: any) => {
-      this.httpClient.get( environment.endpointURL + "product/" + res.productId).subscribe((product:any) =>{
-        let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
-        this.doneOrders.unshift(new Order(res.orderId, res.userId, res.firstName, res.lastName, res.address, res.paymentMethod, res.deliveryStatus, orderProduct));
-        let index = -1;
-        this.toDoOrders.forEach((order) => {
-          if (order.orderId == res.orderId) {
-            index = this.toDoOrders.indexOf(order);
-            return;
-          }
+    const dialogRef = this.dialog.open(ConfirmationComponent, {data: {question: 'mark this order as shipped'}});
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.httpClient.put(environment.endpointURL + "order/" + id, {
+          deliveryStatus: 'shipped/delivered'
+        }).subscribe((res: any) => {
+          this.httpClient.get(environment.endpointURL + "product/" + res.productId).subscribe((product: any) => {
+            let orderProduct = new Product(product.productId, product.title, product.shopCategoryId, product.description, product.price, product.productImage);
+            this.doneOrders.unshift(new Order(res.orderId, res.userId, res.firstName, res.lastName, res.address, res.paymentMethod, res.deliveryStatus, orderProduct));
+            let index = -1;
+            this.toDoOrders.forEach((order) => {
+              if (order.orderId == res.orderId) {
+                index = this.toDoOrders.indexOf(order);
+                return;
+              }
+            });
+            if (index > -1) {
+              this.toDoOrders.splice(index, 1);
+            }
+          });
+          this.getOrders();
         });
-        if (index > -1) {
-          this.toDoOrders.splice(index, 1);
-        }
-      });
+      } else {
+        return;
+      }
     });
   }
 
@@ -272,3 +318,4 @@ export class AdminTabComponent implements OnInit {
 function compare(a : any, b: any, isAsc: any) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
+
