@@ -2,7 +2,7 @@
   "id": "7f95f0de-0555-4f5e-90c4-87970fddcdb9",
   "version": "2.0",
   "name": "Test_YB_FanShop",
-  "url": "http://localhost:4200/user",
+  "url": "http://localhost:4200/profile",
   "tests": [{
     "id": "402d3460-a269-41e5-bc66-efe0f2c72956",
     "name": "Ist alles auf home ersichtlich",
@@ -526,6 +526,313 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "c5e2c347-f981-4b3e-aed9-a62f12cd693d",
+    "name": "Home/uneingelogged",
+    "commands": [{
+      "id": "914f6ce5-df92-4bf1-8b2b-285493e4c42e",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:4200/home",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b69ce152-a16a-4ab8-aec4-f426a70dcc8b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1114x1196",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7dd37233-7421-4353-94b8-19f4b9dbf903",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=.mat-toolbar-row > span",
+      "targets": [
+        ["css=.mat-toolbar-row > span", "css:finder"],
+        ["xpath=//span", "xpath:position"],
+        ["xpath=//span[contains(.,'YB-FAN-Community')]", "xpath:innerText"]
+      ],
+      "value": "YB-FAN-Community"
+    }, {
+      "id": "12f9670c-806c-4707-b20e-fd1e074c2421",
+      "comment": "",
+      "command": "verifyText",
+      "target": "linkText=Home",
+      "targets": [
+        ["linkText=Home", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Home')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/home')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Home')]", "xpath:innerText"]
+      ],
+      "value": "Home"
+    }, {
+      "id": "f74dfb07-019f-4adf-b646-97d8b04b1409",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=Shop",
+      "targets": [
+        ["linkText=Shop", "linkText"],
+        ["css=.mat-tab-link:nth-child(2)", "css:finder"],
+        ["xpath=//a[contains(text(),'Shop')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/shop')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Shop')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "74985d88-df6e-45a6-8fe3-d838f862fdfb",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "linkText=Shop",
+      "targets": [
+        ["linkText=Shop", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Shop')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/shop')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Shop')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "81a5276d-7b49-4c7a-bbcb-10d5cad5e180",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.mat-tab-link > span",
+      "targets": [
+        ["css=.mat-tab-link > span", "css:finder"],
+        ["xpath=//a[3]/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Log in/Register')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "54dd2e5f-f2cb-4f2a-8af0-5273cffabe0a",
+      "comment": "",
+      "command": "verifyText",
+      "target": "linkText=Shop",
+      "targets": [
+        ["linkText=Shop", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Shop')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/shop')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Shop')]", "xpath:innerText"]
+      ],
+      "value": "Shop"
+    }, {
+      "id": "6fbad47e-fd66-4c2d-adcc-ea2a48db3cae",
+      "comment": "",
+      "command": "verifyText",
+      "target": "css=.mat-tab-link > span",
+      "targets": [
+        ["css=.mat-tab-link > span", "css:finder"],
+        ["xpath=//a[3]/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Log in/Register')]", "xpath:innerText"]
+      ],
+      "value": "Log in/Register"
+    }]
+  }, {
+    "id": "72352dfe-116e-49e8-9a9c-3b89cecc49e2",
+    "name": "eingelloged/User/Profile",
+    "commands": [{
+      "id": "09881872-4f53-4897-9255-a469d00d608e",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:4200/profile",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8c3aa17f-0ddf-4bcc-91db-955682fbe368",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1114x1196",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3496b6f0-ae1f-4819-b15b-c8939e0115fb",
+      "comment": "Ist Home Ersichtlich?",
+      "command": "verifyText",
+      "target": "linkText=Home",
+      "targets": [
+        ["linkText=Home", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Home')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/home')]", "xpath:href"],
+        ["xpath=//a", "xpath:position"],
+        ["xpath=//a[contains(.,'Home')]", "xpath:innerText"]
+      ],
+      "value": "Home"
+    }, {
+      "id": "dabee37b-f249-4166-927d-66555fc16d63",
+      "comment": "Ist Shop ersichtlich",
+      "command": "verifyText",
+      "target": "linkText=Shop",
+      "targets": [
+        ["linkText=Shop", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Shop')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/shop')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Shop')]", "xpath:innerText"]
+      ],
+      "value": "Shop"
+    }, {
+      "id": "c021eac0-ebc1-4f6b-b25b-25625e50f0fe",
+      "comment": "ist My Post ersichtlich",
+      "command": "verifyText",
+      "target": "linkText=My posts",
+      "targets": [
+        ["linkText=My posts", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'My posts')]", "xpath:link"],
+        ["xpath=//div/nav/div[2]/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'My posts')]", "xpath:innerText"]
+      ],
+      "value": "My posts"
+    }, {
+      "id": "3ed44055-92a8-4074-84b9-47a8b054fa44",
+      "comment": "Ist Change Pw ersichtlich?",
+      "command": "verifyText",
+      "target": "linkText=Change Password",
+      "targets": [
+        ["linkText=Change Password", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Change Password')]", "xpath:link"],
+        ["xpath=//nav[3]/div[2]/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Change Password')]", "xpath:innerText"]
+      ],
+      "value": "Change Password"
+    }, {
+      "id": "fec8cfe0-c899-4715-a65f-9f32c80a6d74",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "linkText=Orders",
+      "targets": [
+        ["linkText=Orders", "linkText"],
+        ["css=.mat-tab-nav-bar:nth-child(4) .mat-tab-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Orders')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/profile/orders/2')]", "xpath:href"],
+        ["xpath=//nav[4]/div[2]/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Orders')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5246efec-bc83-404d-9d56-16be56bae1ef",
+      "comment": "Ist Orders ersichtlich",
+      "command": "verifyText",
+      "target": "linkText=Orders",
+      "targets": [
+        ["linkText=Orders", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Orders')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/profile/orders/2')]", "xpath:href"],
+        ["xpath=//nav[4]/div[2]/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Orders')]", "xpath:innerText"]
+      ],
+      "value": "Orders"
+    }, {
+      "id": "58d84e18-ec82-4e0d-85fe-90ff45bb8711",
+      "comment": "Ist User Button ersichtlich?",
+      "command": "verifyElementPresent",
+      "target": "css=.login .mat-icon",
+      "targets": [
+        ["css=.login .mat-icon", "css:finder"],
+        ["xpath=//mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'account_circle')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "360842a0-f97b-440a-8038-8a5ccc022fc2",
+    "name": "eingelloged/User/Profile Fenster zu klein für ganzes Menu",
+    "commands": [{
+      "id": "e62c9ff6-6d03-4d3d-8591-42e4109d0a09",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:4200/profile",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b62d26fa-3824-4cb2-a07c-a843c58757d0",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "200x1100",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5bd00c0e-8a12-427d-84a1-23a806b6de66",
+      "comment": "Ist Home Ersichtlich?",
+      "command": "verifyText",
+      "target": "linkText=Home",
+      "targets": [],
+      "value": "Home"
+    }, {
+      "id": "6cb7aa7c-100e-4e77-945f-f61d8560ae13",
+      "comment": "Ist Dropdown menu da?",
+      "command": "verifyElementPresent",
+      "target": "css=#menuButton .mat-icon",
+      "targets": [
+        ["css=#menuButton .mat-icon", "css:finder"],
+        ["xpath=//button[@id='menuButton']/span/mat-icon", "xpath:idRelative"],
+        ["xpath=//mat-drawer-content/button/span/mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'menu')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "72d381a7-dbcd-48ef-910c-3d380b9afa36",
+      "comment": "Ist Shop ersichtlich",
+      "command": "verifyText",
+      "target": "linkText=Shop",
+      "targets": [
+        ["linkText=Shop", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Shop')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/shop')]", "xpath:href"],
+        ["xpath=//a[2]", "xpath:position"],
+        ["xpath=//a[contains(.,'Shop')]", "xpath:innerText"]
+      ],
+      "value": "Shop"
+    }, {
+      "id": "4797ffe4-761b-4dc3-a9bc-b52c1062554d",
+      "comment": "ist My Post nicht ersichtlich",
+      "command": "verifyElementNotPresent",
+      "target": "linkText=My posts",
+      "targets": [],
+      "value": "My posts"
+    }, {
+      "id": "969d08a2-6684-48c4-89e2-0f535996e6b8",
+      "comment": "Ist Change Pw nicht ersichtlich?",
+      "command": "verifyElementNotPresent",
+      "target": "linkText=Change Password",
+      "targets": [
+        ["linkText=Change Password", "linkText"],
+        ["css=.cdk-focused", "css:finder"],
+        ["xpath=//a[contains(text(),'Change Password')]", "xpath:link"],
+        ["xpath=//nav[3]/div[2]/div/div/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Change Password')]", "xpath:innerText"]
+      ],
+      "value": "Change Password"
+    }, {
+      "id": "856c2212-1683-4a7c-841d-2f876d4bd749",
+      "comment": "Ist Orders nicht ersichtlich",
+      "command": "verifyElementNotPresent",
+      "target": "linkText=Orders",
+      "targets": [],
+      "value": "Orders"
+    }, {
+      "id": "012b0ef6-2b3d-4d54-a6a9-d458ba85e224",
+      "comment": "Ist User Button ersichtlich?",
+      "command": "verifyElementPresent",
+      "target": "css=.login .mat-icon",
+      "targets": [
+        ["css=.login .mat-icon", "css:finder"],
+        ["xpath=//mat-icon", "xpath:position"],
+        ["xpath=//mat-icon[contains(.,'account_circle')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "2b1fdaf5-1bbb-4f68-93cc-ee8a93f61b34",
@@ -533,21 +840,21 @@
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["402d3460-a269-41e5-bc66-efe0f2c72956"]
+    "tests": []
   }, {
     "id": "c4fe8f23-f603-4ab0-aa0f-ccaa0d21a147",
     "name": "eingelogged als User",
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["402d3460-a269-41e5-bc66-efe0f2c72956", "9ba64bb8-ae3c-4ecb-b381-d52c0881f794"]
+    "tests": ["402d3460-a269-41e5-bc66-efe0f2c72956", "9ba64bb8-ae3c-4ecb-b381-d52c0881f794", "72352dfe-116e-49e8-9a9c-3b89cecc49e2", "360842a0-f97b-440a-8038-8a5ccc022fc2"]
   }, {
     "id": "63d6f276-749f-49ba-b405-1a99127b59ae",
     "name": "nichteingelogged",
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["637257b6-db87-491f-ab80-21ccb69422c2", "b3ef8b9c-4e9a-41b8-807e-9773afd30823"]
+    "tests": ["637257b6-db87-491f-ab80-21ccb69422c2", "b3ef8b9c-4e9a-41b8-807e-9773afd30823", "c5e2c347-f981-4b3e-aed9-a62f12cd693d"]
   }],
   "urls": ["http://localhost:4200/home", "http://localhost:4200/shop", "http://localhost:4200/profile", "http://localhost:4200/user"],
   "plugins": []
