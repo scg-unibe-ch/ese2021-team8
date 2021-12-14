@@ -29,16 +29,6 @@ class WebseitTester(unittest.TestCase):
    
         
 
-        
-
-        
-    def test_logge_out(self):
-        main_page = page.MainPage(self.driver)
-        self.driver.get("http://localhost:4200/profile")
-        main_page.click_Menu_Button()
-     
-        time.sleep(5)
-        self.driver.get("http://localhost:4200/profile")    
    
     def test_CreateNewPost (self):
         """Hier is the first """
@@ -56,7 +46,7 @@ class WebseitTester(unittest.TestCase):
         main_page.click_CategoryMannschaft_Button()
         time.sleep(1)
         main_page.search_postTest_element= "Seleniu Generierter Text"
-        """main_page.click_PublishPost_Button()"""
+        main_page.click_PublishPost_Button()
         search_results_page = page.SearchResultsPage(self.driver)
         assert search_results_page.is_Title_Post_Publish_found(), "Title is lost."
         assert search_results_page.is_Text_Post_Publish_found(), "Text is lost."
