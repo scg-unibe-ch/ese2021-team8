@@ -184,7 +184,7 @@
               <td>{{order.orderId}}</td>
               <td>{{order.lastName}}, {{order.firstName}}</td>
               <td><div *ngFor="let add of order.address.split(';')">{{add}}</div></td>
-              <td>{{order.product.productId}}</td>
+              <td>{{order.product.productId}} - {{order.product.title}}</td>
               <td>{{order.deliveryStatus}}</td>
             </tr>
           </table>
